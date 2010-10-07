@@ -196,7 +196,11 @@ public class Nreinas {
 
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
+		sb.append("+ ");
+		for (int j = 0; j < dim; j++) sb.append(j+" ");
+		sb.append("\n");
 		for (int i = 0; i < dim; i++) {
+			sb.append(i+" ");
 			for (int j = 0; j < dim; j++)
 				if (tablero[i][j].getValor() == TipoCas.REINA)
 					sb.append("R ");

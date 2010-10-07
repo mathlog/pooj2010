@@ -14,6 +14,8 @@
 //o hacer alguna cosa rara con paint y tal pss
 package poo.juegos.nReinas;
 
+import poo.juegos.nReinas.visual.VentanaNreinas;
+
 /**
  * Clase principal para la realizacion del juego de las Nreinas
  * 
@@ -23,21 +25,9 @@ package poo.juegos.nReinas;
 public class Principal {
 
 	public static void main(String args[]) {
-		Nreinas juego = new Nreinas(Teclado.leerInt());
-		System.out.println(juego);
-		try {
-			juego.solve(0);
-		} catch (BorradoReinaNoExisteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.err.println(e.getMessage());
-		}
-		System.out.println(juego);
-		/*
-		 * if (juego.comprobarReina(0, 0)) juego.addReina(0, 0);
-		 * System.out.println(juego); if (juego.comprobarReina(2, 1))
-		 * juego.addReina(2, 1); System.out.println(juego); juego.removeReina(0,
-		 * 0); System.out.println(juego);
-		 */
+		VentanaNreinas juego = new VentanaNreinas();
+		juego.setLocationRelativeTo(null);
+		juego.setDefaultCloseOperation(VentanaNreinas.EXIT_ON_CLOSE);
+		juego.setVisible(true);
 	}
 }

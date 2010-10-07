@@ -88,4 +88,9 @@ public class Casilla {
 	public String toString() {
 		return String.valueOf(valor);
 	}
+
+	public void reiniciar() {
+		repetido=0;
+		valor=TipoCas.VACIO;
+	}
 }

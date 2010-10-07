@@ -7,7 +7,7 @@
 // ASIGNATURA : Programacion Orientada a Objetos
 //
 
-package poo.juegos.nReinas;
+package poo.juegos.nReinas.excepciones;
 
 /** Excepcion que indica que se ha intentado borrar una reina que no existe
  * @author José Ángel García Fernández

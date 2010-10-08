@@ -89,8 +89,11 @@ public class Casilla {
 		return String.valueOf(valor);
 	}
 
+	/**
+	 * Metodo que reinicia las propiedades de la casilla
+	 */
 	public void reiniciar() {
-		repetido=0;
-		valor=TipoCas.VACIO;
+		repetido = 0;
+		valor = TipoCas.VACIO;
 	}
 }

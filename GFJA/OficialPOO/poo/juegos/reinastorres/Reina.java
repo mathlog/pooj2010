@@ -1,28 +1,50 @@
+//
+// Universidad de Almería
+// Ingeniería Técnica de Informática de Sistemas
+// Fuente Java según Plantilla
+//
+// PRACTICA : Practica 1, Documentacion de ejercicio 1
+// ASIGNATURA : Programacion Orientada a Objetos
+//
 package poo.juegos.reinastorres;
 
-//	Eight Reinas puzzle written in Java
 //	Written by Tim Budd, January 1996
 //	revised for 1.3 event model July 2001
 //
 import java.awt.Graphics;
 
+/**
+ * Clase que extiende de PiezaAjedrez y representa una Reina
+ * 
+ * @author José Ángel García Fernández
+ * @version 1.0 08/10/2010
+ */
 public class Reina extends PiezaAjedrez {
-	// datos
 
-	// constructor
-	Reina(int c, Reina n, int enemigas) {
+	/**
+	 * Genera un objeto de tipo Reina haciendo uso del contructor de la clase
+	 * Padre
+	 * 
+	 * @param c
+	 *            la columna base
+	 * @param n
+	 *            la pieza vecina
+	 * @param enemigas
+	 *            el numero de piezas "enemigas"
+	 */
+	public Reina(int c, PiezaAjedrez n, int enemigas) {
 		super(c, n, enemigas);
 	}
 
-	//la ultima reina encola las 7 peudeAtacar a todas las demas
-	protected boolean puedeAtacar(int testfila, int testcolumna) {
-		int columnaDiferencia = testcolumna - columna; // columnas de diferencia
-		if ((fila == testfila) || // misma fila
-				(fila + columnaDiferencia == testfila) || // diagonal por abajo
-				(fila - columnaDiferencia == testfila))// diagonal por arriba
-			return true;
-		if (vecina != null)// this no puede atacar a test pero y su vecina?
-			return vecina.puedeAtacar(testfila, testcolumna);
+	protected boolean puedeAtacar(PiezaAjedrez otra) {
+		if (this == otra)// comprueba que no este comparando la misma pieza
+			return false;
+		int columnaDiferencia = otra.columna - columna;
+		if ((fila == otra.fila) || (fila + columnaDiferencia == otra.fila)
+				|| (fila - columnaDiferencia == otra.fila))
+			return true;// misma fila diagonal sup e inf
+		if (vecina != null)// comprobar vecinas
+			return vecina.puedeAtacar(otra);
 		return false;
 	}
 

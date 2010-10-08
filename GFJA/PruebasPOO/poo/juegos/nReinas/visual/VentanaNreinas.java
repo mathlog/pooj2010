@@ -3,7 +3,7 @@
 // Ingeniería Técnica de Informática de Sistemas
 // Fuente Java según Plantilla
 //
-// PRACTICA : Practica 1, Documentacion de ejercicio 1
+// PRACTICA : Juego de las Nreinas
 // ASIGNATURA : Programacion Orientada a Objetos
 //
 package poo.juegos.nReinas.visual;

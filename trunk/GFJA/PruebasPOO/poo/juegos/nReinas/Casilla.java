@@ -23,7 +23,7 @@ public class Casilla {
 	private TipoCas valor;
 
 	/**
-	 * El numero de veces que se ha sobreescrito la casilla
+	 * El número de veces que se ha sobreescrito la casilla
 	 */
 	private int repetido;
 

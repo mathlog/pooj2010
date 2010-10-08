@@ -19,18 +19,19 @@ public class VentanaReinas extends Frame {
 		world.show();
 	}
 
-	//Array para el seleccion numero reinas
-	private Object[] posibilidades = { "4", "6", "8", "10", "12", "14", "16"};
-	private Reina ultimaReina = null;
-	private int nReinas;
+	// Array para el seleccion numero reinas
+	private Object[] posibilidades = { "4", "6", "8", "10", "12", "14", "16" };
+	private PiezaAjedrez ultimaPieza = null;
+	private int nPiezas;
 
 	public VentanaReinas() {
-		this.nReinas = eligeNumeroReinas();
-		setTitle("Problema de las ocho reinas");
-		setSize(nReinas * 50 + 30, nReinas * 50 + 80);
-		for (int i = 1; i <= nReinas; i++) {
-			ultimaReina = new Reina(i, ultimaReina, nReinas);
-			ultimaReina.buscaSolucion();
+		this.nPiezas = eligeNumeroReinas();
+		setTitle("Problema de las nPiezas");
+		setSize(nPiezas * 50 + 30, nPiezas * 50 + 80);
+		for (int i = 1; i <= nPiezas; i++) {
+			ultimaPieza = i % 2 == 0 ? new Reina(i, ultimaPieza, nPiezas)
+					: new Torre(i, ultimaPieza, nPiezas);
+			ultimaPieza.buscaSolucion();
 		}
 		addMouseListener(new MouseKeeper());
 		addWindowListener(new CloseQuit());
@@ -39,15 +40,15 @@ public class VentanaReinas extends Frame {
 	public void paint(Graphics g) {
 		super.paint(g);
 		// dibuja el tablero
-		for (int i = 0; i <= nReinas; i++) {
+		for (int i = 0; i <= nPiezas; i++) {
 			// tamaño cuadro*nReinas+desplazamiento base
-			g.drawLine(50 * i + 10, 40, 50 * i + 10, 50 * nReinas + 40);
-			g.drawLine(10, 50 * i + 40, 50 * nReinas + 10, 50 * i + 40);
+			g.drawLine(50 * i + 10, 40, 50 * i + 10, 50 * nPiezas + 40);
+			g.drawLine(10, 50 * i + 40, 50 * nPiezas + 10, 50 * i + 40);
 		}
 		g.drawString("Pulse encima para una nueva solución", 20,
-				50 * nReinas + 60);
-		// draw queens
-		ultimaReina.paint(g);
+				50 * nPiezas + 60);
+		// draw piezas
+		ultimaPieza.paint(g);
 	}
 
 	private class CloseQuit extends WindowAdapter {
@@ -58,7 +59,7 @@ public class VentanaReinas extends Frame {
 
 	private class MouseKeeper extends MouseAdapter {
 		public void mousePressed(MouseEvent e) {
-			ultimaReina.avanza();
+			ultimaPieza.avanza();
 			repaint();
 		}
 	}
@@ -66,7 +67,7 @@ public class VentanaReinas extends Frame {
 	private int eligeNumeroReinas() {
 		// uso JOptionPane para seleccion filtrada de nReinas
 		String s = (String) JOptionPane.showInputDialog(this,
-				"Elige el número de reinas", "Numero de reinas",
+				"Elige el número de piezas", "Numero de piezas",
 				JOptionPane.QUESTION_MESSAGE, null, posibilidades, "8");
 		return s != null ? Integer.parseInt(s) : 8;
 	}

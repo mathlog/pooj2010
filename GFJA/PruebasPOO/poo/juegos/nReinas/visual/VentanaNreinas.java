@@ -37,8 +37,7 @@ import poo.juegos.nReinas.excepciones.BorradoReinaNoExisteException;
  * Clase visual para el juego de las nReinass
  * 
  * @author José Ángel García Fernández
- * @date 07/10/2010
- * @version 1.0
+ * @version 1.0 07/10/2010
  */
 public class VentanaNreinas extends JFrame {
 

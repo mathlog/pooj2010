@@ -3,7 +3,7 @@
 // Ingeniería Técnica de Informática de Sistemas
 // Fuente Java según Plantilla
 //
-// PRACTICA : Practica X, Documentacion de ejercicio X
+// PRACTICA : Juego de las Nreinas
 // ASIGNATURA : Programacion Orientada a Objetos
 //
 

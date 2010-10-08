@@ -3,7 +3,7 @@
 // Ingeniería Técnica de Informática de Sistemas
 // Fuente Java según Plantilla
 //
-// PROYECTO : Juego del Siete y medio
+// PROYECTO : Juego de las Nreinas
 // ASIGNATURA : Programacion Orientada a Objetos
 //
 package poo.juegos.nReinas.visual;

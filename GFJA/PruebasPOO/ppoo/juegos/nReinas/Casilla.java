@@ -30,8 +30,8 @@ public class Casilla {
 	/**
 	 * Genera un objeto de tipo Casilla
 	 * 
-	 * @param valor
-	 * @param repetido
+	 * @param valor el valor
+	 * @param repetido las veces que ha sido repetida
 	 */
 	public Casilla(TipoCas valor, int repetido) {
 		this.valor = valor;

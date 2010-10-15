@@ -4,7 +4,7 @@
 // Fuente Java según Plantilla
 //
 // PRACTICA : Juego de las Nreinas
-// ASIGNATURA : Programacion Orientada a Objetos
+// ASIGNATURA : Programación Orientada a Objetos
 //
 
 package ppoo.juegos.nReinas;

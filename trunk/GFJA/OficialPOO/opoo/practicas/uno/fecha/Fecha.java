@@ -205,7 +205,7 @@ public class Fecha implements Comparable {
 		}
 		return mesStr.toString();
 	}
-	public int calcul(){return 0;}
+	public int calcul(){return 1;}
 	/*
 	 * int calcul() { Integer dia = new Integer(1// CUAL ES EL INDICE DEL DÍA
 	 * 1..31 ); Integer mesth = new Integer(1// NUMERO DEL MES 1..12 ); Integer

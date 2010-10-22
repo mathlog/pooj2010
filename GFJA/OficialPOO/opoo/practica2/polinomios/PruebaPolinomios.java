@@ -27,7 +27,7 @@ public class PruebaPolinomios {
 
 		Polinomio pEsc = p1.multEsc(2);
 		//System.out.println(pEsc);
-
+		System.out.println(p1+"*"+p1);
 		Polinomio p2 = p1.mult(p1);
 		System.out.println(p2);
 	}

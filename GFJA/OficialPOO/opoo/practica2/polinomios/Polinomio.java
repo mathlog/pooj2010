@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Clase que representa un monomio
@@ -99,15 +100,51 @@ public class Polinomio {
 		ArrayList<Monomio> termMult = new ArrayList<Monomio>();
 		Iterator<Monomio> it = terminos.iterator();
 		Iterator<Monomio> it2 = otro.terminos.iterator();
-		while (it.hasNext())
+		while (it.hasNext()) {
+			Monomio aux = it.next();
 			while (it2.hasNext())
-				termMult.add(it.next().mult(it2.next()));
+				termMult.add(aux.mult(it2.next()));
+			it2 = otro.terminos.iterator();
+		}
 		rejuntarComunes(termMult);
 		return new Polinomio(termMult);
 	}
 
-	private void rejuntarComunes(ArrayList<Monomio> termMult) {
+	@SuppressWarnings("unchecked")
+	private void rejuntarComunes(ArrayList<Monomio> terms) {
 
+		ArrayList<Monomio> auxTerms = (ArrayList<Monomio>) terms.clone();
+		ArrayList<Integer> grados = new ArrayList<Integer>();
+		terms.clear();
+		int gradoAux;
+		double coefiAux;
+		Iterator<Monomio> it;
+		Monomio aux, aux2;
+		it = auxTerms.iterator();
+		aux = it.next();
+		while (true) {
+			gradoAux = aux.getGrado();
+			if (!grados.contains(gradoAux)) {
+				grados.add(gradoAux);
+				coefiAux = aux.getCoeficiente();
+				while (it.hasNext()) {
+					aux2 = it.next();
+					if (aux2.getGrado() == gradoAux)
+						coefiAux += aux2.getCoeficiente();
+				}
+				it = auxTerms.iterator();
+				terms.add(new Monomio(coefiAux, gradoAux, aux.getLiteral()));
+			} else {
+				try {
+					aux = it.next();
+					while (grados.contains(aux.getGrado())) {
+						aux = it.next();
+					}
+				} catch (NoSuchElementException e) {
+					break;
+				}
+			}
+		}
 	}
 
 	public Polinomio multEsc(double escalar) {

@@ -20,16 +20,38 @@ public class PruebaPolinomios {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Double[] coefi = { 1.0, 2.0 };
+		Double[] coefi = { -1.0, 2.0 };
 		Polinomio p1 = new Polinomio(coefi);
-		System.out.println(p1);
 
+		System.out.println("Multiplicacion escalar");
+		System.out.print("(" + p1 + ")*(2) = ");
 		Polinomio pEsc = p1.multEsc(2);
-		//System.out.println(pEsc);
-		System.out.println(p1+"*"+p1);
-		Polinomio p2 = p1.mult(p1);
-		System.out.println(p2);
+		System.out.println(pEsc);
+
+		System.out.println("Multiplicacion");
+		System.out.print("(" + pEsc + ")*(" + p1 + ") = ");
+		System.out.println(pEsc.mult(p1));
+
+		System.out.println("Suma");
+		System.out.print("(" + p1 + ")+(" + p1 + ") = ");
+		System.out.println(p1.sumar(p1));
+
+		System.out.println("Resta");
+		System.out.print("(" + pEsc + ")-(" + p1 + ") = ");
+		System.out.println(pEsc.restar(p1));
+
+		System.out.println("Resta distinto tamaño");
+		pEsc.addMonomio(new Monomio(1.0, 3, 'x'));
+		System.out.print("(" + pEsc + ")-(" + p1 + ") = ");
+		System.out.println(pEsc.restar(p1));
+
+		System.out.println("Multiplicacion");
+		System.out.print("(" + pEsc + ")*(" + p1 + ") = ");
+		System.out.println(pEsc.mult(p1));
+
+		System.out.println("Multiplicacion static");
+		System.out.print("(" + pEsc + ")*(" + p1 + ") = ");
+		System.out.println(Polinomio.mult(pEsc, p1));
 	}
 
 }

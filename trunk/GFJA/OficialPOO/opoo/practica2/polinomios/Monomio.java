@@ -8,7 +8,10 @@
 //
 package opoo.practica2.polinomios;
 
-import opoo.practica1.fecha.Fecha;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
+import opoo.excepciones.DistintoGradoException;
 
 /**
  * Clase que representa un monomio
@@ -16,7 +19,7 @@ import opoo.practica1.fecha.Fecha;
  * @author José Ángel García Fernández
  * @version 1.0 22/10/2010
  */
-public class Monomio implements Comparable {
+public class Monomio implements Comparable<Monomio> {
 
 	private double coeficiente;
 
@@ -76,8 +79,12 @@ public class Monomio implements Comparable {
 
 	@Override
 	public String toString() {
-		return String.format("%+.1f", coeficiente)
-				+ (grado != 0 ? literal : "") + (grado > 1 ? "^" + grado : "");
+		DecimalFormat form = new DecimalFormat("+#.#;-#.#");
+		DecimalFormatSymbols dc =form.getDecimalFormatSymbols();
+		dc.setDecimalSeparator('.');
+		form.setDecimalFormatSymbols(dc);
+		return form.format(coeficiente) + (grado != 0 ? literal : "")
+				+ (grado > 1 ? "^" + grado : "");
 	}
 
 	@Override
@@ -90,7 +97,7 @@ public class Monomio implements Comparable {
 	}
 
 	@Override
-	public int compareTo(Object o) {
+	public int compareTo(Monomio o) {
 		if (equals(o))
 			return 0;
 		Monomio otro = (Monomio) o;
@@ -100,55 +107,116 @@ public class Monomio implements Comparable {
 			return 1;
 	}
 
-	public Monomio sumar(Monomio otro) {
+	/**
+	 * Suma el monomio this con otro
+	 * 
+	 * @param otro
+	 *            monomio
+	 * @return this+monomio
+	 * @throws DistintoGradoException
+	 *             si no tienen el mismo grado
+	 */
+	public Monomio sumar(Monomio otro) throws DistintoGradoException {
 		if (grado != otro.grado) {
-			// excepcion
-			return null;
+			throw new DistintoGradoException("(" + this + ") + (" + otro + ")");
 		} else
 			return new Monomio(coeficiente + otro.coeficiente, grado, literal);
 	}
 
-	public Monomio restar(Monomio otro) {
+	/**
+	 * Resta el monomio this con otro
+	 * 
+	 * @param otro
+	 *            monomio
+	 * @return this-monomio
+	 * @throws DistintoGradoException
+	 *             si no tienen el mismo grado
+	 */
+	public Monomio restar(Monomio otro) throws DistintoGradoException {
 		if (grado != otro.grado) {
-			// excepcion
-			return null;
+			throw new DistintoGradoException("(" + this + ") - (" + otro + ")");
 		} else
 			return new Monomio(coeficiente - otro.coeficiente, grado, literal);
 	}
 
+	/**
+	 * Multiplica el monomio this con otro
+	 * 
+	 * @param otro
+	 *            monomio
+	 * @return this*monomio
+	 */
 	public Monomio mult(Monomio otro) {
 		return new Monomio(coeficiente * otro.coeficiente, grado + otro.grado,
 				literal);
 	}
 
+	/**
+	 * Multiplica this por un escalar
+	 * 
+	 * @param escalar
+	 *            a multiplicar
+	 * @return this*escalar
+	 */
 	public Monomio multEsc(double escalar) {
 		return new Monomio(coeficiente * escalar, grado, literal);
 	}
 
-	public static Monomio sumar(Monomio a, Monomio b) {
-		if (a.grado != b.grado) {
-			// excepcion
-			return null;
-		} else
-			return new Monomio(a.coeficiente + b.coeficiente, a.grado,
-					a.literal);
+	/**
+	 * Suma dos monomios
+	 * 
+	 * @param a
+	 *            el primer monomio
+	 * @param b
+	 *            el segundo monomio
+	 * @return a+b
+	 * @throws DistintoGradoException
+	 *             si no tienen el mismo grado
+	 */
+	public static Monomio sumar(Monomio a, Monomio b)
+			throws DistintoGradoException {
+		return a.sumar(b);
 	}
 
-	public static Monomio restar(Monomio a, Monomio b) {
-		if (a.grado != b.grado) {
-			// excepcion
-			return null;
-		} else
-			return new Monomio(a.coeficiente - b.coeficiente, a.grado,
-					a.literal);
+	/**
+	 * Resta dos monomios
+	 * 
+	 * @param a
+	 *            el primer monomio
+	 * @param b
+	 *            el segundo monomio
+	 * @return a-b
+	 * @throws DistintoGradoException
+	 *             si no tienen el mismo grado
+	 */
+	public static Monomio restar(Monomio a, Monomio b)
+			throws DistintoGradoException {
+		return a.restar(b);
 	}
 
+	/**
+	 * Multiplica dos monomios
+	 * 
+	 * @param a
+	 *            el primer monomio
+	 * @param b
+	 *            el segundo monomio
+	 * @return a*b
+	 */
 	public static Monomio mult(Monomio a, Monomio b) {
-		return new Monomio(a.coeficiente * b.coeficiente, a.grado + b.grado,
-				a.literal);
+		return a.mult(b);
 	}
 
+	/**
+	 * Multiplica un monomio por un escalar
+	 * 
+	 * @param a
+	 *            el monomio
+	 * @param escalar
+	 *            a multiplicar
+	 * @return a*escalar
+	 */
 	public static Monomio multEsc(Monomio a, double escalar) {
-		return new Monomio(a.coeficiente * escalar, a.grado, a.literal);
+		return a.multEsc(escalar);
 	}
 }

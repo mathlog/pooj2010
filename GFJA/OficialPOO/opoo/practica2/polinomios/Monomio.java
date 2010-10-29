@@ -77,6 +77,23 @@ public class Monomio implements Comparable<Monomio> {
 		this.literal = literal;
 	}
 
+	/**
+	 * Genera un objeto de tipo Monomio por defecto
+	 */
+	public Monomio() {
+		this(1.0, 0, 'x');
+	}
+
+	/**
+	 * Genera un objeto de tipo Monomio a partir de otro
+	 * 
+	 * @param otro
+	 *            monomio
+	 */
+	public Monomio(Monomio otro) {
+		this(otro.coeficiente, otro.grado, otro.literal);
+	}
+
 	@Override
 	public String toString() {
 		if (coeficiente == 0)

@@ -79,8 +79,11 @@ public class Monomio implements Comparable<Monomio> {
 
 	@Override
 	public String toString() {
+		if (coeficiente == 0)
+			return "";
+
 		DecimalFormat form = new DecimalFormat("+#.#;-#.#");
-		DecimalFormatSymbols dc =form.getDecimalFormatSymbols();
+		DecimalFormatSymbols dc = form.getDecimalFormatSymbols();
 		dc.setDecimalSeparator('.');
 		form.setDecimalFormatSymbols(dc);
 		return form.format(coeficiente) + (grado != 0 ? literal : "")

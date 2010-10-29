@@ -18,7 +18,7 @@ public class Polinomio {
 
 	private int gradoMax;
 
-	// se guardara como a1+a2x+a3x^2
+	// se guardara como orden de menor a mayor
 	private List<Monomio> terminos;
 
 	/**
@@ -53,6 +53,7 @@ public class Polinomio {
 
 	/**
 	 * Genera un objeto de tipo Polinomio a partir de un array de coeficientes
+	 * completo
 	 * 
 	 * @param coeficientes
 	 *            los coeficientes del polinomio

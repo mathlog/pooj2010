@@ -8,6 +8,9 @@
 //
 package opoo.practica2.polinomios;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Clase para usar Polinomio
  * 
@@ -20,8 +23,18 @@ public class PruebaPolinomios {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Double[] coefi = { -1.0, 2.0 };
-		Polinomio p1 = new Polinomio(coefi);
+		Double[] coefisLinear = { -1.0, 2.0 };
+		Polinomio p1 = new Polinomio(coefisLinear);
+		System.out.println("Polinomio creado con array de doubles");
+		System.out.println(p1);
+
+		List<Monomio> coefisVariao = new ArrayList<Monomio>();
+		coefisVariao.add(new Monomio(1.0, 2, 'x'));
+		coefisVariao.add(new Monomio(3.0, 0, 'x'));
+		coefisVariao.add(new Monomio(2.5, 4, 'x'));
+		Polinomio p2 = new Polinomio(coefisVariao);
+		System.out.println("Polinomio creado con List de Monomios");
+		System.out.println(p2);
 
 		System.out.println("Multiplicacion escalar");
 		System.out.print("(" + p1 + ")*(2) = ");

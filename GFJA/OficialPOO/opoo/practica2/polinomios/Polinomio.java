@@ -92,7 +92,7 @@ public class Polinomio {
 			while (it2.hasNext())
 				try {
 					termSumas.add(aux.sumar(it2.next()));
-					break;// ya ha encontrao comun me voy
+					break;// ya ha encontrao comun me salgo
 				} catch (DistintoGradoException e) {
 					if (!it2.hasNext())// si no hay comunes lo mete direc
 						termSumas.add(aux);
@@ -119,7 +119,7 @@ public class Polinomio {
 			while (it2.hasNext())
 				try {
 					termRestas.add(aux.restar(it2.next()));
-					break;// ya ha encontrao comun me voy
+					break;// ya ha encontrao comun me salgo
 				} catch (DistintoGradoException e) {
 					if (!it2.hasNext())// si no hay comunes lo mete direc
 						termRestas.add(aux);
@@ -263,7 +263,7 @@ public class Polinomio {
 
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (Iterator<Monomio> it = terminos.iterator(); it.hasNext();)
 			sb.append(it.next());
 		return sb.toString();

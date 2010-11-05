@@ -9,6 +9,7 @@
 
 package ppoo.juegos.nReinas;
 
+//mejorar esto haciendo ke casilla sea un Jbutton, y le meto k se pinte en funcion de su valor
 /**
  * Clase que representa una casilla en el juego Nreinas
  * 
@@ -30,8 +31,10 @@ public class Casilla {
 	/**
 	 * Genera un objeto de tipo Casilla
 	 * 
-	 * @param valor el valor
-	 * @param repetido las veces que ha sido repetida
+	 * @param valor
+	 *            el valor
+	 * @param repetido
+	 *            las veces que ha sido repetida
 	 */
 	public Casilla(TipoCas valor, int repetido) {
 		this.valor = valor;

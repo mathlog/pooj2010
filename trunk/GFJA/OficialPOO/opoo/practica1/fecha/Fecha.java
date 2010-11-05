@@ -45,7 +45,7 @@ public class Fecha implements Comparable {
 			throws FechaMalFormadaException {
 		short flag;
 		if ((flag = buenaFecha(dia, mes, year)) != 0) {
-			StringBuffer error = new StringBuffer();
+			StringBuilder error = new StringBuilder();
 			switch (flag) {
 			case 1:
 				error.append("Dia o Mes erroneo");

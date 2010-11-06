@@ -7,7 +7,7 @@ public interface BarajaMostrable {
 	ImageIcon getReverso();
 
 	void setReverso(ImageIcon img);
-	
+
 	ImageIcon getVacia();
 
 	void setVacia(ImageIcon img);

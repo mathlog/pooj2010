@@ -8,6 +8,7 @@ public class BarajaSpanishMostrable extends BarajaSpanish implements
 	private ImageIcon reverso;
 	private ImageIcon vacia;
 
+	@Override
 	protected void creaBaraja() {
 		this.nombreBaraja = "Baraja Española";
 		cartas = new Carta[40];

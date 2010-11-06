@@ -3,7 +3,7 @@
 // Ingeniería Técnica de Informática de Sistemas
 // Fuente Java según Plantilla
 //
-// PROYECTO : Juego del Siete y medio
+// PROYECTO : Practica 4 Juego
 // ASIGNATURA : Programacion Orientada a Objetos
 //
 package opoo.practica4.juego.base;

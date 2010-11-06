@@ -127,6 +127,6 @@ public class Carta {
 	 * Da la vuelta a una carta
 	 */
 	public void flip() {
-		up = up ? false : false;
+		up = up ? false : true;
 	}
 }

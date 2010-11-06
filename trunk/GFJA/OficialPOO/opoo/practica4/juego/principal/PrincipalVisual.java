@@ -1,6 +1,5 @@
 package opoo.practica4.juego.principal;
 
-
 public class PrincipalVisual {
 
 	/**
@@ -9,6 +8,7 @@ public class PrincipalVisual {
 	public static void main(String[] args) {
 
 		VentanaVisual ventana = new VentanaVisual();
+		ventana.setLocationRelativeTo(null);
 		ventana.setVisible(true);
 
 	}

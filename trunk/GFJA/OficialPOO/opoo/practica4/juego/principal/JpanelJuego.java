@@ -3,14 +3,13 @@
 // Ingeniería Técnica de Informática de Sistemas
 // Fuente Java según Plantilla
 //
-// PROYECTO : Juego del Siete y medio
+// PROYECTO : Practica 4 Juego
 // ASIGNATURA : Programacion Orientada a Objetos
 //
 package opoo.practica4.juego.principal;
 
 import java.awt.Rectangle;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,16 +29,17 @@ import opoo.practica4.juego.sieteymedio.SieteyMedioVisual;
 import opoo.practica4.juego.veintiuno.VeintiunoVisual;
 
 /**
- * Clase visual para la pantalla de juego para el Siete y medio
+ * Clase visual para la pantalla de juego
  * 
  * @author Jose Angel Garcia Fernandez
- * @version 1.1 25.09.2010
+ * @version 1.1 06.11.2010
  */
 public class JpanelJuego extends JPanel {
 
 	private Juego juego = null;
 	private Object[] posibilidades = { "Siete y Medio", "Veintiuno" };
 	Jugador[] jugadores = { new Jugador("Jugador"), new Jugador("BANCA") };
+	private BarajaMostrable baraja;
 
 	private static final long serialVersionUID = 1L;
 	private JTextArea jTAlog = null;
@@ -82,11 +82,12 @@ public class JpanelJuego extends JPanel {
 	 */
 	private void initialize() {
 		eligeJuego();
+		baraja = (BarajaMostrable) juego.getBaraja();
 		jLtuMano = new JLabel();
 		jLtuMano.setBounds(new Rectangle(209, 178, 55, 14));
 		jLtuMano.setText("Tu mano:");
 		jLhastaLim = new JLabel();
-		jLhastaLim.setBounds(new Rectangle(350, 130, 59, 14));
+		jLhastaLim.setBounds(new Rectangle(350, 130, 62, 14));
 		jLhastaLim.setText("hasta " + juego.getLimite() + ":");
 		jLtuScore = new JLabel();
 		jLtuScore.setBounds(new Rectangle(210, 130, 86, 14));
@@ -113,8 +114,8 @@ public class JpanelJuego extends JPanel {
 		jLimgMano.setBounds(new Rectangle(105, 3, 80, 130));
 		jLimgPila = new JLabel();
 		jLimgPila.setBounds(new Rectangle(16, 3, 80, 130));
-		BarajaMostrable baraja = (BarajaMostrable) juego.getBaraja();
 		jLimgPila.setIcon(baraja.getReverso());
+		jLlog.setVisible(false);
 		this.setSize(490, 220);
 		this.setLayout(null);
 		this.add(getJSPlog(), null);
@@ -131,7 +132,6 @@ public class JpanelJuego extends JPanel {
 		this.add(getJSPresult(), null);
 		this.add(jLresult, null);
 		this.add(jLlog, null);
-		jLlog.setVisible(false);
 		this.add(jLinfJugdr, null);
 		this.add(jLtuScore, null);
 		this.add(jLhastaLim, null);
@@ -185,8 +185,6 @@ public class JpanelJuego extends JPanel {
 					try {
 						actual = juego.sacarCarta();
 					} catch (NoHayMasCartasException e1) {
-						BarajaMostrable baraja = (BarajaMostrable) juego
-								.getBaraja();
 						jLimgPila.setIcon(baraja.getVacia());
 						finalizarPartida(e1.getMessage());
 					}
@@ -214,6 +212,9 @@ public class JpanelJuego extends JPanel {
 			jTFpila = new JTextField();
 			jTFpila.setBounds(new Rectangle(16, 152, 80, 20));
 			jTFpila.setEditable(false);
+			jTFpila.setText(String.valueOf((juego.getNCartasRestantes()))
+					+ " cartas");
+
 		}
 		return jTFpila;
 	}
@@ -242,7 +243,7 @@ public class JpanelJuego extends JPanel {
 			jTFturno = new JTextField();
 			jTFturno.setBounds(new Rectangle(16, 198, 80, 20));
 			jTFturno.setEditable(false);
-
+			jTFturno.setText((juego.getJugadorActual()).getNombre());
 		}
 
 		return jTFturno;
@@ -322,44 +323,57 @@ public class JpanelJuego extends JPanel {
 					+ info + "\n¡Revisa el log para comprobar los resultados!",
 					"Juego acabado", JOptionPane.INFORMATION_MESSAGE);
 		}
-		jSPlog.setVisible(true);
-		jLlog.setVisible(true);
+
 		jTFturno.setText("nadie");
-		jBpedirCarta.setEnabled(false);
-		jBplantarse.setEnabled(false);
-		jLtuMano.setVisible(false);
-		jLtuScore.setVisible(false);
-		jLhastaLim.setVisible(false);
-		jLinfJugdr.setVisible(false);
-		jTFhastaLim.setVisible(false);
-		jTFtuMano.setVisible(false);
-		jTFtuScore.setVisible(false);
+		zonaBotonesSetEnabled(false);
+		zonaInfoJugSetVisible(false);
+		zonaLogSetVisible(true);
+	}
+
+	private void zonaLogSetVisible(boolean b) {
+		jSPlog.setVisible(b);
+		jLlog.setVisible(b);
+	}
+
+	private void zonaInfoJugSetVisible(boolean b) {
+		jLtuMano.setVisible(b);
+		jLtuScore.setVisible(b);
+		jLhastaLim.setVisible(b);
+		jLinfJugdr.setVisible(b);
+		jTFhastaLim.setVisible(b);
+		jTFtuMano.setVisible(b);
+		jTFtuScore.setVisible(b);
+	}
+
+	private void zonaBotonesSetEnabled(boolean b) {
+		jBpedirCarta.setEnabled(b);
+		jBplantarse.setEnabled(b);
 	}
 
 	void reiniciarJuego() {
 		juego.reiniciarPartida();
+		resetearZonaCartas();
+		zonaBotonesSetEnabled(true);
+		zonaLogSetVisible(false);
+		zonaInfoJugSetVisible(true);
+		resetearzonaInfoJug();
+		jTAlog.setText("");
+		jTAresult.setText("");
+	}
+
+	private void resetearZonaCartas() {
 		jTFpila.setText(String.valueOf((juego.getNCartasRestantes()))
 				+ " cartas");
 		jTFturno.setText((juego.getJugadorActual()).getNombre());
 		jTFmano.setText("");
 		jLimgMano.setIcon(null);
-		jLimgPila.setIcon(new ImageIcon(getClass().getResource(
-				"/com/poo/proyecto/imgs/Reverso.jpg")));
-		jTAlog.setText("");
-		jTAresult.setText("");
-		jBpedirCarta.setEnabled(true);
-		jBplantarse.setEnabled(true);
-		jSPlog.setVisible(false);
-		jLlog.setVisible(false);
-		jLtuMano.setVisible(true);
-		jLtuScore.setVisible(true);
-		jLhastaLim.setVisible(true);
-		jLinfJugdr.setVisible(true);
-		jTFhastaLim.setVisible(true);
-		jTFtuMano.setVisible(true);
-		jTFtuScore.setVisible(true);
+		BarajaMostrable baraja = (BarajaMostrable) juego.getBaraja();
+		jLimgPila.setIcon(baraja.getReverso());
+	}
+
+	private void resetearzonaInfoJug() {
 		jTFtuScore.setText(String.valueOf(0.0f));
-		jTFhastaLim.setText(String.valueOf(7.5f));
+		jTFhastaLim.setText(String.valueOf(juego.getLimite()));
 		jTFtuMano.setText(null);
 	}
 
@@ -376,14 +390,14 @@ public class JpanelJuego extends JPanel {
 		jTFtuMano.setText(jug.getMano().toString());
 	}
 
-	private void eligeJuego() {
+	void eligeJuego() {
 		// uso JOptionPane para seleccion filtrada de de
 		String s = (String) JOptionPane.showInputDialog(this,
 				"Elige el tipo de juego", "Numero de piezas",
 				JOptionPane.QUESTION_MESSAGE, null, posibilidades,
 				"Siete y Medio");
-		if(s==null)
-				juego = new SieteyMedioVisual(jugadores);
+		if (s == null)
+			juego = new SieteyMedioVisual(jugadores);
 		else if (s.equals("Siete y Medio"))
 			juego = new SieteyMedioVisual(jugadores);
 		else

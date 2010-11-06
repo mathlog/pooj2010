@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Clase que representa a un jugador
  * 
  * @author Jose Angel Garcia Fernandez
- * @version 1.0 24.09.2010
+ * @version 1.0 06.11.2010
  */
 public class Jugador {
 
@@ -130,6 +130,17 @@ public class Jugador {
 	public void recibirCarta(Carta carta) {
 		puntuacion += carta.getValor();
 		mano.add(carta);
+	}
+
+	/**
+	 * Metodo que resetea al jugador
+	 */
+	public void resetear() {
+		mano.clear();
+		puntuacion = 0;
+		plantado = false;
+		pasado = false;
+
 	}
 
 }

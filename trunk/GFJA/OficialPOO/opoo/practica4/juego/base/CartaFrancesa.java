@@ -3,17 +3,16 @@
 // Ingeniería Técnica de Informática de Sistemas
 // Fuente Java según Plantilla
 //
-// PROYECTO : Juego del Siete y medio
+// PROYECTO : Practica 4 Juego
 // ASIGNATURA : Programacion Orientada a Objetos
 //
 package opoo.practica4.juego.base;
-
 
 /**
  * Clase que representa una carta francesa
  * 
  * @author Jose Angel Garcia Fernandez
- * @version 1.1 24.09.2010
+ * @version 1.1 06.11.2010
  */
 public class CartaFrancesa extends Carta implements Comparable {
 
@@ -67,6 +66,10 @@ public class CartaFrancesa extends Carta implements Comparable {
 				return 1;
 			}
 		}
+	}
+
+	public boolean esElUno() {
+		return numero == 1;
 	}
 
 }

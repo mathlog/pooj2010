@@ -83,7 +83,7 @@ public class JDialogAcercade extends JDialog {
 			jLWeb.setBounds(new Rectangle(139, 110, 180, 16));
 			jLWeb.setText("Web:          " + web);
 			jLWeb.setToolTipText("Pincha para ir a la web");
-			final Color orig = jLWeb.getForeground();
+			final Color origen = jLWeb.getForeground();
 			jLWeb.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent e) {
 					try {
@@ -102,7 +102,7 @@ public class JDialogAcercade extends JDialog {
 				}
 
 				public void mouseExited(java.awt.event.MouseEvent e) {
-					jLWeb.setForeground(orig);
+					jLWeb.setForeground(origen);
 				}
 			});
 			jLAutor = new JLabel();

@@ -393,7 +393,7 @@ public class JpanelJuego extends JPanel {
 	void eligeJuego() {
 		// uso JOptionPane para seleccion filtrada de de
 		String s = (String) JOptionPane.showInputDialog(this,
-				"Elige el tipo de juego", "Numero de piezas",
+				"Elige el tipo de juego", "Tipo de juego",
 				JOptionPane.QUESTION_MESSAGE, null, posibilidades,
 				"Siete y Medio");
 		if (s == null)

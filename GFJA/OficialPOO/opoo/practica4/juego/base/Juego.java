@@ -14,12 +14,12 @@ import opoo.excepciones.AllPlayersPlantadosException;
 import opoo.excepciones.NoHayMasCartasException;
 
 /**
- * Clase abstracta que representa un juego de cartas
+ * Clase que representa un juego de cartas
  * 
  * @author Jose Angel Garcia Fernandez
- * @version 1.1 24.09.2010
+ * @version 1.1 06.11.2010
  */
-public abstract class Juego {
+public class Juego {
 
 	/**
 	 * Variable que representa el nombre del juego
@@ -27,7 +27,7 @@ public abstract class Juego {
 	private String nombre;
 
 	/**
-	 * Array que representa los jugadores de la partid
+	 * Array que representa los jugadores de la partida
 	 */
 	protected Jugador[] jugadores;
 
@@ -129,18 +129,21 @@ public abstract class Juego {
 	 * 
 	 * @param nombre
 	 *            el nombre del juego
-	 * @param nJugadores
-	 *            el numero de jugadores de la partida
+	 * @param jugadores
+	 *            los jugadores de la partida
+	 * @param lim
+	 *            el limite de puntos de la partida
+	 * @param bar
+	 *            la baraja con la que se juega
 	 */
 	public Juego(String nombre, Jugador[] jugadores, float lim, Baraja bar) {
 		this.nombre = nombre;
 		this.jugadores = jugadores;
 		Juego.limite = lim;
+		this.baraja = bar;
 		nJugadores = jugadores.length;
-		finJuego = false;
 		Random rand = new Random();
 		jugadorActual = rand.nextInt(nJugadores);
-		this.baraja = bar;
 		nCartasRestantes = baraja.getCartas().length;
 		baraja.barajar(100);
 		finJuego = false;
@@ -189,7 +192,7 @@ public abstract class Juego {
 		if (nCartasRestantes != 0) {
 			return baraja.getCartas()[--nCartasRestantes];
 		} else
-			throw new NoHayMasCartasException("No hay mas cartas sin usar");
+			throw new NoHayMasCartasException("No hay mas cartas en la baraja");
 	}
 
 	/**
@@ -212,10 +215,21 @@ public abstract class Juego {
 		nCartasRestantes = baraja.getCartas().length;
 		finJuego = false;
 		baraja.barajar(100);
+		resetearJugadores();
+	}
+
+	/**
+	 * Método que resetea a los jugadores
+	 */
+	private void resetearJugadores() {
+		for (Jugador a : jugadores)
+			a.resetear();
 	}
 
 	/**
 	 * Metodo que finaliza la partida y da el ganador
+	 * 
+	 * @return el ganador o null si no hay
 	 */
 	public Jugador finalizarPartida() {
 		finJuego = true;

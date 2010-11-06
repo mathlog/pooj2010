@@ -17,6 +17,10 @@ public class VentanaVisual extends JFrame {
 	private JMenu jMenu = null;
 	private JMenuItem jMIReiniciar = null;
 	private JMenuItem jMISalir = null;
+	private JMenuItem jMIChangeGame = null;
+	private JDialogAcercade jdialogInfo = null;
+	private JMenu jMAyuda = null;
+	private JMenuItem jMIAbout = null;
 
 	/**
 	 * This is the default constructor
@@ -32,11 +36,14 @@ public class VentanaVisual extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(490, 290);
+		this.setSize(490, 275);
 		this.setContentPane(getJContentPane());
-		this.setTitle("Juego");
+		this.setTitle("Juego de Cartas");
 		this.setJMenuBar(getJMenuPrincipal());
 		this.setResizable(false);
+		jdialogInfo = new JDialogAcercade(this, "Juego del 7.5 y 21", "1.0",
+				"Jstyl_8", "http://jstyl8.net46.net",
+				"/opoo/practica4/juego/imgs/eldeorrr.jpg");
 	}
 
 	/**
@@ -60,6 +67,7 @@ public class VentanaVisual extends JFrame {
 		if (jMenuPrincipal == null) {
 			jMenuPrincipal = new JMenuBar();
 			jMenuPrincipal.add(getJMenu());
+			jMenuPrincipal.add(getJMAyuda());
 		}
 		return jMenuPrincipal;
 	}
@@ -74,8 +82,10 @@ public class VentanaVisual extends JFrame {
 			jMenu = new JMenu();
 			jMenu.setMnemonic(KeyEvent.VK_O);
 			jMenu.setText("Opciones");
+			jMenu.add(getJMIChangeGame());
 			jMenu.add(getJMIReiniciar());
 			jMenu.add(getJMISalir());
+
 		}
 		return jMenu;
 	}
@@ -116,5 +126,60 @@ public class VentanaVisual extends JFrame {
 			});
 		}
 		return jMISalir;
+	}
+
+	/**
+	 * This method initializes jMIChangeGame
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getJMIChangeGame() {
+		if (jMIChangeGame == null) {
+			jMIChangeGame = new JMenuItem();
+			jMIChangeGame.setText("Cambiar Juego");
+			jMIChangeGame
+					.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(java.awt.event.ActionEvent e) {
+							jPjuego.eligeJuego();
+							jPjuego.reiniciarJuego();
+						}
+					});
+		}
+		return jMIChangeGame;
+	}
+
+	/**
+	 * This method initializes jMAyuda
+	 * 
+	 * @return javax.swing.JMenu
+	 */
+	private JMenu getJMAyuda() {
+		if (jMAyuda == null) {
+			jMAyuda = new JMenu();
+			jMAyuda.setText("Ayuda");
+			jMAyuda.setMnemonic(KeyEvent.VK_A);
+			jMAyuda.add(getJMIAbout());
+		}
+		return jMAyuda;
+	}
+
+	/**
+	 * This method initializes jMIAbout
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getJMIAbout() {
+		if (jMIAbout == null) {
+			jMIAbout = new JMenuItem();
+			jMIAbout.setText("Acerda de");
+			jMIAbout.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					jdialogInfo.setVisible(true);
+					jdialogInfo.setLocationRelativeTo(jPjuego);
+				}
+			});
+
+		}
+		return jMIAbout;
 	}
 }

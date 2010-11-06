@@ -9,17 +9,15 @@
 package opoo.practica4.juego.veintiuno;
 
 import opoo.practica4.juego.base.BarajaFrancesaMostrable;
-import opoo.practica4.juego.base.Juego;
 import opoo.practica4.juego.base.Jugador;
-import opoo.practica4.juego.base.Limites;
 
 /**
  * Clase que representa el juego del 21 visual
  * 
  * @author Jose Angel Garcia Fernandez
- * @version 1.0 24.09.2010
+ * @version 1.1 06.11.2010
  */
-public class VeintiunoVisual extends Juego {
+public class VeintiunoVisual extends Veintiuno {
 
 	/**
 	 * Constructor que inicializa el Veintinuno viusla
@@ -28,7 +26,7 @@ public class VeintiunoVisual extends Juego {
 	 *            los jugadores de la partida
 	 */
 	public VeintiunoVisual(Jugador[] jugadores) {
-		super("Veintiuno", jugadores, Limites.VEINTIUNO,
-				new BarajaFrancesaMostrable());
+		super(jugadores, new BarajaFrancesaMostrable());
 	}
+
 }

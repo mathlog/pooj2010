@@ -17,7 +17,7 @@ import opoo.practica4.juego.base.Limites;
  * Clase que representa el juego del 7.5
  * 
  * @author Jose Angel Garcia Fernandez
- * @version 1.0 24.09.2010
+ * @version 1.0 06.11.2010
  */
 public class SieteyMedio extends Juego {
 
@@ -28,7 +28,18 @@ public class SieteyMedio extends Juego {
 	 *            los jugadores de la partida
 	 */
 	public SieteyMedio(Jugador[] jugadores) {
-		super("Siete y medio", jugadores, Limites.SIETEYMEDIO, new BarajaSpanish());
+		super("Siete y medio", jugadores, Limites.SIETEYMEDIO,
+				new BarajaSpanish());
+	}
+
+	/**
+	 * Constructor que inicializa el Siete y medio
+	 * 
+	 * @param nJugadores
+	 *            los jugadores de la partida
+	 */
+	public SieteyMedio(Jugador[] jugadores, BarajaSpanish bar) {
+		super("Siete y medio", jugadores, Limites.SIETEYMEDIO, bar);
 	}
 
 }

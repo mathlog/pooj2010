@@ -27,6 +27,7 @@ import opoo.practica4.juego.base.Juego;
 import opoo.practica4.juego.base.Jugador;
 import opoo.practica4.juego.sieteymedio.SieteyMedioVisual;
 import opoo.practica4.juego.veintiuno.VeintiunoVisual;
+import javax.swing.JCheckBox;
 
 /**
  * Clase visual para la pantalla de juego
@@ -67,6 +68,8 @@ public class JpanelJuego extends JPanel {
 	private JLabel jLtuMano = null;
 	private JTextField jTFtuMano = null;
 	private JScrollPane jSPtuMano = null;
+	private JCheckBox jCBdown = null;
+	private JLabel jLdown = null;
 
 	/**
 	 * This is the default constructor
@@ -84,9 +87,12 @@ public class JpanelJuego extends JPanel {
 	private void initialize() {
 		eligeJuego();
 		primerTurno = true;
+		jLdown = new JLabel();
+		jLdown.setBounds(new Rectangle(188, 178, 40, 16));
+		jLdown.setText("Down");
 		baraja = (BarajaMostrable) juego.getBaraja();
 		jLtuMano = new JLabel();
-		jLtuMano.setBounds(new Rectangle(209, 178, 55, 14));
+		jLtuMano.setBounds(new Rectangle(245, 165, 55, 14));
 		jLtuMano.setText("Tu mano:");
 		jLhastaLim = new JLabel();
 		jLhastaLim.setBounds(new Rectangle(350, 130, 62, 14));
@@ -95,13 +101,13 @@ public class JpanelJuego extends JPanel {
 		jLtuScore.setBounds(new Rectangle(210, 130, 86, 14));
 		jLtuScore.setText("Tu puntuación:");
 		jLinfJugdr = new JLabel();
-		jLinfJugdr.setBounds(new Rectangle(195, 100, 160, 14));
+		jLinfJugdr.setBounds(new Rectangle(200, 105, 160, 14));
 		jLinfJugdr.setText("Información sobre jugador:");
 		jLlog = new JLabel();
-		jLlog.setBounds(new Rectangle(195, 100, 32, 15));
+		jLlog.setBounds(new Rectangle(200, 105, 32, 15));
 		jLlog.setText("Log:");
 		jLresult = new JLabel();
-		jLresult.setBounds(new Rectangle(195, 8, 74, 15));
+		jLresult.setBounds(new Rectangle(200, 8, 74, 15));
 		jLresult.setText("Resultados:");
 		jLmano = new JLabel();
 		jLmano.setBounds(new Rectangle(105, 136, 80, 14));
@@ -141,6 +147,8 @@ public class JpanelJuego extends JPanel {
 		this.add(getJTFhastaLim(), null);
 		this.add(jLtuMano, null);
 		this.add(getJSPtuMano(), null);
+		this.add(getJCBup(), null);
+		this.add(jLdown, null);
 	}
 
 	/**
@@ -164,7 +172,7 @@ public class JpanelJuego extends JPanel {
 	private JScrollPane getJSPlog() {
 		if (jSPlog == null) {
 			jSPlog = new JScrollPane();
-			jSPlog.setBounds(new Rectangle(230, 115, 220, 90));
+			jSPlog.setBounds(new Rectangle(240, 115, 220, 90));
 			jSPlog.setViewportView(getJTAlog());
 			jSPlog.setVisible(false);
 		}
@@ -336,7 +344,7 @@ public class JpanelJuego extends JPanel {
 	private JScrollPane getJSPresult() {
 		if (jSPresult == null) {
 			jSPresult = new JScrollPane();
-			jSPresult.setBounds(new Rectangle(230, 30, 220, 70));
+			jSPresult.setBounds(new Rectangle(240, 30, 220, 70));
 			jSPresult.setViewportView(getJTAresult());
 		}
 		return jSPresult;
@@ -348,12 +356,13 @@ public class JpanelJuego extends JPanel {
 	private void operacionesSacarCarta() {
 		try {
 			if (primerTurno) {
+				jCBdown.setEnabled(true);
+				jCBdown.setSelected(false);
 				primerTurno = false;
 				Carta[] mano1 = juego.empezarTurno();
 				for (int i = 0; i < mano1.length; i++)
 					realizarMano(mano1[i]);
 			} else {
-
 				Carta actual = juego.sacarCarta();
 				realizarMano(actual);
 			}
@@ -367,15 +376,18 @@ public class JpanelJuego extends JPanel {
 	 * Metodo que realiza las operaciones de plantarse
 	 */
 	private void operacionesPlantarse() {
+		jCBdown.setEnabled(false);
 		primerTurno = true;
 		Jugador actual = juego.getJugadorActual();
 		actual.setPlantado(true);
 		jTAresult.setText(jTAresult.getText() + actual.getNombre()
 				+ " se plantó tras " + actual.getMano().size() + " cartas con "
-				+ actual.getMano().get(0) + "\n");
+				+ actual.getManoUp() + "\n");
 		if (actual.isPasado())
-			JOptionPane.showMessageDialog(this, actual + " se paso",
-					"Turno acabado", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, actual.getNombre()
+					+ " se paso tras " + actual.getMano().size()
+					+ " cartas con " + actual.getMano(), "Turno acabado",
+					JOptionPane.INFORMATION_MESSAGE);
 		try {
 			juego.nextJugador();
 			actual = juego.getJugadorActual();
@@ -390,22 +402,20 @@ public class JpanelJuego extends JPanel {
 	/**
 	 * Metodo que opera con la carta actual de la jugada
 	 * 
-	 * @param actual
+	 * @param carta
 	 *            la carta actual
 	 */
-	private void realizarMano(Carta actual) {
-		jTFmano.setText(actual.toString());
+	private void realizarMano(Carta carta) {
+		jTFmano.setText(carta.toString());
 		jTFpila.setText(String.valueOf((juego.getNCartasRestantes()))
 				+ " cartas");
-		// por aki meter control de up o down
-		if (true) {
-			;// tapulsadoMostrarDown
-			// poner bocabajo esta carta carta.flip();
-			// poner boca arriba resto cartas jug.invertirCartas();
-		}
-		boolean pasado = juego.actualizarJugador(actual);
 		Jugador jug = juego.getJugadorActual();
-		actualizarCampos(jug, actual);
+		if (jCBdown.isSelected()) {
+			carta.flip();
+			jug.cartasUp();
+		}
+		boolean pasado = juego.actualizarJugador(carta);
+		actualizarCampos(jug, carta);
 		if (pasado)
 			operacionesPlantarse();
 	}
@@ -417,15 +427,25 @@ public class JpanelJuego extends JPanel {
 	 *            motivo de fin
 	 */
 	private void finalizarPartida(String info) {
-		Jugador ganador = juego.finalizarPartida();
-		if (ganador == null) {
+		Jugador[] ganadores = juego.finalizarPartida();
+		if (ganadores == null) {
 			JOptionPane.showMessageDialog(this, "No ha ganado nadie!\n" + info
 					+ "\n¡Revisa el log para comprobar los resultados!",
 					"Juego acabado", JOptionPane.INFORMATION_MESSAGE);
 		} else {
-			JOptionPane.showMessageDialog(this, "Ha ganado: " + ganador + "\n"
-					+ info + "\n¡Revisa el log para comprobar los resultados!",
-					"Juego acabado", JOptionPane.INFORMATION_MESSAGE);
+			StringBuilder strWins = new StringBuilder();
+			for (int i = 0; i < ganadores.length; i++)
+				strWins.append(ganadores[i] + "\n");
+			JOptionPane
+					.showMessageDialog(
+							this,
+							ganadores.length > 1 ? "Han empatado: "
+									: "Ha ganado: "
+											+ strWins
+											+ "\n\n"
+											+ info
+											+ "\n¡Revisa el log para comprobar los resultados!",
+							"Juego acabado", JOptionPane.INFORMATION_MESSAGE);
 		}
 		jLimgMano.setIcon(null);
 		jTFturno.setText("nadie");
@@ -486,6 +506,7 @@ public class JpanelJuego extends JPanel {
 		jLimgMano.setIcon(null);
 		BarajaMostrable baraja = (BarajaMostrable) juego.getBaraja();
 		jLimgPila.setIcon(baraja.getReverso());
+		jCBdown.setSelected(false);
 	}
 
 	private void resetearzonaInfoJug() {
@@ -513,15 +534,31 @@ public class JpanelJuego extends JPanel {
 	 * Metodo para elegir juego
 	 */
 	void eligeJuego() {
-		// uso JOptionPane para seleccion filtrada de de
+		// uso JOptionPane para seleccion filtrada de juego
 		String s = (String) JOptionPane.showInputDialog(this,
 				"Elige el tipo de juego", "Tipo de juego",
 				JOptionPane.QUESTION_MESSAGE, null, posibilidades,
-				"Siete y Medio");
+				posibilidades[0]);
 
-		if ((s == null) | s.equals("Siete y Medio"))
+		if (s == null)
+			juego = new SieteyMedioVisual(jugadores);
+		else if (s.equals("Siete y Medio"))
 			juego = new SieteyMedioVisual(jugadores);
 		else
 			juego = new VeintiunoVisual(jugadores);
+	}
+
+	/**
+	 * This method initializes jCBup
+	 * 
+	 * @return javax.swing.JCheckBox
+	 */
+	private JCheckBox getJCBup() {
+		if (jCBdown == null) {
+			jCBdown = new JCheckBox();
+			jCBdown.setBounds(new Rectangle(220, 176, 21, 21));
+			jCBdown.setEnabled(false);
+		}
+		return jCBdown;
 	}
 }

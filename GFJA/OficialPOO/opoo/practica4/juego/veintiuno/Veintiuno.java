@@ -27,7 +27,7 @@ public class Veintiuno extends Juego {
 	/**
 	 * Constructor que inicializa el juego
 	 * 
-	 * @param Jugadores
+	 * @param jugadores
 	 *            los jugadores de la partida
 	 */
 	public Veintiuno(Jugador[] jugadores) {
@@ -38,7 +38,7 @@ public class Veintiuno extends Juego {
 	/**
 	 * Constructor que inicializa
 	 * 
-	 * @param Jugadores
+	 * @param jugadores
 	 *            los jugadores de la partida
 	 * @param bar
 	 *            baraja a usar
@@ -48,14 +48,6 @@ public class Veintiuno extends Juego {
 				PropsJuegosCartas.MANO1_21);
 	}
 
-	/**
-	 * Metodo que actualiza la mano del jugador
-	 * 
-	 * @param carta
-	 *            a meter en mano
-	 * 
-	 * @return el estado del jugador (pasado o no)
-	 */
 	@Override
 	public boolean actualizarJugador(Carta carta) {
 		CartaFrancesa francesa = (CartaFrancesa) carta;
@@ -68,10 +60,10 @@ public class Veintiuno extends Juego {
 				else
 					actual.recibirCarta(new CartaFrancesa(francesa.getPalo(),
 							francesa.getNumero(), 11));
-				return pasado(actual);
+				return pierdeJugador(actual);
 			} else {
 				actual.recibirCarta(carta);
-				return pasado(actual);
+				return pierdeJugador(actual);
 			}
 		}
 		return true;

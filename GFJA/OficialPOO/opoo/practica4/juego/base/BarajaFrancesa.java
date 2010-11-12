@@ -9,10 +9,10 @@
 package opoo.practica4.juego.base;
 
 /**
- * Clase que representa una baraja francesa
+ * Clase que representa una baraja francesa que extiende de Baraja
  * 
  * @author José Ángel García Fernández
- * @version 1.1 12/11/2010
+ * @version 1.2 12/11/2010
  */
 public class BarajaFrancesa extends Baraja {
 

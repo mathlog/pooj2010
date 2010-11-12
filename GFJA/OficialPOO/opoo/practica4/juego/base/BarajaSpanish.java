@@ -9,7 +9,7 @@
 package opoo.practica4.juego.base;
 
 /**
- * Clase que representa una baraja española
+ * Clase que representa una baraja española y extiende de Baraja
  * 
  * @author José Ángel García Fernández
  * @version 1.1 12/11/2010
@@ -19,7 +19,8 @@ public class BarajaSpanish extends Baraja {
 	public BarajaSpanish() {
 		super(tipoBaraja.SPANISH);
 	}
-
+	
+	@Override
 	protected void creaBaraja() {
 		this.tipo = tipoBaraja.SPANISH;
 		this.nombreBaraja = "Baraja Española";

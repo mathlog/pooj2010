@@ -1,8 +1,22 @@
+//
+// Universidad de Almería
+// Ingeniería Técnica de Informática de Sistemas
+// Fuente Java según Plantilla
+//
+// PROYECTO : Practica 4 Juego
+// ASIGNATURA : Programacion Orientada a Objetos
+//
 package opoo.practica4.juego.base;
 
 import java.util.Arrays;
 import java.util.Random;
 
+/**
+ * Clase abstracta que representa una baraja
+ * 
+ * @author José Ángel García Fernández
+ * @version 1.2 12/11/2010
+ */
 public abstract class Baraja {
 
 	/**
@@ -47,20 +61,14 @@ public abstract class Baraja {
 		creaBaraja();
 	}
 
-	public Baraja(String nombreBaraja, Carta[] cartas, tipoBaraja tipo,
-			String[] palos) {
-		this.nombreBaraja = nombreBaraja;
-		this.cartas = cartas;
-		this.tipo = tipo;
-		this.palos = palos;
-	}
-
-	public Baraja() {
-		creaPalos();
-	}
-
+	/**
+	 * Metodo abstracto que crea la baraja
+	 */
 	protected abstract void creaBaraja();
 
+	/**
+	 * Metodo abstracto que crea el string[] de palos
+	 */
 	protected abstract void creaPalos();
 
 	/**

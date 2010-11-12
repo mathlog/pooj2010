@@ -22,8 +22,8 @@ public class SieteyMedioVisual extends SieteyMedio {
 	/**
 	 * Constructor que inicializa el Siete y medio visual
 	 * 
-	 * @param nombre
-	 *            el nombre del juego
+	 * @param jugadores
+	 *            los jugadores de la partida
 	 */
 	public SieteyMedioVisual(Jugador[] jugadores) {
 		super(jugadores, new BarajaSpanishMostrable());

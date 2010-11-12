@@ -17,7 +17,7 @@ import opoo.practica4.juego.base.Jugador;
 import opoo.practica4.juego.base.PropsJuegosCartas;
 
 /**
- * Clase que representa el juego del 7.5
+ * Clase que representa el juego del 7.5 extendiendo de Juego
  * 
  * @author Jose Angel Garcia Fernandez
  * @version 1.2 12.11.2010
@@ -27,7 +27,7 @@ public class SieteyMedio extends Juego {
 	/**
 	 * Constructor que inicializa el Siete y medio
 	 * 
-	 * @param nJugadores
+	 * @param jugadores
 	 *            los jugadores de la partida
 	 */
 	public SieteyMedio(Jugador[] jugadores) {
@@ -38,8 +38,10 @@ public class SieteyMedio extends Juego {
 	/**
 	 * Constructor que inicializa el Siete y medio
 	 * 
-	 * @param nJugadores
+	 * @param jugadores
 	 *            los jugadores de la partida
+	 * @param bar
+	 *            la baraja a usar
 	 */
 	public SieteyMedio(Jugador[] jugadores, BarajaSpanish bar) {
 		super("Siete y medio", jugadores, PropsJuegosCartas.PUNTUACION7Y5, bar,
@@ -51,7 +53,7 @@ public class SieteyMedio extends Juego {
 		Jugador actual = jugadores[jugadorActual];
 		if (!actual.isPasado()) {
 			actual.recibirCarta(carta);
-			return pasado(actual);
+			return pierdeJugador(actual);
 		}
 		return true;
 	}

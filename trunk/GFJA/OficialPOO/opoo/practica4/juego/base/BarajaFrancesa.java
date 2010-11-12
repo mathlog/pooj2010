@@ -8,40 +8,29 @@
 //
 package opoo.practica4.juego.base;
 
-
 /**
  * Clase que representa una baraja francesa
  * 
  * @author José Ángel García Fernández
- * @version 1.0 05/11/2010
+ * @version 1.1 12/11/2010
  */
 public class BarajaFrancesa extends Baraja {
 
-	public BarajaFrancesa(){
+	public BarajaFrancesa() {
 		super(tipoBaraja.FRANCESA);
 	}
-	
+
 	@Override
 	protected void creaBaraja() {
 		this.nombreBaraja = "Baraja Francesa";
-		cartas = new Carta[40];
+		cartas = new Carta[52];
 		Carta carta;
-		StringBuilder ruta = new StringBuilder("/opoo/practica4/juego/imgfra/");
 		int j = 0;
 		for (int k = 0; k < palos.length; k++) {
-			for (int i = 1; i < 8; i++) {
-				ruta.append(i + palos[k] + ".jpg");
+			for (int i = 1; i < 14; i++) {
 				carta = new CartaFrancesa(palos[k], i, i);
 				cartas[j] = carta;
 				j++;
-				ruta.setLength(ruta.length() - 6);
-			}
-			for (int i = 10; i < 13; i++) {
-				ruta.append(i + palos[k] + ".jpg");
-				carta = new CartaFrancesa(palos[k], i, 10);
-				cartas[j] = carta;
-				j++;
-				ruta.setLength(ruta.length() - 7);
 			}
 		}
 	}

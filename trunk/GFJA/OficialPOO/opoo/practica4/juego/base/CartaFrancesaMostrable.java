@@ -31,7 +31,10 @@ public class CartaFrancesaMostrable extends CartaFrancesa implements
 
 	@Override
 	public ImageIcon getImgCarta() {
-		return imagen;
+		if (up)
+			return imagen;
+		else
+			return null;
 	}
 
 	@Override

@@ -103,7 +103,6 @@ public class VentanaVisual extends JFrame {
 			jMIReiniciar.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					jPjuego.reiniciarJuego();
-					// enabledGUI1();
 				}
 			});
 		}

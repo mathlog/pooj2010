@@ -9,6 +9,8 @@
 package opoo.practica4.juego.base;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import opoo.practica4.juego.base.Carta;
 
 /**
  * Clase que representa a un jugador
@@ -113,6 +115,16 @@ public class Jugador {
 	}
 
 	/**
+	 * Metodo modificador de la propiedad pasado
+	 * 
+	 * @param pasado
+	 *            el pasado a poner
+	 */
+	public void setPasado(boolean pasado) {
+		this.pasado = pasado;
+	}
+
+	/**
 	 * Metodo toString para mostrar por pantalla
 	 * 
 	 * @return devuelve un string con las propiedades del Jugador
@@ -130,6 +142,19 @@ public class Jugador {
 	public void recibirCarta(Carta carta) {
 		puntuacion += carta.getValor();
 		mano.add(carta);
+	}
+
+	/**
+	 * Metodo que pone boca arriba las cartas de tu mano
+	 */
+	public void invertirCartas() {
+		Iterator<Carta> it = mano.iterator();
+		Carta c = null;
+		while (it.hasNext()) {
+			c = it.next();
+			if (!c.isUp())
+				c.flip();
+		}
 	}
 
 	/**

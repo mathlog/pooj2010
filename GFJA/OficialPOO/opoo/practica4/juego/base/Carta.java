@@ -1,7 +1,6 @@
 package opoo.practica4.juego.base;
 
-
-public class Carta {
+public abstract class Carta {
 	/**
 	 * Variable privada que representa el palo de la carta
 	 */
@@ -47,32 +46,12 @@ public class Carta {
 	}
 
 	/**
-	 * Metodo modificador de la propiedad palo
-	 * 
-	 * @param palo
-	 *            representa el palo de la carta
-	 */
-	public void setPalo(String palo) {
-		this.palo = palo;
-	}
-
-	/**
 	 * Metodo de acceso de la propiedad numero
 	 * 
 	 * @return devuelve el numero de la carta
 	 */
 	public int getNumero() {
 		return numero;
-	}
-
-	/**
-	 * Metodo modificador de la propiedad numero
-	 * 
-	 * @param numero
-	 *            representa el numero de la carta
-	 */
-	public void setNumero(int numero) {
-		this.numero = numero;
 	}
 
 	/**
@@ -85,13 +64,12 @@ public class Carta {
 	}
 
 	/**
-	 * Metodo modificador de la propiedad valor
+	 * Metodo para obtener la propiedad up
 	 * 
-	 * @param valor
-	 *            representa el valor de la carta
+	 * @return the up
 	 */
-	public void setValor(float valor) {
-		this.valor = valor;
+	public boolean isUp() {
+		return up;
 	}
 
 	/**
@@ -120,13 +98,17 @@ public class Carta {
 	 * @return devuelve la carta por pantalla mostrando el palo y el numero
 	 */
 	public String toString() {
-		return palo + numero;
+		if (up)
+			return palo + numero;
+		else
+			return "(" + palo + numero + ")";
+
 	}
 
 	/**
 	 * Da la vuelta a una carta
 	 */
 	public void flip() {
-		up = up ? false : true;
+		up = (up ? false : true);
 	}
 }

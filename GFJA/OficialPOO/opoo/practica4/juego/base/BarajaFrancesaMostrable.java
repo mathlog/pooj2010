@@ -9,8 +9,8 @@ public class BarajaFrancesaMostrable extends BarajaFrancesa implements
 	private ImageIcon vacia;
 
 	protected void creaBaraja() {
-		this.nombreBaraja = "Baraja Francesa";
-		cartas = new Carta[40];
+		this.nombreBaraja = "Baraja Francesa Mostrable";
+		cartas = new Carta[52];
 		Carta carta;
 		StringBuilder ruta = new StringBuilder("/opoo/practica4/juego/imgfra/");
 		reverso = new ImageIcon(getClass().getResource(
@@ -19,7 +19,7 @@ public class BarajaFrancesaMostrable extends BarajaFrancesa implements
 				"/opoo/practica4/juego/imgs/vacia.jpg"));
 		int j = 0;
 		for (int k = 0; k < palos.length; k++) {
-			for (int i = 1; i < 8; i++) {
+			for (int i = 1; i < 10; i++) {
 				ruta.append(i + palos[k] + ".jpg");
 				carta = new CartaFrancesaMostrable(palos[k], i, i,
 						new ImageIcon(getClass().getResource(ruta.toString())));
@@ -27,7 +27,7 @@ public class BarajaFrancesaMostrable extends BarajaFrancesa implements
 				j++;
 				ruta.setLength(ruta.length() - 6);
 			}
-			for (int i = 10; i < 13; i++) {
+			for (int i = 10; i < 14; i++) {
 				ruta.append(i + palos[k] + ".jpg");
 				carta = new CartaFrancesaMostrable(palos[k], i, 10,
 						new ImageIcon(getClass().getResource(ruta.toString())));

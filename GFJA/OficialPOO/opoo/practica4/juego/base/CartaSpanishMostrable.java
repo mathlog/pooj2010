@@ -19,7 +19,10 @@ public class CartaSpanishMostrable extends CartaSpanish implements
 	 * @return la propiedad imagen
 	 */
 	public ImageIcon getImagen() {
-		return imagen;
+		if (up)
+			return imagen;
+		else
+			return null;
 	}
 
 	/**
@@ -39,7 +42,10 @@ public class CartaSpanishMostrable extends CartaSpanish implements
 
 	@Override
 	public ImageIcon getImgCarta() {
-		return imagen;
+		if (up)
+			return imagen;
+		else
+			return null;
 	}
 
 	@Override

@@ -10,7 +10,7 @@ public class BarajaSpanishMostrable extends BarajaSpanish implements
 
 	@Override
 	protected void creaBaraja() {
-		this.nombreBaraja = "Baraja Española";
+		this.nombreBaraja = "Baraja Española Mostrable";
 		cartas = new Carta[40];
 		Carta carta;
 		StringBuilder ruta = new StringBuilder("/opoo/practica4/juego/imgspa/");

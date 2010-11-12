@@ -13,13 +13,19 @@ import java.util.Random;
 import opoo.excepciones.AllPlayersPlantadosException;
 import opoo.excepciones.NoHayMasCartasException;
 
+//instrucciones
+//creas 7ymedio con baraja española y 21 con baraja francesa heredan de juego DONE
+//Inicial UNA ARRIBA OTRA ABAJO 11 												DONE
+//Inicial UNA ABAJO 7															DONE
+//o te pasas se caba jeugo o te plantas o sigues jugada							DONE
+//pides carta y sale boca abajo, si pides otra pues pedirla boca abajo y poner resto boca arriba
 /**
  * Clase que representa un juego de cartas
  * 
  * @author Jose Angel Garcia Fernandez
- * @version 1.1 06.11.2010
+ * @version 1.2 12.11.2010
  */
-public class Juego {
+public abstract class Juego {
 
 	/**
 	 * Variable que representa el nombre del juego
@@ -60,6 +66,11 @@ public class Juego {
 	 * Variable que representa el limite de puntuacion del juego
 	 */
 	protected static float limite;
+
+	/**
+	 * Variable que representa el numero de cartas para la primera mano
+	 */
+	protected static int nCartasPrimeraMano;
 
 	/**
 	 * Metodo para obtener la propiedad jugadores
@@ -136,35 +147,35 @@ public class Juego {
 	 * @param bar
 	 *            la baraja con la que se juega
 	 */
-	public Juego(String nombre, Jugador[] jugadores, float lim, Baraja bar) {
+	public Juego(String nombre, Jugador[] jugadores, float lim, Baraja bar,
+			int nCFirstMano) {
 		this.nombre = nombre;
 		this.jugadores = jugadores;
-		Juego.limite = lim;
 		this.baraja = bar;
+		Juego.limite = lim;
+		Juego.nCartasPrimeraMano = nCFirstMano;
 		nJugadores = jugadores.length;
-		Random rand = new Random();
-		jugadorActual = rand.nextInt(nJugadores);
-		nCartasRestantes = baraja.getCartas().length;
-		baraja.barajar(100);
-		finJuego = false;
+		empezarPartida();
 	}
 
-	/**
-	 * Metodo toString para mostrar por pantalla
+	/***
+	 * Metodo que comienza el turno
 	 * 
-	 * @return devuelve un string con las propiedades del juego
+	 * @return la mano inicial
+	 * @throws NoHayMasCartasException
+	 *             si no hay mas cartas
 	 */
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(nombre);
-		sb.append("Limite de: " + limite + " puntos");
-		sb.append("\nJugadores:");
-		for (int i = 0; i < nJugadores; i++) {
-			sb.append("\n");
-			sb.append(jugadores[i]);
-		}
-		return sb.toString();
-	}
+	public abstract Carta[] empezarTurno() throws NoHayMasCartasException;
+
+	/**
+	 * Metodo que actualiza la mano del jugador
+	 * 
+	 * @param carta
+	 *            a meter en mano
+	 * 
+	 * @return el estado del jugador (pasado o no)
+	 */
+	public abstract boolean actualizarJugador(Carta carta);
 
 	/**
 	 * Metodo que actualiza al siguiente jugador
@@ -177,7 +188,7 @@ public class Juego {
 		jugadorActual = jugadorActual % nJugadores;
 		if (jugadores[jugadorActual].isPlantado())
 			throw new AllPlayersPlantadosException(
-					"Todos los jugadores se han plantado");
+					"Todos los jugadores se han plantado/pasado");
 
 	}
 
@@ -196,34 +207,16 @@ public class Juego {
 	}
 
 	/**
-	 * Metodo que actualiza la mano del jugador
-	 * 
-	 * @param carta
-	 *            a meter en mano
-	 */
-	public void actualizarJugador(Carta carta) {
-		if (!jugadores[jugadorActual].isPlantado())
-			jugadores[jugadorActual].recibirCarta(carta);
-	}
-
-	/**
 	 * Metodo que reinicia la partida
 	 */
-	public void reiniciarPartida() {
+	public void empezarPartida() {
+		finJuego = false;
 		Random rand = new Random();
 		jugadorActual = rand.nextInt(nJugadores);
 		nCartasRestantes = baraja.getCartas().length;
 		finJuego = false;
 		baraja.barajar(100);
 		resetearJugadores();
-	}
-
-	/**
-	 * Método que resetea a los jugadores
-	 */
-	private void resetearJugadores() {
-		for (Jugador a : jugadores)
-			a.resetear();
 	}
 
 	/**
@@ -234,6 +227,29 @@ public class Juego {
 	public Jugador finalizarPartida() {
 		finJuego = true;
 		return comprobarVictoria();
+	}
+
+	/**
+	 * Metodo que establece si el jugador actual se ha pasado
+	 * 
+	 * @param actual
+	 *            el jugador actual
+	 * @return true o false en funcion de si se ha pasado o no
+	 */
+	protected boolean pasado(Jugador actual) {
+		if (actual.getPuntuacion() > limite) {
+			actual.setPasado(true);
+			return true;
+		} else
+			return false;
+	}
+
+	/**
+	 * Método que resetea a los jugadores
+	 */
+	private void resetearJugadores() {
+		for (Jugador a : jugadores)
+			a.resetear();
 	}
 
 	/**
@@ -254,4 +270,22 @@ public class Juego {
 		}
 		return ganador;
 	}
+
+	/**
+	 * Metodo toString para mostrar por pantalla
+	 * 
+	 * @return devuelve un string con las propiedades del juego
+	 */
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(nombre);
+		sb.append("Limite de: " + limite + " puntos");
+		sb.append("\nJugadores:");
+		for (int i = 0; i < nJugadores; i++) {
+			sb.append("\n");
+			sb.append(jugadores[i]);
+		}
+		return sb.toString();
+	}
+
 }

@@ -8,18 +8,19 @@
 //
 package opoo.practica4.juego.veintiuno;
 
+import opoo.excepciones.NoHayMasCartasException;
 import opoo.practica4.juego.base.BarajaFrancesa;
 import opoo.practica4.juego.base.Carta;
 import opoo.practica4.juego.base.CartaFrancesa;
 import opoo.practica4.juego.base.Juego;
 import opoo.practica4.juego.base.Jugador;
-import opoo.practica4.juego.base.Limites;
+import opoo.practica4.juego.base.PropsJuegosCartas;
 
 /**
  * Clase que representa el juego del 21
  * 
  * @author Jose Angel Garcia Fernandez
- * @version 1.0 24.09.2010
+ * @version 1.2 12.11.2010
  */
 public class Veintiuno extends Juego {
 
@@ -30,7 +31,8 @@ public class Veintiuno extends Juego {
 	 *            los jugadores de la partida
 	 */
 	public Veintiuno(Jugador[] jugadores) {
-		super("Veintiuno", jugadores, Limites.VEINTIUNO, new BarajaFrancesa());
+		super("Veintiuno", jugadores, PropsJuegosCartas.PUNTUACION21,
+				new BarajaFrancesa(), PropsJuegosCartas.MANO1_21);
 	}
 
 	/**
@@ -42,7 +44,8 @@ public class Veintiuno extends Juego {
 	 *            baraja a usar
 	 */
 	public Veintiuno(Jugador[] jugadores, BarajaFrancesa bar) {
-		super("Veintiuno", jugadores, Limites.VEINTIUNO, bar);
+		super("Veintiuno", jugadores, PropsJuegosCartas.PUNTUACION21, bar,
+				PropsJuegosCartas.MANO1_21);
 	}
 
 	/**
@@ -50,20 +53,37 @@ public class Veintiuno extends Juego {
 	 * 
 	 * @param carta
 	 *            a meter en mano
+	 * 
+	 * @return el estado del jugador (pasado o no)
 	 */
 	@Override
-	public void actualizarJugador(Carta carta) {
+	public boolean actualizarJugador(Carta carta) {
 		CartaFrancesa francesa = (CartaFrancesa) carta;
-		if (!jugadores[jugadorActual].isPlantado()) {
+		Jugador actual = jugadores[jugadorActual];
+		if (!actual.isPasado()) {
 			if (francesa.esElUno()) {
-				float puntu = jugadores[jugadorActual].getPuntuacion();
-				if ((puntu + 11) > limite)
-					jugadores[jugadorActual].recibirCarta(carta);
+				float punt = actual.getPuntuacion();
+				if ((punt + 11) > limite)
+					actual.recibirCarta(carta);
 				else
-					jugadores[jugadorActual].recibirCarta(new Carta(francesa
-							.getPalo(), francesa.getNumero(), 11));
-			} else
-				jugadores[jugadorActual].recibirCarta(carta);
+					actual.recibirCarta(new CartaFrancesa(francesa.getPalo(),
+							francesa.getNumero(), 11));
+				return pasado(actual);
+			} else {
+				actual.recibirCarta(carta);
+				return pasado(actual);
+			}
 		}
+		return true;
+	}
+
+	@Override
+	public Carta[] empezarTurno() throws NoHayMasCartasException {
+		Carta[] mano1 = new CartaFrancesa[nCartasPrimeraMano];
+		for (int i = 0; i < nCartasPrimeraMano; i++) {
+			mano1[i] = sacarCarta();
+		}
+		mano1[0].flip();
+		return mano1;
 	}
 }

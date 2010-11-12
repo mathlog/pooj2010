@@ -16,7 +16,7 @@ import opoo.practica4.juego.base.Carta;
  * Clase que representa a un jugador
  * 
  * @author Jose Angel Garcia Fernandez
- * @version 1.0 06.11.2010
+ * @version 1.2 12.11.2010
  */
 public class Jugador {
 
@@ -147,14 +147,29 @@ public class Jugador {
 	/**
 	 * Metodo que pone boca arriba las cartas de tu mano
 	 */
-	public void invertirCartas() {
+	public void cartasUp() {
 		Iterator<Carta> it = mano.iterator();
-		Carta c = null;
+		Carta c;
 		while (it.hasNext()) {
 			c = it.next();
 			if (!c.isUp())
 				c.flip();
 		}
+	}
+
+	/**
+	 * Metodo que obtiene las cartas que estan boca arriba
+	 */
+	public ArrayList<Carta> getManoUp() {
+		Iterator<Carta> it = mano.iterator();
+		ArrayList<Carta> aux = new ArrayList<Carta>();
+		Carta c;
+		while (it.hasNext()) {
+			c = it.next();
+			if (c.isUp())
+				aux.add(c);
+		}
+		return aux;
 	}
 
 	/**

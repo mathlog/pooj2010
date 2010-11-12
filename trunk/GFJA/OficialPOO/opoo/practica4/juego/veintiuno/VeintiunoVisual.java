@@ -22,7 +22,7 @@ public class VeintiunoVisual extends Veintiuno {
 	/**
 	 * Constructor que inicializa el Veintinuno viusla
 	 * 
-	 * @param Jugadores
+	 * @param jugadores
 	 *            los jugadores de la partida
 	 */
 	public VeintiunoVisual(Jugador[] jugadores) {

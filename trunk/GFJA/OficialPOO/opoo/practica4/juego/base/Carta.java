@@ -1,5 +1,17 @@
+//
+// Universidad de Almería
+// Ingeniería Técnica de Informática de Sistemas
+// Fuente Java según Plantilla
+//
+// PROYECTO : Practica 4 Juego
+// ASIGNATURA : Programacion Orientada a Objetos
+//
 package opoo.practica4.juego.base;
 
+/** Clase abstracta que representa una carta
+ * @author José Ángel García Fernández
+ * @version 1.0 12/11/2010
+ */
 public abstract class Carta {
 	/**
 	 * Variable privada que representa el palo de la carta
@@ -93,16 +105,15 @@ public abstract class Carta {
 	}
 
 	/**
-	 * Metodo toString para mostrar por pantalla
+	 * Metodo toString para mostrar
 	 * 
-	 * @return devuelve la carta por pantalla mostrando el palo y el numero
+	 * @return devuelve la carta mostrando el palo y el numero
 	 */
 	public String toString() {
 		if (up)
 			return palo + numero;
 		else
 			return "(" + palo + numero + ")";
-
 	}
 
 	/**

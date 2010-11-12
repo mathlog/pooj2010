@@ -8,6 +8,7 @@
 //
 package opoo.practica4.juego.base;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import opoo.excepciones.AllPlayersPlantadosException;
@@ -146,6 +147,8 @@ public abstract class Juego {
 	 *            el limite de puntos de la partida
 	 * @param bar
 	 *            la baraja con la que se juega
+	 * @param nCFirstMano
+	 *            el numero de cartas del la primera mano
 	 */
 	public Juego(String nombre, Jugador[] jugadores, float lim, Baraja bar,
 			int nCFirstMano) {
@@ -159,7 +162,7 @@ public abstract class Juego {
 	}
 
 	/***
-	 * Metodo que comienza el turno
+	 * Metodo abstracto que comienza el turno
 	 * 
 	 * @return la mano inicial
 	 * @throws NoHayMasCartasException
@@ -168,7 +171,7 @@ public abstract class Juego {
 	public abstract Carta[] empezarTurno() throws NoHayMasCartasException;
 
 	/**
-	 * Metodo que actualiza la mano del jugador
+	 * Metodo abstracto que actualiza la mano del jugador
 	 * 
 	 * @param carta
 	 *            a meter en mano
@@ -222,26 +225,51 @@ public abstract class Juego {
 	/**
 	 * Metodo que finaliza la partida y da el ganador
 	 * 
-	 * @return el ganador o null si no hay
+	 * @return el ganador o ganadores o null si no hay
 	 */
-	public Jugador finalizarPartida() {
+	public Jugador[] finalizarPartida() {
 		finJuego = true;
 		return comprobarVictoria();
 	}
 
 	/**
-	 * Metodo que establece si el jugador actual se ha pasado
+	 * Metodo que establece si el jugador actual ha perdido
 	 * 
 	 * @param actual
 	 *            el jugador actual
 	 * @return true o false en funcion de si se ha pasado o no
 	 */
-	protected boolean pasado(Jugador actual) {
+	protected boolean pierdeJugador(Jugador actual) {
 		if (actual.getPuntuacion() > limite) {
 			actual.setPasado(true);
 			return true;
 		} else
 			return false;
+	}
+
+	/**
+	 * Metodo que comprueba quien es el ganador
+	 * 
+	 * @return el ganador o null si no hay
+	 */
+	protected Jugador[] comprobarVictoria() {
+		float max, aux;
+		max = 0;
+		ArrayList<Jugador> ganadores = new ArrayList<Jugador>();
+		for (int i = 0; i < nJugadores; i++) {
+			aux = jugadores[i].getPuntuacion();
+			if ((aux > max) && (aux <= limite)) {
+				if (aux == max) {
+					ganadores.add(jugadores[i]);
+				} else {
+					ganadores.clear();
+					ganadores.add(jugadores[i]);
+					max = jugadores[i].getPuntuacion();
+				}
+			}
+		}
+		return ganadores.size() == 0 ? null : (Jugador[]) ganadores
+				.toArray(new Jugador[ganadores.size()]);
 	}
 
 	/**
@@ -253,26 +281,7 @@ public abstract class Juego {
 	}
 
 	/**
-	 * Metodo que comprueba quien es el ganador
-	 * 
-	 * @return el ganador o null si no hay
-	 */
-	private Jugador comprobarVictoria() {
-		float max, aux;
-		max = 0;
-		Jugador ganador = null;
-		for (int i = 0; i < nJugadores; i++) {
-			aux = jugadores[i].getPuntuacion();
-			if ((aux > max) && (aux <= limite)) {
-				max = jugadores[i].getPuntuacion();
-				ganador = jugadores[i];
-			}
-		}
-		return ganador;
-	}
-
-	/**
-	 * Metodo toString para mostrar por pantalla
+	 * Metodo toString para mostrar
 	 * 
 	 * @return devuelve un string con las propiedades del juego
 	 */

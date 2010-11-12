@@ -8,11 +8,17 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+/**
+ * Clase base visual para el juego
+ * 
+ * @author José Ángel García Fernández
+ * @version 1.0 12/11/2010
+ */
 public class VentanaVisual extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JpanelJuego jPjuego = null;
 
+	private JpanelJuego jPjuego = null;
 	private JMenuBar jMenuPrincipal = null;
 	private JMenu jMenu = null;
 	private JMenuItem jMIReiniciar = null;
@@ -41,7 +47,7 @@ public class VentanaVisual extends JFrame {
 		this.setTitle("Juego de Cartas");
 		this.setJMenuBar(getJMenuPrincipal());
 		this.setResizable(false);
-		jdialogInfo = new JDialogAcercade(this, "Juego del 7.5 y 21", "1.0",
+		jdialogInfo = new JDialogAcercade(this, "Juego del 7.5 y 21", "1.2",
 				"Jstyl_8", "http://jstyl8.net46.net",
 				"/opoo/practica4/juego/imgs/eldeorrr.jpg");
 	}

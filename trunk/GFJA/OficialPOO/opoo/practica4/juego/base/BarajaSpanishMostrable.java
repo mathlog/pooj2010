@@ -1,11 +1,32 @@
+//
+// Universidad de Almería
+// Ingeniería Técnica de Informática de Sistemas
+// Fuente Java según Plantilla
+//
+// PROYECTO : Practica 4 Juego
+// ASIGNATURA : Programacion Orientada a Objetos
+//
 package opoo.practica4.juego.base;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Clase que extiende de BarajaSpanish e implementa BarajaMostrable
+ * 
+ * @author José Ángel García Fernández
+ * @version 1.1 12/11/2010
+ */
 public class BarajaSpanishMostrable extends BarajaSpanish implements
 		BarajaMostrable {
 
+	/**
+	 * El reverso de la baraja
+	 */
 	private ImageIcon reverso;
+
+	/**
+	 * Imagen que representa cuando no halla ninguna carta en la baraja
+	 */
 	private ImageIcon vacia;
 
 	@Override
@@ -59,6 +80,5 @@ public class BarajaSpanishMostrable extends BarajaSpanish implements
 	@Override
 	public void setVacia(ImageIcon img) {
 		this.vacia = img;
-
 	}
 }

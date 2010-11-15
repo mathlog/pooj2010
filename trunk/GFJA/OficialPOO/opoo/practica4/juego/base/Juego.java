@@ -31,7 +31,7 @@ public abstract class Juego {
 	/**
 	 * Variable que representa el nombre del juego
 	 */
-	private String nombre;
+	protected String nombre;
 
 	/**
 	 * Array que representa los jugadores de la partida

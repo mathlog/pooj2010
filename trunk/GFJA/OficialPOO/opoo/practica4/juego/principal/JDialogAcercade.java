@@ -28,7 +28,7 @@ import javax.swing.JPanel;
  * Clase visual que representa el dialogo que aparece al pulsar Acerda de
  * 
  * @author Jose Angel Garcia Fernandez
- * @version 1.0 26.09.2010
+ * @version 1.1 12.11.2010
  */
 public class JDialogAcercade extends JDialog {
 

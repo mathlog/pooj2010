@@ -10,7 +10,6 @@ package opoo.practica4.juego.base;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import opoo.practica4.juego.base.Carta;
 
 /**
  * Clase que representa a un jugador

@@ -1,5 +1,6 @@
 package opoo.practica4.juego.principal;
 
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
@@ -12,7 +13,7 @@ import javax.swing.JPanel;
  * Clase base visual para el juego
  * 
  * @author José Ángel García Fernández
- * @version 1.0 12/11/2010
+ * @version 1.2 12/11/2010
  */
 public class VentanaVisual extends JFrame {
 
@@ -47,6 +48,10 @@ public class VentanaVisual extends JFrame {
 		this.setTitle("Juego de Cartas");
 		this.setJMenuBar(getJMenuPrincipal());
 		this.setResizable(false);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(
+				getClass().getResource(
+						"/opoo/practica4/juego/imgs/eldeorrr.jpg")));
+
 		jdialogInfo = new JDialogAcercade(this, "Juego del 7.5 y 21", "1.2",
 				"Jstyl_8", "http://jstyl8.net46.net",
 				"/opoo/practica4/juego/imgs/eldeorrr.jpg");

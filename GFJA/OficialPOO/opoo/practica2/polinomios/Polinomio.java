@@ -1,34 +1,31 @@
+//
+// Universidad de Almería
+// Ingeniería Técnica de Informática de Sistemas
+// Fuente Java según Plantilla
+//
+// PRACTICA : Practica 2, Polinomios
+// ASIGNATURA : Programacion Orientada a Objetos
+//
 package opoo.practica2.polinomios;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.ListIterator;
 
-import opoo.excepciones.DistintoGradoException;
+import opoo.excepciones.IncompatibleMonomioException;
 
 /**
- * Clase que representa un monomio
+ * Clase que representa un Polinomio
  * 
  * @author José Ángel García Fernández
  * @version 1.0 22/10/2010
  */
 public class Polinomio {
 
-	private int gradoMax;
-
 	// se guardara como orden de menor a mayor
 	private List<Monomio> terminos;
-
-	/**
-	 * Metodo para obtener la propiedad gradoMax
-	 * 
-	 * @return the gradoMax
-	 */
-	public int getGradoMax() {
-		return gradoMax;
-	}
 
 	/**
 	 * Metodo para obtener la propiedad terminos
@@ -48,7 +45,6 @@ public class Polinomio {
 	public Polinomio(List<Monomio> terminos) {
 		Collections.sort(terminos);
 		this.terminos = terminos;
-		gradoMax = terminos.get(terminos.size() - 1).getGrado();
 	}
 
 	/**
@@ -62,7 +58,14 @@ public class Polinomio {
 		terminos = new ArrayList<Monomio>(coeficientes.length);
 		for (int i = 0; i < coeficientes.length; i++)
 			terminos.add(new Monomio(coeficientes[i], i, 'x'));
-		gradoMax = coeficientes.length - 1;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (Iterator<Monomio> it = terminos.iterator(); it.hasNext();)
+			sb.append(it.next());
+		return sb.toString();
 	}
 
 	/**
@@ -74,6 +77,30 @@ public class Polinomio {
 	public void addMonomio(Monomio otro) {
 		terminos.add(otro);
 		Collections.sort(terminos);
+	}
+
+	/**
+	 * Elimina un monomio del polinomio
+	 * 
+	 * @param otro
+	 *            el monomio a eliminar
+	 * @return true si se ha borrado false si no existe
+	 */
+	public boolean removeMonomio(Monomio otro) {
+		return terminos.remove(otro);
+	}
+
+	/**
+	 * Cambia la variable del polinomio
+	 * 
+	 * @param variable
+	 *            a poner
+	 */
+	public void cambiarVariable(char variable) {
+		ListIterator<Monomio> it = terminos.listIterator();
+		while (it.hasNext()) {
+			it.next().setLiteral(variable);
+		}
 	}
 
 	/**
@@ -92,8 +119,8 @@ public class Polinomio {
 			while (it2.hasNext())
 				try {
 					termSumas.add(aux.sumar(it2.next()));
-					break;// ya ha encontrao comun me salgo
-				} catch (DistintoGradoException e) {
+					break;// ya ha encontrado comun me salgo
+				} catch (IncompatibleMonomioException e) {
 					if (!it2.hasNext())// si no hay comunes lo mete direc
 						termSumas.add(aux);
 				}
@@ -110,7 +137,6 @@ public class Polinomio {
 	 * @return this-otro
 	 */
 	public Polinomio restar(Polinomio otro) {
-
 		ArrayList<Monomio> termRestas = new ArrayList<Monomio>();
 		Iterator<Monomio> it = terminos.iterator();
 		Iterator<Monomio> it2 = otro.terminos.iterator();
@@ -120,7 +146,7 @@ public class Polinomio {
 				try {
 					termRestas.add(aux.restar(it2.next()));
 					break;// ya ha encontrao comun me salgo
-				} catch (DistintoGradoException e) {
+				} catch (IncompatibleMonomioException e) {
 					if (!it2.hasNext())// si no hay comunes lo mete direc
 						termRestas.add(aux);
 				}
@@ -158,39 +184,30 @@ public class Polinomio {
 	 */
 	@SuppressWarnings("unchecked")
 	private void juntarComunes(ArrayList<Monomio> terms) {
-
 		ArrayList<Monomio> auxTerms = (ArrayList<Monomio>) terms.clone();
-		ArrayList<Integer> grados = new ArrayList<Integer>();
-		terms.clear();// limpio terms, metere los buenos
-		int gradoAux;
-		double coefiAux;
-		Iterator<Monomio> it;
-		Monomio aux, aux2;
-		it = auxTerms.iterator();
-		aux = it.next();
-		while (true) {// siempre itera hasta que lanza excepcion
-			gradoAux = aux.getGrado();
-			if (!grados.contains(gradoAux)) {// si no ha sido estudiado ya
-				grados.add(gradoAux);// marco grado
-				coefiAux = aux.getCoeficiente();
-				while (it.hasNext()) {
-					aux2 = it.next();
-					if (aux2.getGrado() == gradoAux)// añado coeficientes
-						coefiAux += aux2.getCoeficiente();
-				}
-				it = auxTerms.iterator();// añado monomio
-				terms.add(new Monomio(coefiAux, gradoAux, aux.getLiteral()));
-			} else {// si lo ha sido busco uno que no
-				try {
-					aux = it.next();
-					while (grados.contains(aux.getGrado())) {
-						aux = it.next();
+		terms.clear();// limpio terms, metere los validos
+		Iterator<Monomio> it = auxTerms.iterator();
+		ListIterator<Monomio> it2 = auxTerms.listIterator();
+		Monomio aux, aux2, comunes;
+		while (it.hasNext()) {
+			aux = it.next();
+			comunes = new Monomio(aux);
+			while (it2.hasNext()) {
+				aux2 = it2.next();
+				if ((aux != aux2)) {
+					try {
+						comunes.addSumar(aux2);
+						it2.remove();// delete ya estudiado
+					} catch (IncompatibleMonomioException e) {
+						continue;// continua iterando
 					}
-				} catch (NoSuchElementException e) {// ya han sido estudiados
-													// todos
-					break;
 				}
 			}
+			terms.add(comunes);
+			auxTerms.remove(aux);// del ya estudiado
+			// reseteo iteradores
+			it = auxTerms.iterator();
+			it2 = auxTerms.listIterator();
 		}
 	}
 
@@ -259,13 +276,5 @@ public class Polinomio {
 	 */
 	public static Polinomio multEsc(Polinomio a, double escalar) {
 		return a.multEsc(escalar);
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		for (Iterator<Monomio> it = terminos.iterator(); it.hasNext();)
-			sb.append(it.next());
-		return sb.toString();
 	}
 }

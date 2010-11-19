@@ -11,6 +11,7 @@ package opoo.practica4.juego.principal;
 import java.awt.Rectangle;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,7 +28,6 @@ import opoo.practica4.juego.base.Juego;
 import opoo.practica4.juego.base.Jugador;
 import opoo.practica4.juego.sieteymedio.SieteyMedioVisual;
 import opoo.practica4.juego.veintiuno.VeintiunoVisual;
-import javax.swing.JCheckBox;
 
 /**
  * Clase visual para la pantalla de juego

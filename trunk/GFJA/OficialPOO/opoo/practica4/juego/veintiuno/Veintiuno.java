@@ -60,10 +60,10 @@ public class Veintiuno extends Juego {
 				else
 					actual.recibirCarta(new CartaFrancesa(francesa.getPalo(),
 							francesa.getNumero(), 11));
-				return pierdeJugador(actual);
+				return comprobarPierdeJugador(actual);
 			} else {
 				actual.recibirCarta(carta);
-				return pierdeJugador(actual);
+				return comprobarPierdeJugador(actual);
 			}
 		}
 		return true;

@@ -53,7 +53,7 @@ public class SieteyMedio extends Juego {
 		Jugador actual = jugadores[jugadorActual];
 		if (!actual.isPasado()) {
 			actual.recibirCarta(carta);
-			return pierdeJugador(actual);
+			return comprobarPierdeJugador(actual);
 		}
 		return true;
 	}

@@ -6,16 +6,15 @@
 // PROYECTO : Juego del Siete y medio
 // ASIGNATURA : Programacion Orientada a Objetos
 //
-package opoo.practica4.juego.base;
+package opoo.practica5.juego;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Random;
 
 /**
  * Clase que representa a un jugador
  * 
- * @author Jose Angel Garcia Fernandez
- * @version 1.2 12.11.2010
+ * @author José Ángel García Fernández
+ * @version 1.0 03/12/2010
  */
 public class Jugador {
 
@@ -25,9 +24,14 @@ public class Jugador {
 	private float puntuacion;
 
 	/**
+	 * Variable que representa el tipo de respuesta
+	 */
+	private tipoRespuesta respuesta;
+
+	/**
 	 * Arraylist con las cartas del jugador en la mano
 	 */
-	private ArrayList<Carta> mano;
+	// private ArrayList<Carta> mano;
 
 	/**
 	 * Cadena de caracteres que representa el nombre del jugador
@@ -35,14 +39,14 @@ public class Jugador {
 	private String nombre;
 
 	/**
-	 * Variable que indica si el jugador se ha plantado
+	 * Variable que indica si el jugador esta eliminado
 	 */
-	private boolean plantado;
+	private boolean eliminado;
 
 	/**
-	 * Variable que indica si el jugador se ha pasado
+	 * Variable que indica si el jugador es humano
 	 */
-	private boolean pasado;
+	private boolean humano;
 
 	/**
 	 * Inicializa un jugador con parametro su nombre
@@ -50,12 +54,12 @@ public class Jugador {
 	 * @param nombre
 	 *            cadena de caracteres que representa el nombre del jugador
 	 */
-	public Jugador(String nombre) {
+	public Jugador(String nombre, boolean humano) {
 		this.nombre = nombre;
+		this.humano = humano;
 		puntuacion = 0;
-		mano = new ArrayList<Carta>();
-		plantado = false;
-		pasado = false;
+		// mano = new ArrayList<Carta>();
+		eliminado = false;
 	}
 
 	/**
@@ -81,9 +85,9 @@ public class Jugador {
 	 * 
 	 * @return la propiedad mano
 	 */
-	public ArrayList<Carta> getMano() {
-		return mano;
-	}
+	/*
+	 * public ArrayList<Carta> getMano() { return mano; }
+	 */
 
 	/**
 	 * Metodo para obtener la propiedad plantado
@@ -91,7 +95,7 @@ public class Jugador {
 	 * @return la propiedad plantado
 	 */
 	public boolean isPlantado() {
-		return plantado;
+		return eliminado;
 	}
 
 	/**
@@ -101,26 +105,45 @@ public class Jugador {
 	 *            el plantado a poner
 	 */
 	public void setPlantado(boolean plantado) {
-		this.plantado = plantado;
+		this.eliminado = plantado;
 	}
 
 	/**
-	 * Metodo para obtener la propiedad pasado
+	 * Metodo para obtener la propiedad humano
 	 * 
-	 * @return la propiedad pasado
+	 * @return si es humano o no
 	 */
-	public boolean isPasado() {
-		return pasado;
+	public boolean isHumano() {
+		return humano;
 	}
 
 	/**
-	 * Metodo modificador de la propiedad pasado
+	 * Metodo para modificar la propiedad respuesta
 	 * 
-	 * @param pasado
-	 *            el pasado a poner
+	 * @param respuesta
+	 *            the respuesta to set
 	 */
-	public void setPasado(boolean pasado) {
-		this.pasado = pasado;
+	public void setRespuesta(tipoRespuesta respuesta) {
+		this.respuesta = respuesta;
+	}
+
+	/**
+	 * Metodo para establecer la respuesta aleatoriamente
+	 * 
+	 */
+	public void setRespuesta() {
+		Random r = new Random();
+		int length = tipoRespuesta.values().length;
+		this.respuesta = tipoRespuesta.values()[(r.nextInt()) % length];
+	}
+
+	/**
+	 * Metodo para obtener la propiedad respuesta
+	 * 
+	 * @return the respuesta
+	 */
+	public tipoRespuesta getRespuesta() {
+		return respuesta;
 	}
 
 	/**
@@ -129,57 +152,15 @@ public class Jugador {
 	 * @return devuelve un string con las propiedades del Jugador
 	 */
 	public String toString() {
-		return nombre + " -> " + puntuacion + " : " + mano;
-	}
-
-	/**
-	 * Metodo que permite obtener al jugador una carta
-	 * 
-	 * @param carta
-	 *            que se pide
-	 */
-	public void recibirCarta(Carta carta) {
-		puntuacion += carta.getValor();
-		mano.add(carta);
-	}
-
-	/**
-	 * Metodo que pone boca arriba las cartas de tu mano
-	 */
-	public void cartasUp() {
-		Iterator<Carta> it = mano.iterator();
-		Carta c;
-		while (it.hasNext()) {
-			c = it.next();
-			if (!c.isUp())
-				c.flip();
-		}
-	}
-
-	/**
-	 * Metodo que obtiene las cartas que estan boca arriba
-	 */
-	public ArrayList<Carta> getManoUp() {
-		Iterator<Carta> it = mano.iterator();
-		ArrayList<Carta> aux = new ArrayList<Carta>();
-		Carta c;
-		while (it.hasNext()) {
-			c = it.next();
-			if (c.isUp())
-				aux.add(c);
-		}
-		return aux;
+		return nombre + " -> " + puntuacion;
 	}
 
 	/**
 	 * Metodo que resetea al jugador
 	 */
 	public void resetear() {
-		mano.clear();
 		puntuacion = 0;
-		plantado = false;
-		pasado = false;
-
+		eliminado = false;
 	}
 
 	/**
@@ -191,10 +172,15 @@ public class Jugador {
 	 */
 	public boolean sePlanta(float limite) {
 		if (puntuacion > limite) {
-			plantado = true;
+			eliminado = true;
 			return true;
 		} else
 			return false;
+	}
+
+	public void mostrarMano() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

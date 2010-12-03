@@ -189,12 +189,14 @@ public class Polinomio {
 		Iterator<Monomio> it = auxTerms.iterator();
 		ListIterator<Monomio> it2 = auxTerms.listIterator();
 		Monomio aux, aux2, comunes;
+		// itero comparando cada valor con todos los demas
+		// cada vez que junte un comun lo elimina
 		while (it.hasNext()) {
 			aux = it.next();
-			comunes = new Monomio(aux);
+			comunes = new Monomio(aux);// guardara los valores comunes
 			while (it2.hasNext()) {
 				aux2 = it2.next();
-				if ((aux != aux2)) {
+				if ((aux != aux2)) {// si no es él mismo
 					try {
 						comunes.addSumar(aux2);
 						it2.remove();// delete ya estudiado

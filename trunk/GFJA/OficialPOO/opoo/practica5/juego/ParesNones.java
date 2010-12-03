@@ -14,11 +14,23 @@ package opoo.practica5.juego;
  * @author José Ángel García Fernández
  * @version 1.0 03/12/2010
  */
-public class ParesNones extends Juego {
+public class ParesNones extends JuegoM {
 
-	public ParesNones(String nombre, Jugador[] jugadores, int nMAXrondas) {
+	public ParesNones(String nombre, JugadorM[] jugadores, int nMAXrondas) {
 		super(nombre, jugadores, nMAXrondas);
 		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void actualizarJugadores(Respuesta resp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void calcularResultados() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

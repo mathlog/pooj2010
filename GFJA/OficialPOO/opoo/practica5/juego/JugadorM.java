@@ -3,12 +3,10 @@
 // Ingeniería Técnica de Informática de Sistemas
 // Fuente Java según Plantilla
 //
-// PROYECTO : Juego del Siete y medio
+// PROYECTO : Practica 5, Juego
 // ASIGNATURA : Programacion Orientada a Objetos
 //
 package opoo.practica5.juego;
-
-import java.util.Random;
 
 /**
  * Clase que representa a un jugador
@@ -16,7 +14,7 @@ import java.util.Random;
  * @author José Ángel García Fernández
  * @version 1.0 03/12/2010
  */
-public class Jugador {
+public class JugadorM {
 
 	/**
 	 * Variable que representa la puntuacion del jugador
@@ -26,13 +24,12 @@ public class Jugador {
 	/**
 	 * Variable que representa el tipo de respuesta
 	 */
-	private tipoRespuesta respuesta;
+	private Respuesta respuesta;
 
 	/**
 	 * Arraylist con las cartas del jugador en la mano
 	 */
 	// private ArrayList<Carta> mano;
-
 	/**
 	 * Cadena de caracteres que representa el nombre del jugador
 	 */
@@ -42,6 +39,11 @@ public class Jugador {
 	 * Variable que indica si el jugador esta eliminado
 	 */
 	private boolean eliminado;
+
+	/**
+	 * Variable que indica si el jugador esta deshabilitado
+	 */
+	private boolean deshabilitado;
 
 	/**
 	 * Variable que indica si el jugador es humano
@@ -54,12 +56,12 @@ public class Jugador {
 	 * @param nombre
 	 *            cadena de caracteres que representa el nombre del jugador
 	 */
-	public Jugador(String nombre, boolean humano) {
+	public JugadorM(String nombre, boolean humano) {
 		this.nombre = nombre;
 		this.humano = humano;
 		puntuacion = 0;
-		// mano = new ArrayList<Carta>();
 		eliminado = false;
+		deshabilitado = false;
 	}
 
 	/**
@@ -123,18 +125,8 @@ public class Jugador {
 	 * @param respuesta
 	 *            the respuesta to set
 	 */
-	public void setRespuesta(tipoRespuesta respuesta) {
+	public void setRespuesta(Respuesta respuesta) {
 		this.respuesta = respuesta;
-	}
-
-	/**
-	 * Metodo para establecer la respuesta aleatoriamente
-	 * 
-	 */
-	public void setRespuesta() {
-		Random r = new Random();
-		int length = tipoRespuesta.values().length;
-		this.respuesta = tipoRespuesta.values()[(r.nextInt()) % length];
 	}
 
 	/**
@@ -142,17 +134,33 @@ public class Jugador {
 	 * 
 	 * @return the respuesta
 	 */
-	public tipoRespuesta getRespuesta() {
+	public Respuesta getRespuesta() {
 		return respuesta;
 	}
 
+	public boolean isEliminado() {
+		return eliminado;
+	}
+
+	public void setEliminado(boolean eliminado) {
+		this.eliminado = eliminado;
+	}
+
+	public boolean isDeshabilitado() {
+		return deshabilitado;
+	}
+
+	public void setDeshabilitado(boolean deshabilitado) {
+		this.deshabilitado = deshabilitado;
+	}
+
 	/**
-	 * Metodo toString para mostrar por pantalla
+	 * Metodo toString para mostrar
 	 * 
-	 * @return devuelve un string con las propiedades del Jugador
+	 * @return devuelve un string con las propiedades del JugadorM
 	 */
 	public String toString() {
-		return nombre + " -> " + puntuacion;
+		return nombre + " Respuesta->" + respuesta + " Eliminado: " + eliminado;
 	}
 
 	/**
@@ -180,7 +188,6 @@ public class Jugador {
 
 	public void mostrarMano() {
 		// TODO Auto-generated method stub
-
 	}
 
 }

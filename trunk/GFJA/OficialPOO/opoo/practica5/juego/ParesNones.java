@@ -33,4 +33,16 @@ public class ParesNones extends JuegoM {
 		
 	}
 
+	@Override
+	protected JugadorM[] calcularGanadores() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public JugadorM[] finalizarRonda() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

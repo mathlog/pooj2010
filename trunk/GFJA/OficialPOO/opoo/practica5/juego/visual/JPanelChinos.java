@@ -8,6 +8,7 @@
 //
 package opoo.practica5.juego.visual;
 
+import java.awt.Dimension;
 import java.awt.Rectangle;
 
 import javax.swing.ButtonGroup;
@@ -21,23 +22,27 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import opoo.excepciones.AllRondasCompleteException;
-import opoo.excepciones.PlayerGanadorException;
+import opoo.practica5.juego.Chinos;
 import opoo.practica5.juego.JuegoM;
 import opoo.practica5.juego.JugadorM;
 import opoo.practica5.juego.Respuesta;
-import opoo.practica5.juego.tipoPPT;
-import java.awt.Dimension;
+import opoo.practica5.juego.tipoChinos;
 
 /**
- * Clase visual para la pantalla del juego de piedra papel tijera
+ * Clase visual para la pantalla del juego de los chinos
  * 
  * @author Jose Angel Garcia Fernandez
- * @version 1.0 04.1".2010
+ * @version 1.0 04.12.2010
  */
-public class JPanelPPT extends JPanel {
+public class JPanelChinos extends JPanel {
 
 	private JuegoM juego;
-	private Respuesta respuesta = tipoPPT.PIEDRA;
+
+	public void setJuego(JuegoM juego) {
+		this.juego = juego;
+	}
+
+	private Respuesta respuesta = tipoChinos.UNA; // @jve:decl-index=0:
 	private static final long serialVersionUID = 1L;
 	private JLabel jLmostrar = null;
 	private JLabel jLelige = null;
@@ -53,15 +58,18 @@ public class JPanelPPT extends JPanel {
 	private JTextField jTFrondaActual = null;
 	private JTextField jTFhastaLimRonda = null;
 	private JButton jBjugar = null;
-	private JRadioButton jRBTijera = null;
-	private JRadioButton jRBPiedra = null;
-	private JRadioButton jRBPapel = null;
+	private JRadioButton jRBcero = null;
+	private JRadioButton jRBuna = null;
+	private JRadioButton jRBdos = null;
+	private JRadioButton jRBtres = null;
 	private ButtonGroup group = null; // @jve:decl-index=0:
+	private JTextField jTFnCoins = null;
+	private JLabel jLnCoins = null;
 
 	/**
 	 * This is the default constructor
 	 */
-	public JPanelPPT(JuegoM juego) {
+	public JPanelChinos(JuegoM juego) {
 		super();
 		this.juego = juego;
 		initialize();
@@ -74,6 +82,9 @@ public class JPanelPPT extends JPanel {
 	 */
 	private void initialize() {
 
+		jLnCoins = new JLabel();
+		jLnCoins.setBounds(new Rectangle(146, 8, 73, 16));
+		jLnCoins.setText("¿nMonedas?");
 		jLtuMano = new JLabel();
 		jLtuMano.setBounds(new Rectangle(27, 130, 55, 14));
 		jLtuMano.setText("Tu mano:");
@@ -87,11 +98,11 @@ public class JPanelPPT extends JPanel {
 		jLinf.setBounds(new Rectangle(14, 75, 160, 14));
 		jLinf.setText("Información sobre jugador:");
 		jLresult = new JLabel();
-		jLresult.setBounds(new Rectangle(200, 8, 74, 15));
+		jLresult.setBounds(new Rectangle(240, 8, 74, 15));
 		jLresult.setText("Resultados:");
 		jLelige = new JLabel();
-		jLelige.setBounds(new Rectangle(13, 8, 34, 14));
-		jLelige.setText("Elige:");
+		jLelige.setBounds(new Rectangle(13, 8, 110, 14));
+		jLelige.setText("Elige tus monedas:");
 		jLmostrar = new JLabel();
 		jLmostrar.setBounds(new Rectangle(13, 49, 96, 14));
 		jLmostrar.setText("Mostrar manos:");
@@ -114,9 +125,13 @@ public class JPanelPPT extends JPanel {
 		this.add(getJTFhastaLimRonda(), null);
 
 		this.add(getJBjugar(), null);
-		this.add(getJRBTijera(), null);
-		this.add(getJRBPiedra(), null);
-		this.add(getJRBPapel(), null);
+		this.add(getJRBcero(), null);
+		this.add(getJRBuna(), null);
+		this.add(getJRBdos(), null);
+		this.add(getJRBtres(), null);
+		this.add(getJTFnCoins(), null);
+		this.add(jLnCoins, null);
+
 		getBgroup();
 		jBjugar.requestFocus();
 	}
@@ -199,10 +214,10 @@ public class JPanelPPT extends JPanel {
 	private ButtonGroup getBgroup() {
 		if (group == null) {
 			group = new ButtonGroup();
-			group.add(getJRBTijera());
-			group.add(getJRBPiedra());
-			group.add(getJRBPapel());
-
+			group.add(getJRBcero());
+			group.add(getJRBuna());
+			group.add(getJRBdos());
+			group.add(getJRBtres());
 		}
 		return group;
 	}
@@ -220,6 +235,14 @@ public class JPanelPPT extends JPanel {
 			jBjugar.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					operacionesJugar();
+					// -poner valores a jugadores (monedas y total)
+					// -pal jugador humano la k ha sacao
+					// -pal resto aleatorios
+					// despues de haber calculao
+					// mostrar la jugada de cada uno
+					// y decir kien se keda fuera y kien no
+					// despues seguir con las siguientes rondas
+					// hasta k solo kede 1
 				}
 
 			});
@@ -233,41 +256,45 @@ public class JPanelPPT extends JPanel {
 	}
 
 	/**
+	 * Metodo que pasa el numero de monedas a la respuesta
+	 */
+	private boolean nMonedasToResp() {
+		String coins = jTFnCoins.getText();
+		if (coins.equals("") || (coins == null)) {
+			JOptionPane.showMessageDialog(this,
+					"Introduce numero de monedas en el cuadro de texto",
+					"¡FALTAN DATOS!", JOptionPane.ERROR_MESSAGE);
+			return false;
+		} else {
+			int nMonedas = Integer.parseInt(jTFnCoins.getText());
+			tipoChinos aux = (tipoChinos) respuesta;
+			aux.setNMonedas(nMonedas);
+			return true;
+		}
+	}
+
+	/**
 	 * Metodo que realiza las operaciones de jugar
 	 */
 	private void operacionesJugar() {
+		if (!nMonedasToResp())
+			return;
 		juego.actualizarJugadores(respuesta);
 		JugadorM[] ganadores;
 		try {
-			int before = juego.getNJugadoresActivos();
 			ganadores = juego.finalizarRonda();
 			if (ganadores == null) {
 				mostrarEmpateRonda();
-				escribirRonda();
-			} else if (ganadores.length == before) {
-				mostrarEmpateRonda();
-				escribirRonda();
-			} else if (ganadores.length == 1) {
-				escribirRonda();
-				FINhayGanador(ganadores[0]);
 			} else {
-				mostrarGanadoresRonda(ganadores);
+				mostrarGanadorRonda(ganadores);
 				juego.nextRonda();
-				escribirRonda();
 			}
 		} catch (AllRondasCompleteException e1) {
 			FINtotalRondasAlcanzadas();
-			escribirRonda();
 		}
+		escribirRonda();
 		jBjugar.requestFocus();
-		// -poner valores a jugadores
-		// -pal jugador humano la k ha sacao
-		// -pal resto aleatorios
-		// -despues de haber calculao
-		// -mostrar la jugada de cada uno
-		// -y decir kien se keda fuera y kien no
-		// -despues seguir con las siguientes rondas
-		// -hasta k solo kede 1
+
 	}
 
 	/**
@@ -286,61 +313,80 @@ public class JPanelPPT extends JPanel {
 	}
 
 	/**
-	 * This method initializes jRBTijera
+	 * This method initializes jRBcero
 	 * 
 	 * @return javax.swing.JRadioButton
 	 */
-	private JRadioButton getJRBTijera() {
-		if (jRBTijera == null) {
-			jRBTijera = new JRadioButton();
-			jRBTijera.setBounds(new Rectangle(131, 25, 60, 21));
-			jRBTijera.setText("Tijera");
-			jRBTijera.addActionListener(new java.awt.event.ActionListener() {
+	private JRadioButton getJRBcero() {
+		if (jRBcero == null) {
+			jRBcero = new JRadioButton();
+			jRBcero.setBounds(new Rectangle(13, 25, 34, 21));
+			jRBcero.setText("0");
+			jRBcero.setSelected(true);
+			jRBcero.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					respuesta = tipoPPT.TIJERA;
+					respuesta = tipoChinos.CERO;
 				}
 			});
 		}
-		return jRBTijera;
+		return jRBcero;
 	}
 
 	/**
-	 * This method initializes jRBPiedra
+	 * This method initializes jRBuna
 	 * 
 	 * @return javax.swing.JRadioButton
 	 */
-	private JRadioButton getJRBPiedra() {
-		if (jRBPiedra == null) {
-			jRBPiedra = new JRadioButton();
-			jRBPiedra.setBounds(new Rectangle(13, 25, 64, 21));
-			jRBPiedra.setText("Piedra");
-			jRBPiedra.setSelected(true);
-			jRBPiedra.addActionListener(new java.awt.event.ActionListener() {
+	private JRadioButton getJRBuna() {
+		if (jRBuna == null) {
+			jRBuna = new JRadioButton();
+			jRBuna.setBounds(new Rectangle(43, 25, 34, 21));
+			jRBuna.setText("1");
+			jRBuna.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					respuesta = tipoPPT.PIEDRA;
+					respuesta = tipoChinos.UNA;
 				}
 			});
 		}
-		return jRBPiedra;
+		return jRBuna;
 	}
 
 	/**
-	 * This method initializes jRBPapel
+	 * This method initializes jRBdos
 	 * 
 	 * @return javax.swing.JRadioButton
 	 */
-	private JRadioButton getJRBPapel() {
-		if (jRBPapel == null) {
-			jRBPapel = new JRadioButton();
-			jRBPapel.setBounds(new Rectangle(75, 25, 57, 21));
-			jRBPapel.setText("Papel");
-			jRBPapel.addActionListener(new java.awt.event.ActionListener() {
+	private JRadioButton getJRBdos() {
+		if (jRBdos == null) {
+			jRBdos = new JRadioButton();
+			jRBdos.setBounds(new Rectangle(73, 25, 34, 21));
+			jRBdos.setText("2");
+			jRBdos.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					respuesta = tipoPPT.PAPEL;
+					respuesta = tipoChinos.DOS;
 				}
 			});
 		}
-		return jRBPapel;
+		return jRBdos;
+	}
+
+	/**
+	 * This method initializes jRBtres
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getJRBtres() {
+		if (jRBtres == null) {
+			jRBtres = new JRadioButton();
+			jRBtres.setBounds(new Rectangle(103, 25, 34, 21));
+			jRBtres.setText("3");
+			jRBtres.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					respuesta = tipoChinos.TRES;
+				}
+			});
+		}
+		return jRBtres;
 	}
 
 	/**
@@ -361,17 +407,19 @@ public class JPanelPPT extends JPanel {
 	 * Escribe los datos de la ronda en los jTA
 	 */
 	private void escribirRonda() {
-		StringBuilder sb = new StringBuilder("Ronda:" + juego.getNRonda()
+		Chinos chinos = (Chinos) juego;
+		StringBuilder sb = new StringBuilder("Ronda:" + chinos.getNRonda()
 				+ "\n");
-		for (JugadorM a : juego.getJugadores()) {
+		sb.append("Total Monedas:" + chinos.getTotalMonedas() + "\n");
+		for (JugadorM a : chinos.getJugadores()) {
 			sb.append(a + "\n");
 			if (a.isHumano())
-				jTAtuScores.setText(jTAtuScores.getText() + "Ronda "
-						+ juego.getNRonda() + ": " + a.getRespuesta() + "\n");
+				jTAtuScores.setText(jTAtuScores.getText() + chinos.getNRonda()
+						+ ": " + a.getRespuesta() + "\n");
 
 		}
 		jTAresult.setText(jTAresult.getText() + sb.toString() + "\n");
-		jTFrondaActual.setText(String.valueOf(juego.getNRonda()));
+		jTFrondaActual.setText(String.valueOf(chinos.getNRonda()));
 	}
 
 	/**
@@ -407,11 +455,11 @@ public class JPanelPPT extends JPanel {
 	 * @param ganadores
 	 *            los ganadores
 	 */
-	private void mostrarGanadoresRonda(JugadorM[] ganadores) {
+	private void mostrarGanadorRonda(JugadorM[] ganadores) {
 		StringBuilder strWins = new StringBuilder();
 		for (JugadorM a : ganadores)
 			strWins.append("\t" + a + "\n");
-		JOptionPane.showMessageDialog(this, "Siguen jugando:\n" + strWins,
+		JOptionPane.showMessageDialog(this, "Ha ganado:\n" + strWins,
 				"Ronda acabada", JOptionPane.INFORMATION_MESSAGE);
 	}
 
@@ -419,8 +467,10 @@ public class JPanelPPT extends JPanel {
 	 * Muestra que ha habido un empate
 	 */
 	private void mostrarEmpateRonda() {
+		Chinos chinos = (Chinos) juego;
 		JOptionPane.showMessageDialog(this, "Se repite la ronda "
-				+ juego.getNRonda(), "Ronda empatada",
+				+ chinos.getNRonda() + " por que nadie acerto el total de "
+				+ chinos.getTotalMonedas() + " monedas", "Ronda empatada",
 				JOptionPane.INFORMATION_MESSAGE);
 
 	}
@@ -437,8 +487,17 @@ public class JPanelPPT extends JPanel {
 
 	}
 
-	public void setJuego(JuegoM juego) {
-		this.juego = juego;
-
+	/**
+	 * This method initializes jTFnCoins
+	 * 
+	 * @return javax.swing.JTextField
+	 */
+	private JTextField getJTFnCoins() {
+		if (jTFnCoins == null) {
+			jTFnCoins = new JTextField();
+			jTFnCoins.setBounds(new Rectangle(170, 25, 26, 20));
+		}
+		return jTFnCoins;
 	}
+
 } // @jve:decl-index=0:visual-constraint="10,12"

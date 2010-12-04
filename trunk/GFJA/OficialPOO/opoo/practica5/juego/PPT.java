@@ -9,7 +9,6 @@
 package opoo.practica5.juego;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Clase que representa el juego de piedra, papel, tijera, descendiendo de Juego
@@ -29,32 +28,50 @@ public class PPT extends JuegoM {
 		for (JugadorM a : jugadores) {
 			if (a.isHumano())
 				a.setRespuesta(resp);
-			else {
-				switch ((tipoPPT) resp.rand()) {
-				case PIEDRA:
-					a.setRespuesta(tipoPPT.PIEDRA);
-					break;
-				case PAPEL:
-					a.setRespuesta(tipoPPT.PAPEL);
-					break;
-				case TIJERA:
-					a.setRespuesta(tipoPPT.TIJERA);
-					break;
-				}
-			}
+			else
+				a.setRespuesta(resp.rand());
 		}
+	}
+
+	@Override
+	protected JugadorM[] calcularGanadores() {
+		calcularResultados();
+		ArrayList<JugadorM> ganadores = new ArrayList<JugadorM>();
+		for (JugadorM a : jugadores)
+			if (!a.isDeshabilitado() && !a.isMarcado())
+				ganadores.add(a);
+		if (ganadores.size() == 0) {
+			habilitarJugadores();
+			return null;
+		} else {
+			marcarDeshabilitados();
+			return (JugadorM[]) ganadores
+					.toArray(new JugadorM[ganadores.size()]);
+		}
+	}
+
+	@Override
+	public JugadorM[] finalizarRonda() {
+		JugadorM[] ganadores = calcularGanadores();
+		if (ganadores == null)
+			return null;
+		else if (ganadores.length == 1) {
+			finJuego = true;
+			return ganadores;
+		} else
+			return ganadores;
 	}
 
 	@Override
 	protected void calcularResultados() {
 		for (JugadorM a : jugadores) {
-			if (a.isDeshabilitado() || a.isEliminado())
+			if (a.isMarcado())
 				continue;
 			tipoPPT respA = (tipoPPT) a.getRespuesta();
 			for (JugadorM b : jugadores) {
-				if (b.isDeshabilitado() || b.isEliminado())
+				if (b.isMarcado() || (b == a))
 					continue;
-				tipoPPT respB = (tipoPPT) a.getRespuesta();
+				tipoPPT respB = (tipoPPT) b.getRespuesta();
 				switch (respA) {
 				case PIEDRA:
 					if (respB == tipoPPT.PAPEL)

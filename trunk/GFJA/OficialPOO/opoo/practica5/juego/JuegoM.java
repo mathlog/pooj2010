@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import opoo.excepciones.AllRondasCompleteException;
 import opoo.excepciones.PlayerGanadorException;
 
-
 /*
  * El juego como es, te sientas y tu eliges a lo k kieres jugar y el numero de jugadores,
  *  y tu das solo tu eleccion y la makina genera aleatorios pal resto jugadores
@@ -36,6 +35,8 @@ public abstract class JuegoM {
 	 * Array que representa los jugadores de la partida
 	 */
 	protected JugadorM[] jugadores;
+
+	
 
 	/**
 	 * Variable que representa el numero de jugadores de la partida
@@ -71,6 +72,10 @@ public abstract class JuegoM {
 		return jugadores;
 	}
 
+	public void setJugadores(JugadorM[] jugadores) {
+		this.jugadores = jugadores;
+	}
+	
 	/**
 	 * Metodo para obtener la propiedad nJugadores
 	 * 
@@ -118,7 +123,6 @@ public abstract class JuegoM {
 		this.nombre = nombre;
 		this.jugadores = jugadores;
 		this.nMAXrondas = nMAXrondas;
-		nJugadores = jugadores.length;
 		empezarPartida();
 	}
 
@@ -144,11 +148,12 @@ public abstract class JuegoM {
 	 */
 	protected abstract void calcularResultados();
 
-	public void mostrarManos() {
-		for (int i = 0; i < nJugadores; i++) {
-			jugadores[i].mostrarMano();
-		}
-	}
+	/**
+	 * Metodo que calcula los ganadores de cada ronda
+	 * 
+	 * @return los ganadores o null si no hay
+	 */
+	protected abstract JugadorM[] calcularGanadores();
 
 	/**
 	 * Método que pasa a la siguiente ronda
@@ -158,9 +163,10 @@ public abstract class JuegoM {
 	 */
 	public void nextRonda() throws AllRondasCompleteException {
 		nRonda++;
-		if (nRonda == nMAXrondas)
+		if (nRonda == nMAXrondas) {
+			finJuego = true;
 			throw new AllRondasCompleteException("Maximo de rondas alcanzado");
-
+		}
 	}
 
 	/**
@@ -169,27 +175,16 @@ public abstract class JuegoM {
 	public void empezarPartida() {
 		finJuego = false;
 		nRonda = 0;
+		nJugadores = jugadores.length;
 		resetearJugadores();
 	}
 
 	/**
-	 * Metodo que finaliza la partida y da el ganador
+	 * Metodo que finaliza la ronda y da los ganadores si los hay
 	 * 
 	 * @return el ganador o ganadores o null si no hay
-	 * @throws AllRondasCompleteException
-	 *             si se han acabado las rondas
-	 * @throws PlayerGanadorException
 	 */
-	public JugadorM[] finalizarRonda() throws AllRondasCompleteException,
-			PlayerGanadorException {
-		nextRonda();
-		JugadorM[] ganadores = calcularGanadores();
-		if (ganadores.length == 1) {
-			finJuego = true;
-			throw new PlayerGanadorException("Hay ganador", ganadores[0]);
-		} else
-			return ganadores;
-	}
+	public abstract JugadorM[] finalizarRonda();
 
 	/**
 	 * Metodo que comprueba si el jugador actual ha perdido
@@ -227,39 +222,18 @@ public abstract class JuegoM {
 	/**
 	 * Habilita a los jugadores
 	 */
-	private void habilitarJugadores() {
+	protected void habilitarJugadores() {
 		for (JugadorM a : jugadores)
 			a.setDeshabilitado(false);
 	}
 
 	/**
-	 * Elimina los jugadores deshabilitados
+	 * Marca los jugadores deshabilitados
 	 */
-	private void eliminarDeshabilitados() {
+	protected void marcarDeshabilitados() {
 		for (JugadorM a : jugadores)
 			if (a.isDeshabilitado())
-				a.setEliminado(true);
-	}
-
-	/**
-	 * Metodo que calcula los ganadores de cada ronda
-	 * 
-	 * @return los ganadores o null si no hay
-	 */
-	private JugadorM[] calcularGanadores() {
-
-		calcularResultados();
-		ArrayList<JugadorM> ganadores = new ArrayList<JugadorM>();
-		for (JugadorM a : jugadores)
-			if (!a.isDeshabilitado())
-				ganadores.add(a);
-		if (ganadores.size() == 0) {
-			habilitarJugadores();
-			return null;
-		} else {
-			eliminarDeshabilitados();
-			return (JugadorM[]) ganadores.toArray(new JugadorM[ganadores.size()]);
-		}
+				a.setMarcado(true);
 	}
 
 	/**
@@ -276,6 +250,19 @@ public abstract class JuegoM {
 			sb.append(jugadores[i]);
 		}
 		return sb.toString();
+	}
+
+	/**
+	 * Metodo que devuelve el numero de jugadores activos
+	 * 
+	 * @return el numero de jugadores no eliminados
+	 */
+	public int getNJugadoresActivos() {
+		int activos = 0;
+		for (JugadorM a : jugadores)
+			if (!a.isMarcado())
+				activos++;
+		return activos;
 	}
 
 }

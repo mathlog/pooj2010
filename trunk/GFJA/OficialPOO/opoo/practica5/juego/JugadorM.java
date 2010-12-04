@@ -36,9 +36,9 @@ public class JugadorM {
 	private String nombre;
 
 	/**
-	 * Variable que indica si el jugador esta eliminado
+	 * Variable que indica si el jugador esta marcado
 	 */
-	private boolean eliminado;
+	private boolean marcado;
 
 	/**
 	 * Variable que indica si el jugador esta deshabilitado
@@ -60,7 +60,7 @@ public class JugadorM {
 		this.nombre = nombre;
 		this.humano = humano;
 		puntuacion = 0;
-		eliminado = false;
+		marcado = false;
 		deshabilitado = false;
 	}
 
@@ -97,7 +97,7 @@ public class JugadorM {
 	 * @return la propiedad plantado
 	 */
 	public boolean isPlantado() {
-		return eliminado;
+		return marcado;
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class JugadorM {
 	 *            el plantado a poner
 	 */
 	public void setPlantado(boolean plantado) {
-		this.eliminado = plantado;
+		this.marcado = plantado;
 	}
 
 	/**
@@ -138,12 +138,12 @@ public class JugadorM {
 		return respuesta;
 	}
 
-	public boolean isEliminado() {
-		return eliminado;
+	public boolean isMarcado() {
+		return marcado;
 	}
 
-	public void setEliminado(boolean eliminado) {
-		this.eliminado = eliminado;
+	public void setMarcado(boolean marcado) {
+		this.marcado = marcado;
 	}
 
 	public boolean isDeshabilitado() {
@@ -160,7 +160,13 @@ public class JugadorM {
 	 * @return devuelve un string con las propiedades del JugadorM
 	 */
 	public String toString() {
-		return nombre + " Respuesta->" + respuesta + " Eliminado: " + eliminado;
+		if (marcado)
+			if (humano)
+				return nombre + "->reinicia";
+			else
+				return nombre + "->" + respuesta + ": ELIMINADO";
+		else
+			return nombre + "->" + respuesta;
 	}
 
 	/**
@@ -168,22 +174,8 @@ public class JugadorM {
 	 */
 	public void resetear() {
 		puntuacion = 0;
-		eliminado = false;
-	}
-
-	/**
-	 * Metodo para saber si el jugador se planta
-	 * 
-	 * @param limite
-	 *            el limite de puntuacion
-	 * @return si se planta o no
-	 */
-	public boolean sePlanta(float limite) {
-		if (puntuacion > limite) {
-			eliminado = true;
-			return true;
-		} else
-			return false;
+		marcado = false;
+		deshabilitado = false;
 	}
 
 	public void mostrarMano() {

@@ -17,6 +17,7 @@ public enum tipoPPT implements Respuesta {
 
 	public Respuesta rand() {
 		Random r = new Random();
-		return getEnum((r.nextInt(length())));
+		tipoPPT aux=(tipoPPT) getEnum((r.nextInt(length())));
+		return aux;
 	}
 }

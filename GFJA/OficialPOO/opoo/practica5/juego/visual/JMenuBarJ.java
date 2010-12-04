@@ -1,16 +1,21 @@
 package opoo.practica5.juego.visual;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 
 public class JMenuBarJ extends JMenuBar {
 
 	private JFrame jOwner = null;
 	private JMenu jMenu = null;
+	private JMenuItem jMIReiniciar = null;
+	private JMenuItem jMICambiarJugadores = null;
+	private JMenuItem jMICambiarJuego = null;
 	private JMenuItem jMISalir = null;
 	private JMenu jMAyuda = null;
 	private JMenuItem jMIacerdade = null;
@@ -42,9 +47,77 @@ public class JMenuBarJ extends JMenuBar {
 			jMenu = new JMenu();
 			jMenu.setMnemonic(KeyEvent.VK_O);
 			jMenu.setText("Opciones");
+			jMenu.add(getJMIReiniciar());
+			jMenu.add(getJMCambiarJugadores());
+			jMenu.add(getJMCambiarJuego());
 			jMenu.add(getJMISalir());
 		}
 		return jMenu;
+	}
+
+	/**
+	 * This method initializes jMIReiniciar
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getJMIReiniciar() {
+		if (jMIReiniciar == null) {
+			jMIReiniciar = new JMenuItem();
+			jMIReiniciar.setText("Reiniciar");
+			jMIReiniciar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R,
+					ActionEvent.CTRL_MASK));
+			jMIReiniciar.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					VentanaJuegos v = (VentanaJuegos) jOwner;
+					v.reiniciar();
+				}
+			});
+		}
+		return jMIReiniciar;
+	}
+
+	/**
+	 * This method initializes jMICambiarJugadores
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getJMCambiarJugadores() {
+		if (jMICambiarJugadores == null) {
+			jMICambiarJugadores = new JMenuItem();
+			jMICambiarJugadores.setText("Cambiar Jugadores");
+			jMICambiarJugadores
+					.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(java.awt.event.ActionEvent e) {
+							VentanaJuegos v = (VentanaJuegos) jOwner;
+							v.eligeJugadores();
+							v.actualizaJuego();
+						}
+					});
+		}
+		return jMICambiarJugadores;
+	}
+
+	/**
+	 * This method initializes jMICambiarJuego
+	 * 
+	 * @return javax.swing.JMenuItem
+	 */
+	private JMenuItem getJMCambiarJuego() {
+		if (jMICambiarJuego == null) {
+			jMICambiarJuego = new JMenuItem();
+			jMICambiarJuego.setText("Cambiar Juego");
+			jMICambiarJuego.setAccelerator(KeyStroke.getKeyStroke(
+					KeyEvent.VK_C, ActionEvent.CTRL_MASK));
+			jMICambiarJuego
+					.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(java.awt.event.ActionEvent e) {
+							VentanaJuegos v = (VentanaJuegos) jOwner;
+							v.eligeJuego();
+							v.estableceLayout();
+						}
+					});
+		}
+		return jMICambiarJuego;
 	}
 
 	/**
@@ -56,6 +129,8 @@ public class JMenuBarJ extends JMenuBar {
 		if (jMISalir == null) {
 			jMISalir = new JMenuItem();
 			jMISalir.setText("Salir");
+			jMISalir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+					ActionEvent.CTRL_MASK));
 			jMISalir.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					System.exit(0);

@@ -8,6 +8,10 @@
 //
 package opoo.practica5.juego;
 
+import java.util.ArrayList;
+
+import opoo.excepciones.PlayerGanadorException;
+
 /**
  * Clase que representa el juego de los chinos descendiendo de Juego
  * 
@@ -16,6 +20,12 @@ package opoo.practica5.juego;
  */
 public class Chinos extends JuegoM {
 
+	private int totalMonedas;
+
+	public int getTotalMonedas() {
+		return totalMonedas;
+	}
+
 	public Chinos(JugadorM[] jugadores, int nMAXrondas) {
 		super("Juego de los chinos", jugadores, nMAXrondas);
 		// TODO Auto-generated constructor stub
@@ -23,15 +33,70 @@ public class Chinos extends JuegoM {
 
 	@Override
 	public void actualizarJugadores(Respuesta resp) {
-		// TODO Auto-generated method stub
-		
+		ArrayList<Respuesta> yaDichas = new ArrayList<Respuesta>();
+		yaDichas.add(resp);
+		Respuesta aux;
+		for (JugadorM a : jugadores) {
+			do {
+				aux = resp.rand();
+			} while (yaDichas.contains(aux));
+			if (a.isHumano())
+				a.setRespuesta(resp);
+			else
+				a.setRespuesta(aux);
+		}
 	}
 
-	
+	@Override
+	public JugadorM[] finalizarRonda() {
+		JugadorM[] ganadores = calcularGanadores();
+		if (ganadores == null)
+			return null;
+		else {
+			return ganadores;
+		}
+	}
+
+	protected JugadorM[] calcularGanadores() {
+		calcularResultados();
+		ArrayList<JugadorM> ganadores = new ArrayList<JugadorM>();
+		for (JugadorM a : jugadores)
+			if (a.isDeshabilitado())
+				ganadores.add(a);
+		if (ganadores.size() == 0) {
+			habilitarJugadores();
+			return null;
+		} else {
+			marcarDeshabilitados();
+			return (JugadorM[]) ganadores
+					.toArray(new JugadorM[ganadores.size()]);
+		}
+	}
+
+	/**
+	 * Metodo para calcular el total de monedas
+	 * 
+	 * @return el total de monedas
+	 */
+	private int calcularTotalMonedas() {
+		int totalMonedas = 0;
+		for (JugadorM a : jugadores) {
+			tipoChinos aux = (tipoChinos) a.getRespuesta();
+			totalMonedas += aux.getNMonedas();
+		}
+		return totalMonedas;
+	}
+
 	@Override
 	protected void calcularResultados() {
-		// TODO Auto-generated method stub
-		
+		totalMonedas = calcularTotalMonedas();
+		for (JugadorM a : jugadores) {
+			tipoChinos respA = (tipoChinos) a.getRespuesta();
+			if (respA.getNMonedas() == totalMonedas) {
+				a.setDeshabilitado(true);
+				break;
+			}
+		}
 	}
 
 }

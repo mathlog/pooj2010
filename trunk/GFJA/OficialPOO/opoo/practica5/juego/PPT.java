@@ -14,52 +14,60 @@ import java.util.ArrayList;
  * Clase que representa el juego de piedra, papel, tijera, descendiendo de Juego
  * 
  * @author José Ángel García Fernández
- * @version 1.0 03/12/2010
+ * @version 1.1 04/12/2010
  */
 public class PPT extends JuegoM {
 
 	public PPT(JugadorM[] jugadores, int nMAXrondas) {
 		super("Juego de Piedra, Papel, Tijera", jugadores, nMAXrondas);
-		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public JugadorM[] finalizarRonda() {
+		ArrayList<JugadorM> ganadores = calcularGanadores();
+
+		if (ganadores.size() == 0)
+			habilitarJugadores();
+		else
+			marcarDeshabilitados();
+
+		JugadorM[] winners = (JugadorM[]) ganadores
+				.toArray(new JugadorM[ganadores.size()]);
+		if (ganadores.size() == 1) {
+			finJuego = true;
+			return winners;
+		} else
+			return winners;
 	}
 
 	@Override
 	public void actualizarJugadores(Respuesta resp) {
 		for (JugadorM a : jugadores) {
-			if (a.isHumano())
-				a.setRespuesta(resp);
-			else
-				a.setRespuesta(resp.rand());
+			if (!a.isMarcado()) {
+				if (a.isHumano())
+					a.setRespuesta(resp);
+				else
+					a.setRespuesta(resp.rand());
+			}
 		}
 	}
 
+	/*
+	 * protected JugadorM[] calcularGanadores() { calcularResultados();
+	 * ArrayList<JugadorM> ganadores = new ArrayList<JugadorM>(); for (JugadorM
+	 * a : jugadores) if (!a.isDeshabilitado() && !a.isMarcado())
+	 * ganadores.add(a); if (ganadores.size() == 0) { habilitarJugadores();
+	 * return null; } else { marcarDeshabilitados(); return (JugadorM[])
+	 * ganadores .toArray(new JugadorM[ganadores.size()]); } }
+	 */
 	@Override
-	protected JugadorM[] calcularGanadores() {
+	protected ArrayList<JugadorM> calcularGanadores() {
 		calcularResultados();
 		ArrayList<JugadorM> ganadores = new ArrayList<JugadorM>();
 		for (JugadorM a : jugadores)
-			if (!a.isDeshabilitado() && !a.isMarcado())
+			if (!(a.isDeshabilitado()) && !(a.isMarcado()))
 				ganadores.add(a);
-		if (ganadores.size() == 0) {
-			habilitarJugadores();
-			return null;
-		} else {
-			marcarDeshabilitados();
-			return (JugadorM[]) ganadores
-					.toArray(new JugadorM[ganadores.size()]);
-		}
-	}
-
-	@Override
-	public JugadorM[] finalizarRonda() {
-		JugadorM[] ganadores = calcularGanadores();
-		if (ganadores == null)
-			return null;
-		else if (ganadores.length == 1) {
-			finJuego = true;
-			return ganadores;
-		} else
-			return ganadores;
+		return ganadores;
 	}
 
 	@Override
@@ -67,28 +75,28 @@ public class PPT extends JuegoM {
 		for (JugadorM a : jugadores) {
 			if (a.isMarcado())
 				continue;
-			tipoPPT respA = (tipoPPT) a.getRespuesta();
+			enumPPT respA = (enumPPT) a.getRespuesta();
 			for (JugadorM b : jugadores) {
 				if (b.isMarcado() || (b == a))
 					continue;
-				tipoPPT respB = (tipoPPT) b.getRespuesta();
+				enumPPT respB = (enumPPT) b.getRespuesta();
 				switch (respA) {
 				case PIEDRA:
-					if (respB == tipoPPT.PAPEL)
+					if (respB == enumPPT.PAPEL)
 						a.setDeshabilitado(true);
-					else if (respB == tipoPPT.TIJERA)
+					else if (respB == enumPPT.TIJERA)
 						b.setDeshabilitado(true);
 					break;
 				case PAPEL:
-					if (respB == tipoPPT.TIJERA)
+					if (respB == enumPPT.TIJERA)
 						a.setDeshabilitado(true);
-					else if (respB == tipoPPT.PIEDRA)
+					else if (respB == enumPPT.PIEDRA)
 						b.setDeshabilitado(true);
 					break;
 				case TIJERA:
-					if (respB == tipoPPT.PIEDRA)
+					if (respB == enumPPT.PIEDRA)
 						a.setDeshabilitado(true);
-					else if (respB == tipoPPT.PAPEL)
+					else if (respB == enumPPT.PAPEL)
 						b.setDeshabilitado(true);
 					break;
 				}

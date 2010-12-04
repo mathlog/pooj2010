@@ -26,23 +26,19 @@ import opoo.practica5.juego.Chinos;
 import opoo.practica5.juego.JuegoM;
 import opoo.practica5.juego.JugadorM;
 import opoo.practica5.juego.Respuesta;
-import opoo.practica5.juego.tipoChinos;
+import opoo.practica5.juego.claseChinos;
+import opoo.practica5.juego.enumChinos;
 
 /**
  * Clase visual para la pantalla del juego de los chinos
  * 
  * @author Jose Angel Garcia Fernandez
- * @version 1.0 04.12.2010
+ * @version 1.1 04.12.2010
  */
 public class JPanelChinos extends JPanel {
 
 	private JuegoM juego;
-
-	public void setJuego(JuegoM juego) {
-		this.juego = juego;
-	}
-
-	private Respuesta respuesta = tipoChinos.UNA; // @jve:decl-index=0:
+	private Respuesta respuesta = null;
 	private static final long serialVersionUID = 1L;
 	private JLabel jLmostrar = null;
 	private JLabel jLelige = null;
@@ -51,20 +47,24 @@ public class JPanelChinos extends JPanel {
 	private JLabel jLtuScore = null;
 	private JLabel jLhastaLim = null;
 	private JLabel jLtuMano = null;
+	private JLabel jLnCoins = null;
 	private JTextArea jTAtuScores = null;
 	private JScrollPane jSPtuScores = null;
 	private JTextArea jTAresult = null;
 	private JScrollPane jSPresult = null;
 	private JTextField jTFrondaActual = null;
 	private JTextField jTFhastaLimRonda = null;
+	private JTextField jTFnCoins = null;
 	private JButton jBjugar = null;
 	private JRadioButton jRBcero = null;
 	private JRadioButton jRBuna = null;
 	private JRadioButton jRBdos = null;
 	private JRadioButton jRBtres = null;
 	private ButtonGroup group = null; // @jve:decl-index=0:
-	private JTextField jTFnCoins = null;
-	private JLabel jLnCoins = null;
+
+	public void setJuego(JuegoM juego) {
+		this.juego = juego;
+	}
 
 	/**
 	 * This is the default constructor
@@ -118,7 +118,7 @@ public class JPanelChinos extends JPanel {
 		this.add(jLtuScore, null);
 		this.add(jLhastaLim, null);
 
-		this.add(getJSPlog(), null);
+		this.add(getJStuScores(), null);
 		this.add(getJSPresult(), null);
 
 		this.add(getJTFrondaActual(), null);
@@ -167,6 +167,19 @@ public class JPanelChinos extends JPanel {
 	}
 
 	/**
+	 * This method initializes jTFnCoins
+	 * 
+	 * @return javax.swing.JTextField
+	 */
+	private JTextField getJTFnCoins() {
+		if (jTFnCoins == null) {
+			jTFnCoins = new JTextField();
+			jTFnCoins.setBounds(new Rectangle(170, 25, 26, 20));
+		}
+		return jTFnCoins;
+	}
+
+	/**
 	 * This method initializes jTAresult
 	 * 
 	 * @return javax.swing.JTextArea
@@ -207,6 +220,21 @@ public class JPanelChinos extends JPanel {
 	}
 
 	/**
+	 * This method initializes jSPtuScores
+	 * 
+	 * @return javax.swing.JScrollPane
+	 */
+	private JScrollPane getJStuScores() {
+		if (jSPtuScores == null) {
+			jSPtuScores = new JScrollPane();
+			jSPtuScores.setBounds(new Rectangle(85, 128, 138, 41));
+			jSPtuScores.setViewportView(getJTAtuScores());
+			jSPtuScores.setVisible(true);
+		}
+		return jSPtuScores;
+	}
+
+	/**
 	 * This method initializes group
 	 * 
 	 * @return javax.swing.ButtonGroup
@@ -223,96 +251,6 @@ public class JPanelChinos extends JPanel {
 	}
 
 	/**
-	 * This method initializes jBjugar
-	 * 
-	 * @return javax.swing.JButton
-	 */
-	private JButton getJBjugar() {
-		if (jBjugar == null) {
-			jBjugar = new JButton();
-			jBjugar.setBounds(new Rectangle(114, 49, 80, 20));
-			jBjugar.setText("Mostrar");
-			jBjugar.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					operacionesJugar();
-					// -poner valores a jugadores (monedas y total)
-					// -pal jugador humano la k ha sacao
-					// -pal resto aleatorios
-					// despues de haber calculao
-					// mostrar la jugada de cada uno
-					// y decir kien se keda fuera y kien no
-					// despues seguir con las siguientes rondas
-					// hasta k solo kede 1
-				}
-
-			});
-			jBjugar.addKeyListener(new java.awt.event.KeyAdapter() {
-				public void keyPressed(java.awt.event.KeyEvent e) {
-					operacionesJugar();
-				}
-			});
-		}
-		return jBjugar;
-	}
-
-	/**
-	 * Metodo que pasa el numero de monedas a la respuesta
-	 */
-	private boolean nMonedasToResp() {
-		String coins = jTFnCoins.getText();
-		if (coins.equals("") || (coins == null)) {
-			JOptionPane.showMessageDialog(this,
-					"Introduce numero de monedas en el cuadro de texto",
-					"¡FALTAN DATOS!", JOptionPane.ERROR_MESSAGE);
-			return false;
-		} else {
-			int nMonedas = Integer.parseInt(jTFnCoins.getText());
-			tipoChinos aux = (tipoChinos) respuesta;
-			aux.setNMonedas(nMonedas);
-			return true;
-		}
-	}
-
-	/**
-	 * Metodo que realiza las operaciones de jugar
-	 */
-	private void operacionesJugar() {
-		if (!nMonedasToResp())
-			return;
-		juego.actualizarJugadores(respuesta);
-		JugadorM[] ganadores;
-		try {
-			ganadores = juego.finalizarRonda();
-			if (ganadores == null) {
-				mostrarEmpateRonda();
-			} else {
-				mostrarGanadorRonda(ganadores);
-				juego.nextRonda();
-			}
-		} catch (AllRondasCompleteException e1) {
-			FINtotalRondasAlcanzadas();
-		}
-		escribirRonda();
-		jBjugar.requestFocus();
-
-	}
-
-	/**
-	 * This method initializes jSPtuScores
-	 * 
-	 * @return javax.swing.JScrollPane
-	 */
-	private JScrollPane getJSPlog() {
-		if (jSPtuScores == null) {
-			jSPtuScores = new JScrollPane();
-			jSPtuScores.setBounds(new Rectangle(85, 128, 138, 41));
-			jSPtuScores.setViewportView(getJTAtuScores());
-			jSPtuScores.setVisible(true);
-		}
-		return jSPtuScores;
-	}
-
-	/**
 	 * This method initializes jRBcero
 	 * 
 	 * @return javax.swing.JRadioButton
@@ -323,9 +261,10 @@ public class JPanelChinos extends JPanel {
 			jRBcero.setBounds(new Rectangle(13, 25, 34, 21));
 			jRBcero.setText("0");
 			jRBcero.setSelected(true);
+			respuesta = new claseChinos(enumChinos.CERO);
 			jRBcero.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					respuesta = tipoChinos.CERO;
+					respuesta = new claseChinos(enumChinos.CERO);
 				}
 			});
 		}
@@ -344,7 +283,7 @@ public class JPanelChinos extends JPanel {
 			jRBuna.setText("1");
 			jRBuna.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					respuesta = tipoChinos.UNA;
+					respuesta = new claseChinos(enumChinos.UNA);
 				}
 			});
 		}
@@ -363,7 +302,7 @@ public class JPanelChinos extends JPanel {
 			jRBdos.setText("2");
 			jRBdos.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					respuesta = tipoChinos.DOS;
+					respuesta = new claseChinos(enumChinos.DOS);
 				}
 			});
 		}
@@ -382,7 +321,7 @@ public class JPanelChinos extends JPanel {
 			jRBtres.setText("3");
 			jRBtres.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					respuesta = tipoChinos.TRES;
+					respuesta = new claseChinos(enumChinos.TRES);
 				}
 			});
 		}
@@ -390,17 +329,72 @@ public class JPanelChinos extends JPanel {
 	}
 
 	/**
-	 * Habilita botones
+	 * This method initializes jBjugar
+	 * 
+	 * @return javax.swing.JButton
 	 */
-	private void habilitarBotones() {
-		jBjugar.setEnabled(true);
+	private JButton getJBjugar() {
+		if (jBjugar == null) {
+			jBjugar = new JButton();
+			jBjugar.setBounds(new Rectangle(114, 49, 80, 20));
+			jBjugar.setText("Mostrar");
+			jBjugar.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					operacionesJugar();
+				}
+			});
+			jBjugar.addKeyListener(new java.awt.event.KeyAdapter() {
+				public void keyPressed(java.awt.event.KeyEvent e) {
+					operacionesJugar();
+				}
+			});
+		}
+		return jBjugar;
 	}
 
 	/**
-	 * Deshabilita botones
+	 * Metodo que realiza las operaciones de jugar
 	 */
-	private void deshabilitarBotones() {
-		jBjugar.setEnabled(false);
+	private void operacionesJugar() {
+		if (!nMonedasToResp())
+			return;
+		juego.actualizarJugadores(respuesta);
+		JugadorM[] ganadores;
+		try {
+			ganadores = juego.finalizarRonda();
+			if (ganadores == null) {
+				FINsolo1jugador();
+				juego.nextRonda();
+			} else if (ganadores.length == 0) {
+				mostrarEmpateRonda();
+			} else {
+				mostrarGanadorRonda(ganadores);
+				juego.nextRonda();
+			}
+		} catch (AllRondasCompleteException e1) {
+			FINtotalRondasAlcanzadas();
+		}
+		escribirRonda();
+		jBjugar.requestFocus();
+
+	}
+
+	/**
+	 * Metodo que pasa el numero de monedas a la respuesta
+	 */
+	private boolean nMonedasToResp() {
+		String coins = jTFnCoins.getText();
+		if (coins.equals("") || (coins == null)) {
+			JOptionPane.showMessageDialog(this,
+					"Introduce numero de monedas en el cuadro de texto",
+					"¡FALTAN DATOS!", JOptionPane.ERROR_MESSAGE);
+			return false;
+		} else {
+			int nMonedas = Integer.parseInt(jTFnCoins.getText());
+			claseChinos aux = (claseChinos) respuesta;
+			aux.setNMonedas(nMonedas);
+			return true;
+		}
 	}
 
 	/**
@@ -423,33 +417,6 @@ public class JPanelChinos extends JPanel {
 	}
 
 	/**
-	 * Metodo que finaliza la partida habiendo un ganador
-	 * 
-	 * @param ganador
-	 *            el ganador
-	 */
-	private void FINhayGanador(JugadorM ganador) {
-		deshabilitarBotones();
-		JOptionPane.showMessageDialog(this, "Ha ganado: " + ganador,
-				"¡HAY GANADOR!", JOptionPane.INFORMATION_MESSAGE);
-		jTAresult.setText(jTAresult.getText() + "Fin de juego por ganador: "
-				+ ganador.getNombre() + "\n");
-	}
-
-	/**
-	 * Metodo que finaliza la partida porque no quedan mas rondas
-	 */
-	private void FINtotalRondasAlcanzadas() {
-		deshabilitarBotones();
-		JOptionPane.showMessageDialog(this, "Total de rondas alcanzado: "
-				+ juego.getNMAXrondas() + " y no hay ganador",
-				"¡No quedan mas rondas!", JOptionPane.INFORMATION_MESSAGE);
-		jTAresult.setText(jTAresult.getText()
-				+ "Fin de juego por rondas max Rondas alcanzadas: "
-				+ juego.getNMAXrondas() + "\n");
-	}
-
-	/**
 	 * Muestra ganadores de cada ronda
 	 * 
 	 * @param ganadores
@@ -460,7 +427,7 @@ public class JPanelChinos extends JPanel {
 		for (JugadorM a : ganadores)
 			strWins.append("\t" + a + "\n");
 		JOptionPane.showMessageDialog(this, "Ha ganado:\n" + strWins,
-				"Ronda acabada", JOptionPane.INFORMATION_MESSAGE);
+				"¡RONDA ACABADA!", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	/**
@@ -470,9 +437,46 @@ public class JPanelChinos extends JPanel {
 		Chinos chinos = (Chinos) juego;
 		JOptionPane.showMessageDialog(this, "Se repite la ronda "
 				+ chinos.getNRonda() + " por que nadie acerto el total de "
-				+ chinos.getTotalMonedas() + " monedas", "Ronda empatada",
+				+ chinos.getTotalMonedas() + " monedas", "¡RONDA EMPATADA!",
 				JOptionPane.INFORMATION_MESSAGE);
+	}
 
+	/**
+	 * Metodo que finaliza la partida habiendo un ganador
+	 */
+	private void FINsolo1jugador() {
+		deshabilitarBotones();
+		JOptionPane.showMessageDialog(this, "¡Solo queda 1 jugador!",
+				"¡FIN DE JUEGO!", JOptionPane.INFORMATION_MESSAGE);
+		jTAresult.setText(jTAresult.getText()
+				+ "Fin de juego por solo 1 jugador\n");
+	}
+
+	/**
+	 * Metodo que finaliza la partida porque no quedan mas rondas
+	 */
+	private void FINtotalRondasAlcanzadas() {
+		deshabilitarBotones();
+		JOptionPane.showMessageDialog(this, "Total de rondas alcanzado: "
+				+ juego.getNMAXrondas() + "\nQuien no haya acertado ¡¡PAGA!!",
+				"¡FIN DE JUEGO!", JOptionPane.INFORMATION_MESSAGE);
+		jTAresult.setText(jTAresult.getText()
+				+ "Fin de juego por maxRondas alcanzadas: "
+				+ juego.getNMAXrondas() + "\n");
+	}
+
+	/**
+	 * Habilita botones
+	 */
+	private void habilitarBotones() {
+		jBjugar.setEnabled(true);
+	}
+
+	/**
+	 * Deshabilita botones
+	 */
+	private void deshabilitarBotones() {
+		jBjugar.setEnabled(false);
 	}
 
 	/**
@@ -483,21 +487,9 @@ public class JPanelChinos extends JPanel {
 		jTAtuScores.setText("");
 		jTAresult.setText("");
 		jTFrondaActual.setText(String.valueOf(juego.getNRonda()));
+		jTFnCoins.setText(null);
 		habilitarBotones();
 
-	}
-
-	/**
-	 * This method initializes jTFnCoins
-	 * 
-	 * @return javax.swing.JTextField
-	 */
-	private JTextField getJTFnCoins() {
-		if (jTFnCoins == null) {
-			jTFnCoins = new JTextField();
-			jTFnCoins.setBounds(new Rectangle(170, 25, 26, 20));
-		}
-		return jTFnCoins;
 	}
 
 } // @jve:decl-index=0:visual-constraint="10,12"

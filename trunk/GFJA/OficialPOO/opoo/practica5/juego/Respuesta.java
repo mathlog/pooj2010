@@ -39,4 +39,6 @@ public interface Respuesta {
 	 */
 	public Respuesta rand();
 
+	@Override
+	public String toString();
 }

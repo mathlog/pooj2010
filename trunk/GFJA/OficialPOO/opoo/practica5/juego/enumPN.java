@@ -2,9 +2,9 @@ package opoo.practica5.juego;
 
 import java.util.Random;
 
-public enum tipoPN implements Respuesta {
+public enum enumPN implements Respuesta {
 	PARES, NONES;
-	
+
 	@Override
 	public Respuesta getEnum(int a) {
 		return values()[a];
@@ -15,6 +15,7 @@ public enum tipoPN implements Respuesta {
 		return values().length;
 	}
 
+	@Override
 	public Respuesta rand() {
 		Random r = new Random();
 		return getEnum((r.nextInt() % length()));

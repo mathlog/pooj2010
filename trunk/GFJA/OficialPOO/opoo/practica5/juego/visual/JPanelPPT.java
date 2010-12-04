@@ -8,6 +8,7 @@
 //
 package opoo.practica5.juego.visual;
 
+import java.awt.Dimension;
 import java.awt.Rectangle;
 
 import javax.swing.ButtonGroup;
@@ -21,23 +22,21 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import opoo.excepciones.AllRondasCompleteException;
-import opoo.excepciones.PlayerGanadorException;
 import opoo.practica5.juego.JuegoM;
 import opoo.practica5.juego.JugadorM;
 import opoo.practica5.juego.Respuesta;
-import opoo.practica5.juego.tipoPPT;
-import java.awt.Dimension;
+import opoo.practica5.juego.enumPPT;
 
 /**
  * Clase visual para la pantalla del juego de piedra papel tijera
  * 
  * @author Jose Angel Garcia Fernandez
- * @version 1.0 04.1".2010
+ * @version 1.1 04.12.2010
  */
 public class JPanelPPT extends JPanel {
 
 	private JuegoM juego;
-	private Respuesta respuesta = tipoPPT.PIEDRA;
+	private Respuesta respuesta = enumPPT.PIEDRA;
 	private static final long serialVersionUID = 1L;
 	private JLabel jLmostrar = null;
 	private JLabel jLelige = null;
@@ -57,6 +56,11 @@ public class JPanelPPT extends JPanel {
 	private JRadioButton jRBPiedra = null;
 	private JRadioButton jRBPapel = null;
 	private ButtonGroup group = null; // @jve:decl-index=0:
+
+	public void setJuego(JuegoM juego) {
+		this.juego = juego;
+	
+	}
 
 	/**
 	 * This is the default constructor
@@ -107,7 +111,7 @@ public class JPanelPPT extends JPanel {
 		this.add(jLtuScore, null);
 		this.add(jLhastaLim, null);
 
-		this.add(getJSPlog(), null);
+		this.add(getJSPtuScores(), null);
 		this.add(getJSPresult(), null);
 
 		this.add(getJTFrondaActual(), null);
@@ -192,6 +196,21 @@ public class JPanelPPT extends JPanel {
 	}
 
 	/**
+	 * This method initializes jSPtuScores
+	 * 
+	 * @return javax.swing.JScrollPane
+	 */
+	private JScrollPane getJSPtuScores() {
+		if (jSPtuScores == null) {
+			jSPtuScores = new JScrollPane();
+			jSPtuScores.setBounds(new Rectangle(85, 128, 138, 41));
+			jSPtuScores.setViewportView(getJTAtuScores());
+			jSPtuScores.setVisible(true);
+		}
+		return jSPtuScores;
+	}
+
+	/**
 	 * This method initializes group
 	 * 
 	 * @return javax.swing.ButtonGroup
@@ -208,6 +227,64 @@ public class JPanelPPT extends JPanel {
 	}
 
 	/**
+	 * This method initializes jRBTijera
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getJRBTijera() {
+		if (jRBTijera == null) {
+			jRBTijera = new JRadioButton();
+			jRBTijera.setBounds(new Rectangle(131, 25, 60, 21));
+			jRBTijera.setText("Tijera");
+			jRBTijera.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					respuesta = enumPPT.TIJERA;
+				}
+			});
+		}
+		return jRBTijera;
+	}
+
+	/**
+	 * This method initializes jRBPiedra
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getJRBPiedra() {
+		if (jRBPiedra == null) {
+			jRBPiedra = new JRadioButton();
+			jRBPiedra.setBounds(new Rectangle(13, 25, 64, 21));
+			jRBPiedra.setText("Piedra");
+			jRBPiedra.setSelected(true);
+			jRBPiedra.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					respuesta = enumPPT.PIEDRA;
+				}
+			});
+		}
+		return jRBPiedra;
+	}
+
+	/**
+	 * This method initializes jRBPapel
+	 * 
+	 * @return javax.swing.JRadioButton
+	 */
+	private JRadioButton getJRBPapel() {
+		if (jRBPapel == null) {
+			jRBPapel = new JRadioButton();
+			jRBPapel.setBounds(new Rectangle(75, 25, 57, 21));
+			jRBPapel.setText("Papel");
+			jRBPapel.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					respuesta = enumPPT.PAPEL;
+				}
+			});
+		}
+		return jRBPapel;
+	}
+
+	/**
 	 * This method initializes jBjugar
 	 * 
 	 * @return javax.swing.JButton
@@ -221,7 +298,7 @@ public class JPanelPPT extends JPanel {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					operacionesJugar();
 				}
-
+	
 			});
 			jBjugar.addKeyListener(new java.awt.event.KeyAdapter() {
 				public void keyPressed(java.awt.event.KeyEvent e) {
@@ -241,7 +318,7 @@ public class JPanelPPT extends JPanel {
 		try {
 			int before = juego.getNJugadoresActivos();
 			ganadores = juego.finalizarRonda();
-			if (ganadores == null) {
+			if (ganadores.length == 0) {
 				mostrarEmpateRonda();
 				escribirRonda();
 			} else if (ganadores.length == before) {
@@ -271,93 +348,6 @@ public class JPanelPPT extends JPanel {
 	}
 
 	/**
-	 * This method initializes jSPtuScores
-	 * 
-	 * @return javax.swing.JScrollPane
-	 */
-	private JScrollPane getJSPlog() {
-		if (jSPtuScores == null) {
-			jSPtuScores = new JScrollPane();
-			jSPtuScores.setBounds(new Rectangle(85, 128, 138, 41));
-			jSPtuScores.setViewportView(getJTAtuScores());
-			jSPtuScores.setVisible(true);
-		}
-		return jSPtuScores;
-	}
-
-	/**
-	 * This method initializes jRBTijera
-	 * 
-	 * @return javax.swing.JRadioButton
-	 */
-	private JRadioButton getJRBTijera() {
-		if (jRBTijera == null) {
-			jRBTijera = new JRadioButton();
-			jRBTijera.setBounds(new Rectangle(131, 25, 60, 21));
-			jRBTijera.setText("Tijera");
-			jRBTijera.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					respuesta = tipoPPT.TIJERA;
-				}
-			});
-		}
-		return jRBTijera;
-	}
-
-	/**
-	 * This method initializes jRBPiedra
-	 * 
-	 * @return javax.swing.JRadioButton
-	 */
-	private JRadioButton getJRBPiedra() {
-		if (jRBPiedra == null) {
-			jRBPiedra = new JRadioButton();
-			jRBPiedra.setBounds(new Rectangle(13, 25, 64, 21));
-			jRBPiedra.setText("Piedra");
-			jRBPiedra.setSelected(true);
-			jRBPiedra.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					respuesta = tipoPPT.PIEDRA;
-				}
-			});
-		}
-		return jRBPiedra;
-	}
-
-	/**
-	 * This method initializes jRBPapel
-	 * 
-	 * @return javax.swing.JRadioButton
-	 */
-	private JRadioButton getJRBPapel() {
-		if (jRBPapel == null) {
-			jRBPapel = new JRadioButton();
-			jRBPapel.setBounds(new Rectangle(75, 25, 57, 21));
-			jRBPapel.setText("Papel");
-			jRBPapel.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					respuesta = tipoPPT.PAPEL;
-				}
-			});
-		}
-		return jRBPapel;
-	}
-
-	/**
-	 * Habilita botones
-	 */
-	private void habilitarBotones() {
-		jBjugar.setEnabled(true);
-	}
-
-	/**
-	 * Deshabilita botones
-	 */
-	private void deshabilitarBotones() {
-		jBjugar.setEnabled(false);
-	}
-
-	/**
 	 * Escribe los datos de la ronda en los jTA
 	 */
 	private void escribirRonda() {
@@ -375,6 +365,30 @@ public class JPanelPPT extends JPanel {
 	}
 
 	/**
+	 * Muestra ganadores de cada ronda
+	 * 
+	 * @param ganadores
+	 *            los ganadores
+	 */
+	private void mostrarGanadoresRonda(JugadorM[] ganadores) {
+		StringBuilder strWins = new StringBuilder();
+		for (JugadorM a : ganadores)
+			strWins.append("\t" + a + "\n");
+		JOptionPane.showMessageDialog(this, "Siguen jugando:\n" + strWins,
+				"¡RONDA ACABADA!", JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	/**
+	 * Muestra que ha habido un empate
+	 */
+	private void mostrarEmpateRonda() {
+		JOptionPane.showMessageDialog(this, "Se repite la ronda "
+				+ juego.getNRonda(), "¡RONDA EMPATADA!",
+				JOptionPane.INFORMATION_MESSAGE);
+	
+	}
+
+	/**
 	 * Metodo que finaliza la partida habiendo un ganador
 	 * 
 	 * @param ganador
@@ -383,7 +397,7 @@ public class JPanelPPT extends JPanel {
 	private void FINhayGanador(JugadorM ganador) {
 		deshabilitarBotones();
 		JOptionPane.showMessageDialog(this, "Ha ganado: " + ganador,
-				"¡HAY GANADOR!", JOptionPane.INFORMATION_MESSAGE);
+				"¡FIN DE JUEGO!", JOptionPane.INFORMATION_MESSAGE);
 		jTAresult.setText(jTAresult.getText() + "Fin de juego por ganador: "
 				+ ganador.getNombre() + "\n");
 	}
@@ -395,34 +409,24 @@ public class JPanelPPT extends JPanel {
 		deshabilitarBotones();
 		JOptionPane.showMessageDialog(this, "Total de rondas alcanzado: "
 				+ juego.getNMAXrondas() + " y no hay ganador",
-				"¡No quedan mas rondas!", JOptionPane.INFORMATION_MESSAGE);
+				"¡FIN DE JUEGO!", JOptionPane.INFORMATION_MESSAGE);
 		jTAresult.setText(jTAresult.getText()
 				+ "Fin de juego por rondas max Rondas alcanzadas: "
 				+ juego.getNMAXrondas() + "\n");
 	}
 
 	/**
-	 * Muestra ganadores de cada ronda
-	 * 
-	 * @param ganadores
-	 *            los ganadores
+	 * Habilita botones
 	 */
-	private void mostrarGanadoresRonda(JugadorM[] ganadores) {
-		StringBuilder strWins = new StringBuilder();
-		for (JugadorM a : ganadores)
-			strWins.append("\t" + a + "\n");
-		JOptionPane.showMessageDialog(this, "Siguen jugando:\n" + strWins,
-				"Ronda acabada", JOptionPane.INFORMATION_MESSAGE);
+	private void habilitarBotones() {
+		jBjugar.setEnabled(true);
 	}
 
 	/**
-	 * Muestra que ha habido un empate
+	 * Deshabilita botones
 	 */
-	private void mostrarEmpateRonda() {
-		JOptionPane.showMessageDialog(this, "Se repite la ronda "
-				+ juego.getNRonda(), "Ronda empatada",
-				JOptionPane.INFORMATION_MESSAGE);
-
+	private void deshabilitarBotones() {
+		jBjugar.setEnabled(false);
 	}
 
 	/**
@@ -434,11 +438,6 @@ public class JPanelPPT extends JPanel {
 		jTAresult.setText("");
 		jTFrondaActual.setText(String.valueOf(juego.getNRonda()));
 		habilitarBotones();
-
-	}
-
-	public void setJuego(JuegoM juego) {
-		this.juego = juego;
 
 	}
 } // @jve:decl-index=0:visual-constraint="10,12"

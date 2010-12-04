@@ -2,7 +2,7 @@ package opoo.practica5.juego;
 
 import java.util.Random;
 
-public enum tipoPPT implements Respuesta {
+public enum enumPPT implements Respuesta {
 	PIEDRA, PAPEL, TIJERA;
 
 	@Override
@@ -15,9 +15,10 @@ public enum tipoPPT implements Respuesta {
 		return values().length;
 	}
 
+	@Override
 	public Respuesta rand() {
 		Random r = new Random();
-		tipoPPT aux=(tipoPPT) getEnum((r.nextInt(length())));
+		enumPPT aux = (enumPPT) getEnum((r.nextInt(length())));
 		return aux;
 	}
 }

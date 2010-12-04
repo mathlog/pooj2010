@@ -19,7 +19,7 @@ import opoo.practica5.juego.Chinos;
 import opoo.practica5.juego.JuegoM;
 import opoo.practica5.juego.JugadorM;
 import opoo.practica5.juego.PPT;
-
+//hacer un panel que aglutine lo k tienen los panels inferiores
 /**
  * Ventana visual para los juegos
  * 
@@ -28,12 +28,11 @@ import opoo.practica5.juego.PPT;
  */
 public class VentanaJuegos extends JFrame {
 
-	final static String PPTPANEL = "Card Piedra Papel Tijera";
-	final static String CHINOSPANEL = "Card Chinos"; // @jve:decl-index=0:
 	final static String RUTADEO = "/opoo/practica5/juego/visual/imgs/eldeorrr.jpg";
+	final static String PPTPANEL = "Card Piedra Papel Tijera";
+	final static String CHINOSPANEL = "Card Chinos";
 	private byte capaActiva;
-	private JugadorM[] jugadores = null;// = { new JugadorM("JugadorM", true),
-	// new JugadorM("BANCA", false) };
+	private JugadorM[] jugadores = null;
 	private int nJugadores;
 	private JuegoM juego = null;
 	private Object[] optionsTiposJuegos = { "Piedra, Papel, Tijera", "Chinos" };
@@ -42,13 +41,9 @@ public class VentanaJuegos extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private JPanel jPBase = null;
-
 	private JPanelPPT jPppt = null;
-
 	private JPanelChinos jPchinos = null;
-
 	private JMenuBarJ jMBJ = null;
-
 	private CardLayout layout = null;
 
 	/**
@@ -136,16 +131,23 @@ public class VentanaJuegos extends JFrame {
 	 * Metodo para configurar los jugadores
 	 */
 	void eligeJugadores() {
-		nJugadores = (Integer.parseInt((String) JOptionPane.showInputDialog(
-				null, "Elige numero de jugadores", "Numero de jugadores",
+		String numero = (String) JOptionPane.showInputDialog(null,
+				"Elige numero de jugadores", "Numero de jugadores",
 				JOptionPane.QUESTION_MESSAGE, null, optionsJugadores,
-				optionsJugadores[0])));
+				optionsJugadores[0]);
+		if (numero == null)
+			nJugadores = 2;
+		else
+			nJugadores = Integer.parseInt(numero);
 		jugadores = new JugadorM[nJugadores];
 		jugadores[0] = new JugadorM("Jugador", true);
 		for (int i = 1; i < jugadores.length; i++)
 			jugadores[i] = new JugadorM("Maquina" + i, false);
 	}
 
+	/**
+	 * Metodo que actualiza el juego con los nuevos jugadores
+	 */
 	void actualizaJuego() {
 		juego.setJugadores(jugadores);
 		reiniciar();

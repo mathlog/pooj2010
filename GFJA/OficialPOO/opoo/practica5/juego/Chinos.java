@@ -10,25 +10,38 @@ package opoo.practica5.juego;
 
 import java.util.ArrayList;
 
-import opoo.excepciones.PlayerGanadorException;
-
 /**
  * Clase que representa el juego de los chinos descendiendo de Juego
  * 
  * @author José Ángel García Fernández
- * @version 1.0 03/12/2010
+ * @version 1.1 04/12/2010
  */
 public class Chinos extends JuegoM {
 
 	private int totalMonedas;
 
-	public int getTotalMonedas() {
-		return totalMonedas;
-	}
-
 	public Chinos(JugadorM[] jugadores, int nMAXrondas) {
 		super("Juego de los chinos", jugadores, nMAXrondas);
-		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public JugadorM[] finalizarRonda() {
+		ArrayList<JugadorM> ganadores = calcularGanadores();
+		if (ganadores.size() == 0) {
+			habilitarJugadores();
+		} else {
+			marcarHabilitados();
+		}
+		int solo1 = 0;
+		for (JugadorM a : jugadores)
+			if (!a.isMarcado())
+				solo1++;
+		if (solo1 == 1) {
+			finJuego = true;
+			return null;
+		} else
+			return (JugadorM[]) ganadores
+					.toArray(new JugadorM[ganadores.size()]);
 	}
 
 	@Override
@@ -37,39 +50,40 @@ public class Chinos extends JuegoM {
 		yaDichas.add(resp);
 		Respuesta aux;
 		for (JugadorM a : jugadores) {
-			do {
-				aux = resp.rand();
-			} while (yaDichas.contains(aux));
-			if (a.isHumano())
-				a.setRespuesta(resp);
-			else
-				a.setRespuesta(aux);
+			if (!a.isMarcado()) {
+				if (a.isHumano())
+					a.setRespuesta(resp);
+				else {
+					do {
+						aux = resp.rand();
+					} while (yaDichas.contains(aux));
+					a.setRespuesta(aux);
+					yaDichas.add(aux);
+				}
+			}
 		}
 	}
 
 	@Override
-	public JugadorM[] finalizarRonda() {
-		JugadorM[] ganadores = calcularGanadores();
-		if (ganadores == null)
-			return null;
-		else {
-			return ganadores;
-		}
-	}
-
-	protected JugadorM[] calcularGanadores() {
+	protected ArrayList<JugadorM> calcularGanadores() {
 		calcularResultados();
 		ArrayList<JugadorM> ganadores = new ArrayList<JugadorM>();
 		for (JugadorM a : jugadores)
-			if (a.isDeshabilitado())
+			if ((!a.isDeshabilitado()) && !(a.isMarcado()))
 				ganadores.add(a);
-		if (ganadores.size() == 0) {
-			habilitarJugadores();
-			return null;
-		} else {
-			marcarDeshabilitados();
-			return (JugadorM[]) ganadores
-					.toArray(new JugadorM[ganadores.size()]);
+		return ganadores;
+	}
+
+	@Override
+	protected void calcularResultados() {
+		totalMonedas = calcularTotalMonedas();
+		for (JugadorM a : jugadores) {
+			if (a.isMarcado())
+				continue;
+			claseChinos respA = (claseChinos) a.getRespuesta();
+			if (respA.getNMonedas() != totalMonedas) {
+				a.setDeshabilitado(true);
+			}
 		}
 	}
 
@@ -81,22 +95,15 @@ public class Chinos extends JuegoM {
 	private int calcularTotalMonedas() {
 		int totalMonedas = 0;
 		for (JugadorM a : jugadores) {
-			tipoChinos aux = (tipoChinos) a.getRespuesta();
-			totalMonedas += aux.getNMonedas();
+			if (a.isMarcado())
+				continue;
+			claseChinos aux = (claseChinos) a.getRespuesta();
+			totalMonedas += aux.ordinal();
 		}
 		return totalMonedas;
 	}
 
-	@Override
-	protected void calcularResultados() {
-		totalMonedas = calcularTotalMonedas();
-		for (JugadorM a : jugadores) {
-			tipoChinos respA = (tipoChinos) a.getRespuesta();
-			if (respA.getNMonedas() == totalMonedas) {
-				a.setDeshabilitado(true);
-				break;
-			}
-		}
+	public int getTotalMonedas() {
+		return totalMonedas;
 	}
-
 }

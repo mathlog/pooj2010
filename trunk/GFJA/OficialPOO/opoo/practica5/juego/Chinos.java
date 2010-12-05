@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 /**
  * Clase que representa el juego de los chinos descendiendo de Juego
+ * Explicacion: los que ganan se salen hasta que solo quede 1, el cual pierde
  * 
  * @author José Ángel García Fernández
  * @version 1.1 04/12/2010
@@ -25,43 +26,35 @@ public class Chinos extends JuegoM {
 	}
 
 	@Override
-	public JugadorM[] finalizarRonda() {
-		ArrayList<JugadorM> ganadores = calcularGanadores();
-		if (ganadores.size() == 0) {
-			habilitarJugadores();
-		} else {
-			marcarHabilitados();
+	public void actualizarJugadores(Respuesta resp) {
+		// comprueba que la respuesta no haya sido dicha ya
+		ArrayList<Respuesta> yaDichas = new ArrayList<Respuesta>();
+		Respuesta aux;
+		for (JugadorM a : jugadores) {
+			if (a.isMarcado())
+				continue;
+			if (a.isHumano()) {
+				a.setRespuesta(resp);
+				yaDichas.add(resp);
+			} else {
+				do {
+					aux = resp.rand();
+				} while (yaDichas.contains(aux));
+				a.setRespuesta(aux);
+				yaDichas.add(aux);
+			}
+
 		}
-		int solo1 = 0;
-		for (JugadorM a : jugadores)
-			if (!a.isMarcado())
-				solo1++;
-		if (solo1 == 1) {
-			finJuego = true;
-			return null;
-		} else
-			return (JugadorM[]) ganadores
-					.toArray(new JugadorM[ganadores.size()]);
 	}
 
 	@Override
-	public void actualizarJugadores(Respuesta resp) {
-		ArrayList<Respuesta> yaDichas = new ArrayList<Respuesta>();
-		yaDichas.add(resp);
-		Respuesta aux;
-		for (JugadorM a : jugadores) {
-			if (!a.isMarcado()) {
-				if (a.isHumano())
-					a.setRespuesta(resp);
-				else {
-					do {
-						aux = resp.rand();
-					} while (yaDichas.contains(aux));
-					a.setRespuesta(aux);
-					yaDichas.add(aux);
-				}
-			}
-		}
+	public JugadorM[] finalizarRonda() {
+		ArrayList<JugadorM> ganadores = calcularGanadores();
+		if (ganadores.size() == 0)
+			habilitarJugadores();
+		else
+			marcarHabilitados();
+		return (JugadorM[]) ganadores.toArray(new JugadorM[ganadores.size()]);
 	}
 
 	@Override

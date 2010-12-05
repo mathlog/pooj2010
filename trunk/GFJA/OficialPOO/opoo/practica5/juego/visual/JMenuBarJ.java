@@ -11,6 +11,7 @@ import javax.swing.KeyStroke;
 
 public class JMenuBarJ extends JMenuBar {
 
+	private static final long serialVersionUID = 1L;
 	private JFrame jOwner = null;
 	private JMenu jMenu = null;
 	private JMenuItem jMIReiniciar = null;
@@ -65,7 +66,7 @@ public class JMenuBarJ extends JMenuBar {
 			jMIReiniciar = new JMenuItem();
 			jMIReiniciar.setText("Reiniciar");
 			jMIReiniciar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R,
-					ActionEvent.CTRL_MASK));
+					ActionEvent.ALT_MASK));
 			jMIReiniciar.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					VentanaJuegos v = (VentanaJuegos) jOwner;
@@ -85,6 +86,8 @@ public class JMenuBarJ extends JMenuBar {
 		if (jMICambiarJugadores == null) {
 			jMICambiarJugadores = new JMenuItem();
 			jMICambiarJugadores.setText("Cambiar Jugadores");
+			jMICambiarJugadores.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_J,
+					ActionEvent.ALT_MASK));
 			jMICambiarJugadores
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -107,7 +110,7 @@ public class JMenuBarJ extends JMenuBar {
 			jMICambiarJuego = new JMenuItem();
 			jMICambiarJuego.setText("Cambiar Juego");
 			jMICambiarJuego.setAccelerator(KeyStroke.getKeyStroke(
-					KeyEvent.VK_C, ActionEvent.CTRL_MASK));
+					KeyEvent.VK_C, ActionEvent.ALT_MASK));
 			jMICambiarJuego
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -130,7 +133,7 @@ public class JMenuBarJ extends JMenuBar {
 			jMISalir = new JMenuItem();
 			jMISalir.setText("Salir");
 			jMISalir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-					ActionEvent.CTRL_MASK));
+					ActionEvent.ALT_MASK));
 			jMISalir.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					System.exit(0);

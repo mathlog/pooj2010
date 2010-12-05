@@ -1,20 +1,34 @@
+//
+// Universidad de Almería
+// Ingeniería Técnica de Informática de Sistemas
+// Fuente Java según Plantilla
+//
+// PRACTICA : Practica 5, Juego
+// ASIGNATURA : Programacion Orientada a Objetos
+//
 package opoo.practica5.juego;
 
 import java.util.Random;
 
+/**
+ * Clase que recubre a la enumeracion de chinos
+ * 
+ * @author José Ángel García Fernández
+ * @version 1.1 05/12/2010
+ */
 public class claseChinos implements Respuesta {
 
 	private int nMonedas;
 
 	private enumChinos chino;
 
-	public claseChinos(enumChinos tce) {
-		this(0, tce);
-	}
-
 	public claseChinos(int nMonedas, enumChinos tce) {
 		this.nMonedas = nMonedas;
 		chino = tce;
+	}
+
+	public claseChinos(enumChinos tce) {
+		this(0, tce);
 	}
 
 	@Override
@@ -22,6 +36,7 @@ public class claseChinos implements Respuesta {
 		return chino + " nºCoins:" + this.getNMonedas();
 	}
 
+	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof claseChinos))
 			return false;
@@ -30,15 +45,6 @@ public class claseChinos implements Respuesta {
 			return true;
 		else
 			return false;
-	}
-
-	/**
-	 * Devuelve el numero de la enumeracion
-	 * 
-	 * @return el numero de orden de la enumeracion
-	 */
-	public int ordinal() {
-		return chino.ordinal();
 	}
 
 	@Override
@@ -57,6 +63,10 @@ public class claseChinos implements Respuesta {
 		claseChinos aux = new claseChinos(r.nextInt(13), enumChinos.values()[r
 				.nextInt(length())]);
 		return aux;
+	}
+
+	public int ordinal() {
+		return chino.ordinal();
 	}
 
 	public int getNMonedas() {

@@ -18,7 +18,7 @@ import opoo.excepciones.AllRondasCompleteException;
  * Clase que representa un juego de manos
  * 
  * @author Jose Angel Garcia Fernandez
- * @version 1.0 04.12.2010
+ * @version 1.1 05.12.2010
  */
 public abstract class JuegoM {
 
@@ -89,7 +89,7 @@ public abstract class JuegoM {
 	}
 
 	/**
-	 * Metodo que reinicia la partida
+	 * Metodo que empieza la partida
 	 */
 	public void empezarPartida() {
 		finJuego = false;
@@ -106,9 +106,10 @@ public abstract class JuegoM {
 	 */
 	public void nextRonda() throws AllRondasCompleteException {
 		nRonda++;
-		if (nRonda == nMAXrondas) {
+		if (nRonda > nMAXrondas) {
 			finJuego = true;
-			throw new AllRondasCompleteException("Maximo de rondas alcanzado");
+			throw new AllRondasCompleteException("Maximo de rondas: "
+					+ nMAXrondas + " alcanzado");
 		}
 	}
 
@@ -128,16 +129,6 @@ public abstract class JuegoM {
 	 */
 	public abstract JugadorM[] finalizarRonda();
 
-	/*
-	 * float max, aux; max = 0; ArrayList<JugadorM> ganadores = new
-	 * ArrayList<JugadorM>(); for (int i = 0; i < nJugadores; i++) { aux =
-	 * jugadores[i].getPuntuacion(); if ((aux > max) && (aux <= limite)) { if
-	 * (aux == max) { ganadores.add(jugadores[i]); } else { ganadores.clear();
-	 * ganadores.add(jugadores[i]); max = jugadores[i].getPuntuacion(); } } }
-	 * return ganadores.size() == 0 ? null : (JugadorM[]) ganadores .toArray(new
-	 * JugadorM[ganadores.size()]);
-	 */
-
 	/**
 	 * Metodo que calcula los resultados de cada ronda
 	 */
@@ -149,21 +140,6 @@ public abstract class JuegoM {
 	 * @return los ganadores o null si no hay
 	 */
 	protected abstract ArrayList<JugadorM> calcularGanadores();
-
-	/**
-	 * Metodo que comprueba si el jugador actual ha perdido
-	 * 
-	 * @param actual
-	 *            el jugador actual
-	 * @return true o false en funcion de si se ha pasado o no
-	 */
-	protected boolean comprobarPierdeJugador(JugadorM actual) {
-		return finJuego;
-		/*
-		 * if (actual.getPuntuacion() > limite) { actual.setPasado(true); return
-		 * actual.sePlanta(limite); } else return actual.sePlanta(limite);
-		 */
-	}
 
 	/**
 	 * Habilita a los jugadores
@@ -191,7 +167,7 @@ public abstract class JuegoM {
 	}
 
 	/**
-	 * Marca los jugadores habilitados
+	 * Marca a los jugadores habilitados
 	 */
 	protected void marcarHabilitados() {
 		for (JugadorM a : jugadores)
@@ -219,6 +195,16 @@ public abstract class JuegoM {
 			if (!a.isMarcado())
 				activos++;
 		return activos;
+	}
+
+	/**
+	 * Metodo que comprueba si se debe acabar el juego o no en base a los
+	 * jugadores activos que existan en ese momento
+	 * 
+	 * @return si es el fin de juego o no
+	 */
+	public boolean finalizarJuegoJugadoresActivos() {
+		return (finJuego = getNJugadoresActivos() == 1 ? true : false);
 	}
 
 	public JugadorM[] getJugadores() {

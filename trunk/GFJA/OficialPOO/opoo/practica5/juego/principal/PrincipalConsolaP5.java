@@ -8,7 +8,6 @@
 //
 package opoo.practica5.juego.principal;
 
-import opoo.practica5.juego.Respuesta;
 import opoo.practica5.juego.enumPN;
 
 /**
@@ -27,7 +26,7 @@ public class PrincipalConsolaP5 {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Respuesta r = enumPN.NONES;
+		enumPN r = enumPN.NONES;
 
 		System.out.print(r);
 	}

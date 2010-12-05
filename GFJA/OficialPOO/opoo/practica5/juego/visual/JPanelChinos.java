@@ -37,8 +37,8 @@ import opoo.practica5.juego.enumChinos;
  */
 public class JPanelChinos extends JPanel {
 
-	private JuegoM juego;
-	private Respuesta respuesta = null;
+	private JuegoM juego; // @jve:decl-index=0:
+	private Respuesta respuesta = null; // @jve:decl-index=0:
 	private static final long serialVersionUID = 1L;
 	private JLabel jLmostrar = null;
 	private JLabel jLelige = null;
@@ -117,7 +117,8 @@ public class JPanelChinos extends JPanel {
 		this.add(jLinf, null);
 		this.add(jLtuScore, null);
 		this.add(jLhastaLim, null);
-
+		this.add(jLnCoins, null);
+		
 		this.add(getJStuScores(), null);
 		this.add(getJSPresult(), null);
 
@@ -130,7 +131,6 @@ public class JPanelChinos extends JPanel {
 		this.add(getJRBdos(), null);
 		this.add(getJRBtres(), null);
 		this.add(getJTFnCoins(), null);
-		this.add(jLnCoins, null);
 
 		getBgroup();
 		jBjugar.requestFocus();
@@ -227,7 +227,7 @@ public class JPanelChinos extends JPanel {
 	private JScrollPane getJStuScores() {
 		if (jSPtuScores == null) {
 			jSPtuScores = new JScrollPane();
-			jSPtuScores.setBounds(new Rectangle(85, 128, 138, 41));
+			jSPtuScores.setBounds(new Rectangle(85, 128, 141, 41));
 			jSPtuScores.setViewportView(getJTAtuScores());
 			jSPtuScores.setVisible(true);
 		}
@@ -362,21 +362,23 @@ public class JPanelChinos extends JPanel {
 		JugadorM[] ganadores;
 		try {
 			ganadores = juego.finalizarRonda();
-			if (ganadores == null) {
+			if (juego.finalizarJuegoJugadoresActivos()) {
+				escribirRonda(true);
+				mostrarGanadorRonda(ganadores[0]);
 				FINsolo1jugador();
 				juego.nextRonda();
 			} else if (ganadores.length == 0) {
+				escribirRonda(false);
 				mostrarEmpateRonda();
 			} else {
-				mostrarGanadorRonda(ganadores);
+				escribirRonda(true);
+				mostrarGanadorRonda(ganadores[0]);
 				juego.nextRonda();
 			}
-		} catch (AllRondasCompleteException e1) {
-			FINtotalRondasAlcanzadas();
+		} catch (AllRondasCompleteException e) {
+			FINtotalRondasAlcanzadas(e);
 		}
-		escribirRonda();
 		jBjugar.requestFocus();
-
 	}
 
 	/**
@@ -390,44 +392,43 @@ public class JPanelChinos extends JPanel {
 					"¡FALTAN DATOS!", JOptionPane.ERROR_MESSAGE);
 			return false;
 		} else {
-			int nMonedas = Integer.parseInt(jTFnCoins.getText());
+			int nMonedas = Integer.parseInt(coins);
 			claseChinos aux = (claseChinos) respuesta;
 			aux.setNMonedas(nMonedas);
 			return true;
 		}
 	}
-
+	
 	/**
 	 * Escribe los datos de la ronda en los jTA
 	 */
-	private void escribirRonda() {
+	private void escribirRonda(boolean actual) {
 		Chinos chinos = (Chinos) juego;
-		StringBuilder sb = new StringBuilder("Ronda:" + chinos.getNRonda()
+		StringBuilder sb = new StringBuilder("Ronda:" + juego.getNRonda()
 				+ "\n");
 		sb.append("Total Monedas:" + chinos.getTotalMonedas() + "\n");
-		for (JugadorM a : chinos.getJugadores()) {
+		for (JugadorM a : juego.getJugadores()) {
 			sb.append(a + "\n");
-			if (a.isHumano())
-				jTAtuScores.setText(jTAtuScores.getText() + chinos.getNRonda()
-						+ ": " + a.getRespuesta() + "\n");
-
+			if (a.isHumano() && !a.isMarcado())
+				jTAtuScores.setText(jTAtuScores.getText() + juego.getNRonda()
+						+ ": " + a.getRespuesta()
+						/* + (a.isMarcado() ? " OUTGAME" : "") */+ "\n");
 		}
 		jTAresult.setText(jTAresult.getText() + sb.toString() + "\n");
-		jTFrondaActual.setText(String.valueOf(chinos.getNRonda()));
+		jTFrondaActual.setText(String.valueOf(juego.getNRonda()
+				+ (actual ? 1 : 0)));
 	}
 
 	/**
-	 * Muestra ganadores de cada ronda
+	 * Muestra ganador de cada ronda
 	 * 
-	 * @param ganadores
-	 *            los ganadores
+	 * @param ganador
+	 *            el ganador
 	 */
-	private void mostrarGanadorRonda(JugadorM[] ganadores) {
-		StringBuilder strWins = new StringBuilder();
-		for (JugadorM a : ganadores)
-			strWins.append("\t" + a + "\n");
-		JOptionPane.showMessageDialog(this, "Ha ganado:\n" + strWins,
-				"¡RONDA ACABADA!", JOptionPane.INFORMATION_MESSAGE);
+	private void mostrarGanadorRonda(JugadorM ganador) {
+		JOptionPane.showMessageDialog(this, "Ha ganado:\n" + ganador, "¡RONDA "
+				+ juego.getNRonda() + " ACABADA!",
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	/**
@@ -436,8 +437,9 @@ public class JPanelChinos extends JPanel {
 	private void mostrarEmpateRonda() {
 		Chinos chinos = (Chinos) juego;
 		JOptionPane.showMessageDialog(this, "Se repite la ronda "
-				+ chinos.getNRonda() + " por que nadie acerto el total de "
-				+ chinos.getTotalMonedas() + " monedas", "¡RONDA EMPATADA!",
+				+ juego.getNRonda() + " por que nadie acerto el total de "
+				+ chinos.getTotalMonedas() + " monedas", "¡RONDA "
+				+ juego.getNRonda() + " EMPATADA!",
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 
@@ -454,15 +456,17 @@ public class JPanelChinos extends JPanel {
 
 	/**
 	 * Metodo que finaliza la partida porque no quedan mas rondas
+	 * 
+	 * @param e1
+	 *            la excepcion de rondas
 	 */
-	private void FINtotalRondasAlcanzadas() {
+	private void FINtotalRondasAlcanzadas(Exception e) {
 		deshabilitarBotones();
-		JOptionPane.showMessageDialog(this, "Total de rondas alcanzado: "
-				+ juego.getNMAXrondas() + "\nQuien no haya acertado ¡¡PAGA!!",
-				"¡FIN DE JUEGO!", JOptionPane.INFORMATION_MESSAGE);
-		jTAresult.setText(jTAresult.getText()
-				+ "Fin de juego por maxRondas alcanzadas: "
-				+ juego.getNMAXrondas() + "\n");
+		JOptionPane.showMessageDialog(this, e.getMessage()
+				+ "\nQuien no haya acertado ¡¡PAGA!!", "¡FIN DE JUEGO!",
+				JOptionPane.INFORMATION_MESSAGE);
+		jTAresult.setText(jTAresult.getText() + "Fin de juego por "
+				+ e.getMessage());
 	}
 
 	/**
@@ -492,4 +496,4 @@ public class JPanelChinos extends JPanel {
 
 	}
 
-} // @jve:decl-index=0:visual-constraint="10,12"
+}

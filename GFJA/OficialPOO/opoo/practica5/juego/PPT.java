@@ -12,9 +12,10 @@ import java.util.ArrayList;
 
 /**
  * Clase que representa el juego de piedra, papel, tijera, descendiendo de Juego
+ * Explicacion: los que ganen juegan entre ellos hasta que quede 1
  * 
  * @author José Ángel García Fernández
- * @version 1.1 04/12/2010
+ * @version 1.2 05/12/2010
  */
 public class PPT extends JuegoM {
 
@@ -27,14 +28,14 @@ public class PPT extends JuegoM {
 		ArrayList<JugadorM> ganadores = calcularGanadores();
 
 		if (ganadores.size() == 0)
-			habilitarJugadores();
+			habilitarJugadores();// no hay ganadores
 		else
-			marcarDeshabilitados();
+			marcarDeshabilitados();// marco los que han perdido
 
 		JugadorM[] winners = (JugadorM[]) ganadores
 				.toArray(new JugadorM[ganadores.size()]);
 		if (ganadores.size() == 1) {
-			finJuego = true;
+			finJuego = true;// solo 1 ganador se acaba el juego
 			return winners;
 		} else
 			return winners;
@@ -43,12 +44,13 @@ public class PPT extends JuegoM {
 	@Override
 	public void actualizarJugadores(Respuesta resp) {
 		for (JugadorM a : jugadores) {
-			if (!a.isMarcado()) {
-				if (a.isHumano())
-					a.setRespuesta(resp);
-				else
-					a.setRespuesta(resp.rand());
-			}
+			if (a.isMarcado())
+				continue;
+			if (a.isHumano())
+				a.setRespuesta(resp);
+			else
+				a.setRespuesta(resp.rand());
+
 		}
 	}
 
@@ -72,13 +74,15 @@ public class PPT extends JuegoM {
 
 	@Override
 	protected void calcularResultados() {
+		// evalua cada jugador activo con el resto, deshabilitando los que
+		// tengan una mano debil
 		for (JugadorM a : jugadores) {
 			if (a.isMarcado())
 				continue;
 			enumPPT respA = (enumPPT) a.getRespuesta();
 			for (JugadorM b : jugadores) {
 				if (b.isMarcado() || (b == a))
-					continue;
+					continue;// si es el mismo
 				enumPPT respB = (enumPPT) b.getRespuesta();
 				switch (respA) {
 				case PIEDRA:

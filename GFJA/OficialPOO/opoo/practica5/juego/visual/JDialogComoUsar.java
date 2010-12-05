@@ -8,8 +8,11 @@
 //
 package opoo.practica5.juego.visual;
 
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.io.IOException;
+import java.net.URL;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -21,11 +24,11 @@ import javax.swing.JTextPane;
  * Clase visual que representa el dialogo que aparece al pulsar Como usar
  * 
  * @author Jose Angel Garcia Fernandez
- * @version 1.2 06.11.2010
+ * @version 1.3 05.12.2010
  */
 public class JDialogComoUsar extends JDialog {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	private JTabbedPane jContentPane = null;
 	private JPanel jPaboutProg = null;
 	private JPanel jPUsoPrograma = null;
@@ -35,14 +38,20 @@ public class JDialogComoUsar extends JDialog {
 	private JScrollPane jSPusoProg = null;
 	private String aboutProg = null;
 	private String usePrograma = null;
+	private boolean URLaboutProg;
+	private boolean URLuseProgama;
 
-	/**
-	 * @param owner
-	 */
 	public JDialogComoUsar(Frame owner, String aboutProg, String useProgama) {
+		this(owner, aboutProg, aboutProg, false, false);
+	}
+
+	public JDialogComoUsar(Frame owner, String aboutProg, String useProgama,
+			boolean URLaboutProg, boolean URLuseProgama) {
 		super(owner);
 		this.aboutProg = aboutProg;
 		this.usePrograma = useProgama;
+		this.URLaboutProg = URLaboutProg;
+		this.URLuseProgama = URLuseProgama;
 		initialize();
 	}
 
@@ -54,7 +63,7 @@ public class JDialogComoUsar extends JDialog {
 	private void initialize() {
 		this.setTitle("Como usar");
 		this.setContentPane(getJContentPane());
-		this.pack();
+		this.setSize(new Dimension(800,430));
 	}
 
 	/**
@@ -65,7 +74,7 @@ public class JDialogComoUsar extends JDialog {
 	private JTabbedPane getJContentPane() {
 		if (jContentPane == null) {
 			jContentPane = new JTabbedPane();
-			jContentPane.addTab("Info Extra", null, getJPaboutGame(), null);
+			jContentPane.addTab("Info Extra", null, getJPaboutProg(), null);
 			jContentPane.addTab("Uso del programa", null, getJPUsoPrograma(),
 					null);
 		}
@@ -73,16 +82,16 @@ public class JDialogComoUsar extends JDialog {
 	}
 
 	/**
-	 * This method initializes jPaboutGame
+	 * This method initializes jPaboutProg
 	 * 
 	 * @return javax.swing.JPanel
 	 */
-	private JPanel getJPaboutGame() {
+	private JPanel getJPaboutProg() {
 		if (jPaboutProg == null) {
 			GridLayout gridLayout = new GridLayout(1, 1);
 			jPaboutProg = new JPanel();
 			jPaboutProg.setLayout(gridLayout);
-			jPaboutProg.add(getJSPaboutGame(), null);
+			jPaboutProg.add(getJSaboutProg(), null);
 		}
 		return jPaboutProg;
 	}
@@ -103,29 +112,37 @@ public class JDialogComoUsar extends JDialog {
 	}
 
 	/**
-	 * This method initializes jTPaboutGame
+	 * This method initializes jTPaboutProg
 	 * 
 	 * @return javax.swing.JTextPane
 	 */
-	private JTextPane getJTPaboutGame() {
+	private JTextPane getJTPaboutProg() {
 		if (jTPaboutProg == null) {
 			jTPaboutProg = new JTextPane();
 			jTPaboutProg.setEditable(false);
 			jTPaboutProg.setContentType("text/html");
-			jTPaboutProg.setText(aboutProg);
+			if (URLaboutProg) {
+				URL helpURL = getClass().getResource(aboutProg);
+				try {
+					jTPaboutProg.setPage(helpURL);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else
+				jTPaboutProg.setText(aboutProg);
 		}
 		return jTPaboutProg;
 	}
 
 	/**
-	 * This method initializes jSPaboutGame
+	 * This method initializes jSPaboutProg
 	 * 
 	 * @return javax.swing.JScrollPane
 	 */
-	private JScrollPane getJSPaboutGame() {
+	private JScrollPane getJSaboutProg() {
 		if (jSPaboutProg == null) {
 			jSPaboutProg = new JScrollPane();
-			jSPaboutProg.setViewportView(getJTPaboutGame());
+			jSPaboutProg.setViewportView(getJTPaboutProg());
 		}
 		return jSPaboutProg;
 	}
@@ -140,7 +157,15 @@ public class JDialogComoUsar extends JDialog {
 			jTPusoProg = new JTextPane();
 			jTPusoProg.setEditable(false);
 			jTPusoProg.setContentType("text/html");
-			jTPusoProg.setText(usePrograma);
+			if (URLuseProgama) {
+				URL helpURL = getClass().getResource(usePrograma);
+				try {
+					jTPusoProg.setPage(helpURL);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else
+				jTPusoProg.setText(usePrograma);
 		}
 		return jTPusoProg;
 	}

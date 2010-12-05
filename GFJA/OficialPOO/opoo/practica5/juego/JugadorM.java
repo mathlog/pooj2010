@@ -6,13 +6,21 @@
 // PROYECTO : Practica 5, Juego
 // ASIGNATURA : Programacion Orientada a Objetos
 //
+//
+// Universidad de Almería
+// Ingeniería Técnica de Informática de Sistemas
+// Fuente Java según Plantilla
+//
+// PROYECTO : Practica 5 juego
+// ASIGNATURA : Programacion Orientada a Objetos
+//
 package opoo.practica5.juego;
 
 /**
  * Clase que representa a un jugador
  * 
  * @author José Ángel García Fernández
- * @version 1.1 04/12/2010
+ * @version 1.2 05/12/2010
  */
 public class JugadorM {
 
@@ -78,7 +86,7 @@ public class JugadorM {
 		if (marcado)
 			if (humano)
 				return nombre + "->" + respuesta
-						+ ":reinicia para jugar otra partida";
+						+ ": reinicia para jugar otra partida";
 			else
 				return nombre + "->" + respuesta + ": OUTJUEGO";
 		else
@@ -87,10 +95,6 @@ public class JugadorM {
 
 	public String getNombre() {
 		return nombre;
-	}
-
-	public float getPuntuacion() {
-		return puntuacion;
 	}
 
 	public Respuesta getRespuesta() {
@@ -102,10 +106,6 @@ public class JugadorM {
 	}
 
 	public boolean isMarcado() {
-		return marcado;
-	}
-
-	public boolean isPlantado() {
 		return marcado;
 	}
 
@@ -123,10 +123,6 @@ public class JugadorM {
 
 	public void setMarcado(boolean marcado) {
 		this.marcado = marcado;
-	}
-
-	public void setPlantado(boolean plantado) {
-		this.marcado = plantado;
 	}
 
 }

@@ -5,12 +5,10 @@ import java.util.Random;
 public enum enumPPT implements Respuesta {
 	PIEDRA, PAPEL, TIJERA;
 
-	@Override
 	public Respuesta getEnum(int a) {
 		return values()[a];
 	}
 
-	@Override
 	public int length() {
 		return values().length;
 	}

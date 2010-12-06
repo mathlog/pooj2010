@@ -34,7 +34,7 @@ import opoo.practica5.juego.enumPN;
  * Clase visual para la pantalla del juego de Pares Nones
  * 
  * @author Jose Angel Garcia Fernandez
- * @version 1.1 04.12.2010
+ * @version 1.1 05.12.2010
  */
 public class JPanelPN extends JPanel {
 
@@ -112,25 +112,25 @@ public class JPanelPN extends JPanel {
 		this.setLayout(null);
 		this.setSize(465, 175);
 		this.setPreferredSize(new Dimension(465, 175));
-		this.add(jLtuMano, null);
-		this.add(jLmostrar, null);
-		this.add(jLelige, null);
-		this.add(jLresult, null);
-		this.add(jLinf, null);
-		this.add(jLtuScore, null);
-		this.add(jLhastaLim, null);
-		this.add(jLdedos, null);
+		this.add(jLtuMano);
+		this.add(jLmostrar);
+		this.add(jLelige);
+		this.add(jLresult);
+		this.add(jLinf);
+		this.add(jLtuScore);
+		this.add(jLhastaLim);
+		this.add(jLdedos);
 
-		this.add(getJSPtuScores(), null);
-		this.add(getJSPresult(), null);
+		this.add(getJSPtuScores());
+		this.add(getJSPresult());
 
-		this.add(getJTFrondaActual(), null);
-		this.add(getJTFhastaLimRonda(), null);
+		this.add(getJTFrondaActual());
+		this.add(getJTFhastaLimRonda());
 
-		this.add(getJBjugar(), null);
-		this.add(getJRBpares(), null);
-		this.add(getJRBnones(), null);
-		this.add(getJCBdedos(), null);
+		this.add(getJBjugar());
+		this.add(getJRBpares());
+		this.add(getJRBnones());
+		this.add(getJCBdedos());
 		getBgroup();
 		jBjugar.requestFocus();
 	}
@@ -336,7 +336,7 @@ public class JPanelPN extends JPanel {
 		} catch (AllRondasCompleteException e) {
 			FINtotalRondasAlcanzadas(e);
 		}
-		jBjugar.requestFocus();
+		//jBjugar.requestFocus();
 	}
 
 	/**
@@ -362,9 +362,9 @@ public class JPanelPN extends JPanel {
 	 */
 	private void escribirRonda() {
 		ParesNones pn = (ParesNones) juego;
-		StringBuilder sb = new StringBuilder("Ronda:" + juego.getNRonda()
+		StringBuilder sb = new StringBuilder("Ronda: " + juego.getNRonda()
 				+ "\n");
-		sb.append("Total de dedos " + pn.getTotalDedos() + " -> " + pn.getPn()
+		sb.append("Total de dedos: " + pn.getTotalDedos() + " -> " + pn.getPn()
 				+ "\n");
 		for (JugadorM a : juego.getJugadores()) {
 			sb.append(a + "\n");

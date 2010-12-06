@@ -14,7 +14,7 @@ import java.util.Random;
  * Clase que recubre a la enumeracion de pares nones
  * 
  * @author José Ángel García Fernández
- * @version 1.005/12/2010
+ * @version 1.1 06/12/2010
  */
 public class clasePN implements Respuesta {
 
@@ -47,12 +47,10 @@ public class clasePN implements Respuesta {
 			return false;
 	}
 
-	@Override
 	public Respuesta getEnum(int a) {
 		return new clasePN(this.nDedos, enumPN.values()[a]);
 	}
 
-	@Override
 	public int length() {
 		return enumPN.values().length;
 	}
@@ -64,7 +62,7 @@ public class clasePN implements Respuesta {
 				.nextInt(length())]);
 		return aux;
 	}
-	
+
 	public int ordinal() {
 		return pn.ordinal();
 	}

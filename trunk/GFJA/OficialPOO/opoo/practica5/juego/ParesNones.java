@@ -62,16 +62,6 @@ public class ParesNones extends JuegoM {
 	}
 
 	@Override
-	protected ArrayList<JugadorM> calcularGanadores() {
-		calcularResultados();
-		ArrayList<JugadorM> ganadores = new ArrayList<JugadorM>();
-		for (JugadorM a : jugadores)
-			if ((!a.isDeshabilitado()) && !(a.isMarcado()))
-				ganadores.add(a);
-		return ganadores;
-	}
-
-	@Override
 	protected void calcularResultados() {
 		pn = calcularPARNONES();
 		for (JugadorM a : jugadores) {

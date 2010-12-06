@@ -62,15 +62,6 @@ public class PPT extends JuegoM {
 	 * return null; } else { marcarDeshabilitados(); return (JugadorM[])
 	 * ganadores .toArray(new JugadorM[ganadores.size()]); } }
 	 */
-	@Override
-	protected ArrayList<JugadorM> calcularGanadores() {
-		calcularResultados();
-		ArrayList<JugadorM> ganadores = new ArrayList<JugadorM>();
-		for (JugadorM a : jugadores)
-			if (!(a.isDeshabilitado()) && !(a.isMarcado()))
-				ganadores.add(a);
-		return ganadores;
-	}
 
 	@Override
 	protected void calcularResultados() {

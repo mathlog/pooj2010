@@ -14,7 +14,7 @@ import java.util.Random;
  * Clase que recubre a la enumeracion de chinos
  * 
  * @author José Ángel García Fernández
- * @version 1.1 05/12/2010
+ * @version 1.1 06/12/2010
  */
 public class claseChinos implements Respuesta {
 
@@ -47,12 +47,10 @@ public class claseChinos implements Respuesta {
 			return false;
 	}
 
-	@Override
 	public Respuesta getEnum(int a) {
 		return new claseChinos(this.nMonedas, enumChinos.values()[a]);
 	}
 
-	@Override
 	public int length() {
 		return enumChinos.values().length;
 	}

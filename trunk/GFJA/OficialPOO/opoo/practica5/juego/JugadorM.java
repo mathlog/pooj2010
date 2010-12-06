@@ -86,9 +86,9 @@ public class JugadorM {
 		if (marcado)
 			if (humano)
 				return nombre + "->" + respuesta
-						+ ": reinicia para jugar otra partida";
+						+ " | reinicia para jugar otra partida";
 			else
-				return nombre + "->" + respuesta + ": OUTJUEGO";
+				return nombre + "->" + respuesta + " | OUTJUEGO";
 		else
 			return nombre + "->" + respuesta;
 	}

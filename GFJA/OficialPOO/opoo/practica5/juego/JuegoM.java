@@ -137,9 +137,16 @@ public abstract class JuegoM {
 	/**
 	 * Metodo que calcula los ganadores de cada ronda
 	 * 
-	 * @return los ganadores o null si no hay
+	 * @return los ganadores
 	 */
-	protected abstract ArrayList<JugadorM> calcularGanadores();
+	protected ArrayList<JugadorM> calcularGanadores() {
+		calcularResultados();
+		ArrayList<JugadorM> ganadores = new ArrayList<JugadorM>();
+		for (JugadorM a : jugadores)
+			if ((!a.isDeshabilitado()) && !(a.isMarcado()))
+				ganadores.add(a);
+		return ganadores;
+	}
 
 	/**
 	 * Habilita a los jugadores

@@ -10,19 +10,22 @@ package opoo.practica5.juego;
 
 import java.util.ArrayList;
 
+/*Clase que representa el juego de la morra para 2 jugadores extiende de Juego.
+ * Explicacion: muestran la mano y deben acertar cual es el nTotal de dedos*/
 /**
- * Clase que representa el juego de los chinos descendiendo de Juego
- * Explicacion: los que ganan se salen hasta que solo quede 1, el cual pierde
+ * Clase que representa el juego de la morra para varios jugadores extiende de
+ * Juego. Explicacion: muestran una mano y deben acertar cual es el nTotal de
+ * dedos.
  * 
  * @author José Ángel García Fernández
- * @version 1.1 04/12/2010
+ * @version 1.0 05/12/2010
  */
-public class Chinos extends JuegoM {
+public class Morra extends JuegoM {
 
-	private int totalMonedas;
+	private int totalDedosReal;
 
-	public Chinos(JugadorM[] jugadores, int nMAXrondas) {
-		super("Juego de los chinos", jugadores, nMAXrondas);
+	public Morra(JugadorM[] jugadores, int nMAXrondas) {
+		super("Juego de la Morra", jugadores, nMAXrondas);
 	}
 
 	@Override
@@ -58,34 +61,32 @@ public class Chinos extends JuegoM {
 
 	@Override
 	protected void calcularResultados() {
-		totalMonedas = calcularTotalMonedas();
+		calcularTotalDedos();
 		for (JugadorM a : jugadores) {
 			if (a.isMarcado())
 				continue;
-			claseChinos respA = (claseChinos) a.getRespuesta();
-			if (respA.getNMonedas() != totalMonedas) {
+			claseMorra respA = (claseMorra) a.getRespuesta();
+			if (respA.getTotalDedos() != totalDedosReal) {
 				a.setDeshabilitado(true);
 			}
 		}
 	}
 
 	/**
-	 * Metodo para calcular el total de monedas
+	 * Metodo para calcular el total de dedos
 	 * 
-	 * @return el total de monedas
 	 */
-	private int calcularTotalMonedas() {
-		int totalMonedas = 0;
+	private void calcularTotalDedos() {
+		totalDedosReal = 0;
 		for (JugadorM a : jugadores) {
 			if (a.isMarcado())
 				continue;
-			claseChinos aux = (claseChinos) a.getRespuesta();
-			totalMonedas += aux.ordinal();
+			claseMorra aux = (claseMorra) a.getRespuesta();
+			totalDedosReal += aux.getTusDedos();
 		}
-		return totalMonedas;
 	}
 
-	public int getTotalMonedas() {
-		return totalMonedas;
+	public int getTotalDedos() {
+		return totalDedosReal;
 	}
 }

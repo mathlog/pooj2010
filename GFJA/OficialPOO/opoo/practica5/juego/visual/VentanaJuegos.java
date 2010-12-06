@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import opoo.practica5.juego.Chinos;
 import opoo.practica5.juego.JuegoM;
 import opoo.practica5.juego.JugadorM;
+import opoo.practica5.juego.Morra;
 import opoo.practica5.juego.PPT;
 import opoo.practica5.juego.ParesNones;
 
@@ -29,28 +30,30 @@ import opoo.practica5.juego.ParesNones;
  * @version 1.2 05/12/2010
  */
 public class VentanaJuegos extends JFrame {
-	//resources
+	// resources
 	final static String RUTADEO = "/opoo/practica5/juego/visual/imgs/eldeorrr.jpg";
-	final static String RUTAABOUT = "/opoo/practica5/juego/visual/docs/infoExtra.html";  //  @jve:decl-index=0:
-	final static String RUTACOMO = "/opoo/practica5/juego/visual/docs/comoUsar.html";  //  @jve:decl-index=0:
-	//capas
+	final static String RUTAABOUT = "/opoo/practica5/juego/visual/docs/infoExtra.html"; // @jve:decl-index=0:
+	final static String RUTACOMO = "/opoo/practica5/juego/visual/docs/comoUsar.html"; // @jve:decl-index=0:
+	// capas
 	final static String PPTPANEL = "Card Piedra Papel Tijera";
 	final static String CHINOSPANEL = "Card Chinos";
 	final static String PNPANEL = "Card Pares Nones";
-	//props
+	final static String MORRAPANEL = "Card Morra";
+	// props
 	private byte capaActiva;
 	private JugadorM[] jugadores = null;
 	private int nJugadores;
 	private JuegoM juego = null;
 	private Object[] optionsTiposJuegos = { "Piedra, Papel, Tijera", "Chinos",
-			"Pares Nones" };
+			"Pares Nones", "Morra" };
 	private Object[] optionsJugadores = { "2", "3", "4", "5", "6", "7", "8" };
 	private static final long serialVersionUID = 1L;
-	//componentes
+	// componentes
 	private JPanel jPBase = null;
 	private JPanelPPT jPppt = null;
 	private JPanelChinos jPchinos = null;
 	private JPanelPN jPpn = null;
+	private JPanelMorra jPmorra = null;
 	private JMenuBarJ jMBJ = null;
 	private CardLayout layout = null;
 
@@ -76,7 +79,7 @@ public class VentanaJuegos extends JFrame {
 		estableceLayout();
 		this.setJMenuBar(getJMBJ());
 		this.setResizable(false);
-		this.setTitle("Juegos");
+		this.setTitle("Juegos de manos");
 		this.pack();
 	}
 
@@ -92,6 +95,7 @@ public class VentanaJuegos extends JFrame {
 			jPBase.add(getJPppt(), PPTPANEL);
 			jPBase.add(getJPchinos(), CHINOSPANEL);
 			jPBase.add(getJPpn(), PNPANEL);
+			jPBase.add(getJPmorra(), MORRAPANEL);
 
 		}
 		return jPBase;
@@ -134,15 +138,28 @@ public class VentanaJuegos extends JFrame {
 	}
 
 	/**
+	 * This method initializes jPmorra
+	 * 
+	 * @return JPanelMorra
+	 */
+	private JPanelMorra getJPmorra() {
+		if (jPmorra == null) {
+			jPmorra = new JPanelMorra(juego);
+		}
+		return jPmorra;
+	}
+
+	/**
 	 * This method initializes jTFrutaArchivo
 	 * 
 	 * @return javax.swing.JTextField
 	 */
 	private JMenuBarJ getJMBJ() {
 		if (jMBJ == null) {
-			jMBJ = new JMenuBarJ(this, new JDialogAcercade(this, "Juegos",
+			jMBJ = new JMenuBarJ(this, new JDialogAcercade(this, "Juegos de manos",
 					"1.0 03/12/2010", "Jstyl_8", "http://jstyl8.net46.net",
-					RUTADEO), new JDialogComoUsar(this, RUTAABOUT, RUTACOMO, true,true));
+					RUTADEO), new JDialogComoUsar(this, RUTAABOUT, RUTACOMO,
+					true, true));
 		}
 		return jMBJ;
 	}
@@ -194,6 +211,9 @@ public class VentanaJuegos extends JFrame {
 		} else if (s.equals(optionsTiposJuegos[2])) {
 			juego = new ParesNones(jugadores, 3);
 			capaActiva = 2;
+		} else if (s.equals(optionsTiposJuegos[3])) {
+			juego = new Morra(jugadores, 3);
+			capaActiva = 3;
 		}
 	}
 
@@ -214,6 +234,10 @@ public class VentanaJuegos extends JFrame {
 			layout.show(jPBase, PNPANEL);
 			jPpn.setJuego(juego);
 			break;
+		case 3:
+			layout.show(jPBase, MORRAPANEL);
+			jPmorra.setJuego(juego);
+			break;
 		}
 	}
 
@@ -230,6 +254,9 @@ public class VentanaJuegos extends JFrame {
 			break;
 		case 2:
 			jPpn.reiniciarJuego();
+			break;
+		case 3:
+			jPmorra.reiniciarJuego();
 			break;
 		}
 	}

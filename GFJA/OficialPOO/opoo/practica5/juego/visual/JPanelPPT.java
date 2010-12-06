@@ -103,24 +103,24 @@ public class JPanelPPT extends JPanel {
 		this.setLayout(null);
 		this.setSize(465, 175);
 		this.setPreferredSize(new Dimension(465, 175));
-		this.add(jLtuMano, null);
-		this.add(jLmostrar, null);
-		this.add(jLelige, null);
-		this.add(jLresult, null);
-		this.add(jLinf, null);
-		this.add(jLtuScore, null);
-		this.add(jLhastaLim, null);
+		this.add(jLtuMano);
+		this.add(jLmostrar);
+		this.add(jLelige);
+		this.add(jLresult);
+		this.add(jLinf);
+		this.add(jLtuScore);
+		this.add(jLhastaLim);
 
-		this.add(getJSPtuScores(), null);
-		this.add(getJSPresult(), null);
+		this.add(getJSPtuScores());
+		this.add(getJSPresult());
 
-		this.add(getJTFrondaActual(), null);
-		this.add(getJTFhastaLimRonda(), null);
+		this.add(getJTFrondaActual());
+		this.add(getJTFhastaLimRonda());
 
-		this.add(getJBjugar(), null);
-		this.add(getJRBTijera(), null);
-		this.add(getJRBPiedra(), null);
-		this.add(getJRBPapel(), null);
+		this.add(getJBjugar());
+		this.add(getJRBTijera());
+		this.add(getJRBPiedra());
+		this.add(getJRBPapel());
 		getBgroup();
 		jBjugar.requestFocus();
 	}
@@ -336,7 +336,7 @@ public class JPanelPPT extends JPanel {
 		} catch (AllRondasCompleteException e) {
 			FINtotalRondasAlcanzadas(e);
 		}
-		jBjugar.requestFocus();
+		//jBjugar.requestFocus();
 		// -poner valores a jugadores
 		// -pal jugador humano la k ha sacao
 		// -pal resto aleatorios
@@ -351,7 +351,7 @@ public class JPanelPPT extends JPanel {
 	 * Escribe los datos de la ronda en los jTA
 	 */
 	private void escribirRonda(boolean actual) {
-		StringBuilder sb = new StringBuilder("Ronda:" + juego.getNRonda()
+		StringBuilder sb = new StringBuilder("Ronda: " + juego.getNRonda()
 				+ "\n");
 		for (JugadorM a : juego.getJugadores()) {
 			sb.append(a + "\n");

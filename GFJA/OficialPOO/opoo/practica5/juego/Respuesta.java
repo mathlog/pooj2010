@@ -12,25 +12,10 @@ package opoo.practica5.juego;
  * Interfaz que representa una respuesta
  * 
  * @author José Ángel García Fernández
- * @version 1.0 03/12/2010
+ * @version 1.1 06/12/2010
  */
 public interface Respuesta {
 
-	/**
-	 * Obtiene la respuesta de la enumeracion
-	 * 
-	 * @param a
-	 *            el indice
-	 * @return la respuesta
-	 */
-	public Respuesta getEnum(int a);
-
-	/**
-	 * Obtiene la longitud de la enumeracion
-	 * 
-	 * @return la longitud de la enumeracion
-	 */
-	public int length();
 
 	/**
 	 * Obtiene una respuesta aleatoria
@@ -38,7 +23,4 @@ public interface Respuesta {
 	 * @return la respuesta
 	 */
 	public Respuesta rand();
-
-	@Override
-	public String toString();
 }

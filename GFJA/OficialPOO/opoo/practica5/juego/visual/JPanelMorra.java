@@ -11,32 +11,33 @@ package opoo.practica5.juego.visual;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import opoo.excepciones.AllRondasCompleteException;
-import opoo.practica5.juego.Chinos;
 import opoo.practica5.juego.JuegoM;
 import opoo.practica5.juego.JugadorM;
+import opoo.practica5.juego.Morra;
 import opoo.practica5.juego.Respuesta;
-import opoo.practica5.juego.claseChinos;
-import opoo.practica5.juego.enumChinos;
+import opoo.practica5.juego.claseMorra;
 
 /**
- * Clase visual para la pantalla del juego de los chinos
+ * Clase visual para la pantalla del juego de la Morra
  * 
  * @author Jose Angel Garcia Fernandez
- * @version 1.1 04.12.2010
+ * @version 1.0 06.12.2010
  */
-public class JPanelChinos extends JPanel {
+public class JPanelMorra extends JPanel {
 
+	private Object[] totalDedos = { "2", "3", "4", "5", "6", "7", "8", "9",
+			"10" };
+	private Object[] tusDedos = { "1", "2", "3", "4", "5" };
 	private JuegoM juego; // @jve:decl-index=0:
 	private Respuesta respuesta = null; // @jve:decl-index=0:
 	private static final long serialVersionUID = 1L;
@@ -47,29 +48,27 @@ public class JPanelChinos extends JPanel {
 	private JLabel jLtuScore = null;
 	private JLabel jLhastaLim = null;
 	private JLabel jLtuMano = null;
-	private JLabel jLnCoins = null;
+	private JLabel jLtotalDedos = null;
 	private JTextArea jTAtuScores = null;
 	private JScrollPane jSPtuScores = null;
 	private JTextArea jTAresult = null;
 	private JScrollPane jSPresult = null;
 	private JTextField jTFrondaActual = null;
 	private JTextField jTFhastaLimRonda = null;
-	private JTextField jTFnCoins = null;
+	private JTextField jTFtotalDedos = null;
+	private JComboBox jCBtotalDedos = null;
+	private JComboBox jCBtusDedos = null;
 	private JButton jBjugar = null;
-	private JRadioButton jRBcero = null;
-	private JRadioButton jRBuna = null;
-	private JRadioButton jRBdos = null;
-	private JRadioButton jRBtres = null;
-	private ButtonGroup group = null; // @jve:decl-index=0:
 
 	public void setJuego(JuegoM juego) {
 		this.juego = juego;
+
 	}
 
 	/**
 	 * This is the default constructor
 	 */
-	public JPanelChinos(JuegoM juego) {
+	public JPanelMorra(JuegoM juego) {
 		super();
 		this.juego = juego;
 		initialize();
@@ -81,10 +80,9 @@ public class JPanelChinos extends JPanel {
 	 * @return void
 	 */
 	private void initialize() {
-
-		jLnCoins = new JLabel();
-		jLnCoins.setBounds(new Rectangle(146, 8, 73, 16));
-		jLnCoins.setText("¿nMonedas?");
+		jLtotalDedos = new JLabel();
+		jLtotalDedos.setBounds(new Rectangle(115, 8, 100, 14));
+		jLtotalDedos.setText("¿Total de Dedos?");
 		jLtuMano = new JLabel();
 		jLtuMano.setBounds(new Rectangle(27, 130, 55, 14));
 		jLtuMano.setText("Tu mano:");
@@ -101,8 +99,8 @@ public class JPanelChinos extends JPanel {
 		jLresult.setBounds(new Rectangle(240, 8, 74, 15));
 		jLresult.setText("Resultados:");
 		jLelige = new JLabel();
-		jLelige.setBounds(new Rectangle(13, 8, 110, 14));
-		jLelige.setText("Elige tus monedas:");
+		jLelige.setBounds(new Rectangle(13, 8, 95, 14));
+		jLelige.setText("Elige tus dedos:");
 		jLmostrar = new JLabel();
 		jLmostrar.setBounds(new Rectangle(13, 49, 96, 14));
 		jLmostrar.setText("Mostrar manos:");
@@ -117,22 +115,18 @@ public class JPanelChinos extends JPanel {
 		this.add(jLinf);
 		this.add(jLtuScore);
 		this.add(jLhastaLim);
-		this.add(jLnCoins);
+		this.add(jLtotalDedos);
 
-		this.add(getJStuScores());
+		this.add(getJSPtuScores());
 		this.add(getJSPresult());
 
 		this.add(getJTFrondaActual());
 		this.add(getJTFhastaLimRonda());
-		this.add(getJTFnCoins());
+		this.add(getJTFTotalDedos());
 
 		this.add(getJBjugar());
-		this.add(getJRBcero());
-		this.add(getJRBuna());
-		this.add(getJRBdos());
-		this.add(getJRBtres());
-
-		getBgroup();
+		this.add(getJCBtotalDedos());
+		this.add(getJCBtusDedos());
 		jBjugar.requestFocus();
 	}
 
@@ -159,7 +153,7 @@ public class JPanelChinos extends JPanel {
 	private JTextField getJTFhastaLimRonda() {
 		if (jTFhastaLimRonda == null) {
 			jTFhastaLimRonda = new JTextField();
-			jTFhastaLimRonda.setBounds(new Rectangle(196, 100, 30, 20));
+			jTFhastaLimRonda.setBounds(new Rectangle(196, 100, 38, 20));
 			jTFhastaLimRonda.setEditable(false);
 			jTFhastaLimRonda.setText(String.valueOf(juego.getNMAXrondas()));
 		}
@@ -167,16 +161,16 @@ public class JPanelChinos extends JPanel {
 	}
 
 	/**
-	 * This method initializes jTFnCoins
-	 * 
-	 * @return javax.swing.JTextField
+	 * This method initializes jTFtotalDedos	
+	 * 	
+	 * @return javax.swing.JTextField	
 	 */
-	private JTextField getJTFnCoins() {
-		if (jTFnCoins == null) {
-			jTFnCoins = new JTextField();
-			jTFnCoins.setBounds(new Rectangle(170, 25, 26, 20));
+	private JTextField getJTFTotalDedos() {
+		if (jTFtotalDedos == null) {
+			jTFtotalDedos = new JTextField();
+			jTFtotalDedos.setBounds(new Rectangle(150, 25, 28, 21));
 		}
-		return jTFnCoins;
+		return jTFtotalDedos;
 	}
 
 	/**
@@ -224,108 +218,43 @@ public class JPanelChinos extends JPanel {
 	 * 
 	 * @return javax.swing.JScrollPane
 	 */
-	private JScrollPane getJStuScores() {
+	private JScrollPane getJSPtuScores() {
 		if (jSPtuScores == null) {
 			jSPtuScores = new JScrollPane();
-			jSPtuScores.setBounds(new Rectangle(85, 128, 141, 41));
+			jSPtuScores.setBounds(new Rectangle(85, 123, 150, 46));
 			jSPtuScores.setViewportView(getJTAtuScores());
-			jSPtuScores.setVisible(true);
 		}
 		return jSPtuScores;
 	}
 
 	/**
-	 * This method initializes group
+	 * This method initializes jCBtotalDedos
 	 * 
-	 * @return javax.swing.ButtonGroup
+	 * @return javax.swing.JComboBox
 	 */
-	private ButtonGroup getBgroup() {
-		if (group == null) {
-			group = new ButtonGroup();
-			group.add(getJRBcero());
-			group.add(getJRBuna());
-			group.add(getJRBdos());
-			group.add(getJRBtres());
+	private JComboBox getJCBtotalDedos() {
+		if (jCBtotalDedos == null) {
+			jCBtotalDedos = new JComboBox(totalDedos);
+			jCBtotalDedos.setEditable(false);
+			jCBtotalDedos.setBounds(new Rectangle(158, 25, 45, 21));
+			jCBtotalDedos.setEnabled(false);
+			jCBtotalDedos.setVisible(false);
 		}
-		return group;
+		return jCBtotalDedos;
 	}
 
 	/**
-	 * This method initializes jRBcero
+	 * This method initializes jCBtusDedos
 	 * 
-	 * @return javax.swing.JRadioButton
+	 * @return javax.swing.JComboBox
 	 */
-	private JRadioButton getJRBcero() {
-		if (jRBcero == null) {
-			jRBcero = new JRadioButton();
-			jRBcero.setBounds(new Rectangle(13, 25, 34, 21));
-			jRBcero.setText("0");
-			jRBcero.setSelected(true);
-			respuesta = new claseChinos(enumChinos.CERO);
-			jRBcero.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					respuesta = new claseChinos(enumChinos.CERO);
-				}
-			});
+	private JComboBox getJCBtusDedos() {
+		if (jCBtusDedos == null) {
+			jCBtusDedos = new JComboBox(tusDedos);
+			jCBtusDedos.setEditable(false);
+			jCBtusDedos.setBounds(new Rectangle(50, 25, 45, 21));
 		}
-		return jRBcero;
-	}
-
-	/**
-	 * This method initializes jRBuna
-	 * 
-	 * @return javax.swing.JRadioButton
-	 */
-	private JRadioButton getJRBuna() {
-		if (jRBuna == null) {
-			jRBuna = new JRadioButton();
-			jRBuna.setBounds(new Rectangle(43, 25, 34, 21));
-			jRBuna.setText("1");
-			jRBuna.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					respuesta = new claseChinos(enumChinos.UNA);
-				}
-			});
-		}
-		return jRBuna;
-	}
-
-	/**
-	 * This method initializes jRBdos
-	 * 
-	 * @return javax.swing.JRadioButton
-	 */
-	private JRadioButton getJRBdos() {
-		if (jRBdos == null) {
-			jRBdos = new JRadioButton();
-			jRBdos.setBounds(new Rectangle(73, 25, 34, 21));
-			jRBdos.setText("2");
-			jRBdos.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					respuesta = new claseChinos(enumChinos.DOS);
-				}
-			});
-		}
-		return jRBdos;
-	}
-
-	/**
-	 * This method initializes jRBtres
-	 * 
-	 * @return javax.swing.JRadioButton
-	 */
-	private JRadioButton getJRBtres() {
-		if (jRBtres == null) {
-			jRBtres = new JRadioButton();
-			jRBtres.setBounds(new Rectangle(103, 25, 34, 21));
-			jRBtres.setText("3");
-			jRBtres.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					respuesta = new claseChinos(enumChinos.TRES);
-				}
-			});
-		}
-		return jRBtres;
+		return jCBtusDedos;
 	}
 
 	/**
@@ -356,7 +285,7 @@ public class JPanelChinos extends JPanel {
 	 * Metodo que realiza las operaciones de jugar
 	 */
 	private void operacionesJugar() {
-		if (!nMonedasToResp())
+		if (!nDedosToResp())
 			return;
 		juego.actualizarJugadores(respuesta);
 		JugadorM[] ganadores;
@@ -382,19 +311,22 @@ public class JPanelChinos extends JPanel {
 	}
 
 	/**
-	 * Metodo que pasa el numero de monedas a la respuesta
+	 * Metodo que pasa el numero de tusDedos a la respuesta
 	 */
-	private boolean nMonedasToResp() {
-		String coins = jTFnCoins.getText();
-		if (coins.equals("") || (coins == null)) {
+	private boolean nDedosToResp() {
+		//String totalDedos = (String) jCBtotalDedos.getSelectedItem();
+		String totalDedos = (String) jTFtotalDedos.getText();
+		String tusDedos = (String) jCBtusDedos.getSelectedItem();
+		if ((totalDedos.equals("")) || (totalDedos == null)
+				|| (tusDedos.equals("")) || (tusDedos == null)) {
 			JOptionPane.showMessageDialog(this,
-					"Introduce numero de monedas en el cuadro de texto",
+					"Introduce numero de dedos en el cuadro combinado",
 					"¡FALTAN DATOS!", JOptionPane.ERROR_MESSAGE);
 			return false;
 		} else {
-			int nMonedas = Integer.parseInt(coins);
-			claseChinos aux = (claseChinos) respuesta;
-			aux.setNMonedas(nMonedas);
+			int nTotalDedos = Integer.parseInt(totalDedos);
+			int nTusDedos = Integer.parseInt(tusDedos);
+			respuesta = new claseMorra(nTusDedos, nTotalDedos);
 			return true;
 		}
 	}
@@ -403,15 +335,15 @@ public class JPanelChinos extends JPanel {
 	 * Escribe los datos de la ronda en los jTA
 	 */
 	private void escribirRonda(boolean actual) {
-		Chinos chinos = (Chinos) juego;
+		Morra morra = (Morra) juego;
 		StringBuilder sb = new StringBuilder("Ronda: " + juego.getNRonda()
 				+ "\n");
-		sb.append("Total Monedas: " + chinos.getTotalMonedas() + "\n");
+		sb.append("Total dedos: " + morra.getTotalDedos() + "\n");
 		for (JugadorM a : juego.getJugadores()) {
 			sb.append(a + "\n");
 			if (a.isHumano() && !a.isMarcado())
 				jTAtuScores.setText(jTAtuScores.getText() + juego.getNRonda()
-						+ ": " + a.getRespuesta()
+						+ ". " + a.getRespuesta()
 						/* + (a.isMarcado() ? " OUTGAME" : "") */+ "\n");
 		}
 		jTAresult.setText(jTAresult.getText() + sb.toString() + "\n");
@@ -435,16 +367,16 @@ public class JPanelChinos extends JPanel {
 	 * Muestra que ha habido un empate
 	 */
 	private void mostrarEmpateRonda() {
-		Chinos chinos = (Chinos) juego;
+		Morra morra = (Morra) juego;
 		JOptionPane.showMessageDialog(this, "Se repite la ronda "
 				+ juego.getNRonda() + " por que nadie acerto el total de "
-				+ chinos.getTotalMonedas() + " monedas", "¡RONDA "
+				+ morra.getTotalDedos() + " dedos", "¡RONDA "
 				+ juego.getNRonda() + " EMPATADA!",
 				JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	/**
-	 * Metodo que finaliza la partida habiendo
+	 * Metodo que finaliza la partida
 	 */
 	private void FINsolo1jugador() {
 		deshabilitarBotones();
@@ -463,8 +395,8 @@ public class JPanelChinos extends JPanel {
 	private void FINtotalRondasAlcanzadas(Exception e) {
 		deshabilitarBotones();
 		JOptionPane.showMessageDialog(this, e.getMessage()
-				+ "\nQuien no haya acertado ¡¡PAGA!!", "¡FIN DE JUEGO!",
-				JOptionPane.INFORMATION_MESSAGE);
+				+ "\nQuien no haya acertado nunca mala suerte",
+				"¡FIN DE JUEGO!", JOptionPane.INFORMATION_MESSAGE);
 		jTAresult.setText(jTAresult.getText() + "Fin de juego por "
 				+ e.getMessage());
 	}
@@ -491,9 +423,6 @@ public class JPanelChinos extends JPanel {
 		jTAtuScores.setText("");
 		jTAresult.setText("");
 		jTFrondaActual.setText(String.valueOf(juego.getNRonda()));
-		jTFnCoins.setText(null);
 		habilitarBotones();
-
 	}
-
 }

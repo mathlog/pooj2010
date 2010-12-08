@@ -200,19 +200,19 @@ public class VentanaJuegos extends JFrame {
 				JOptionPane.QUESTION_MESSAGE, null, optionsTiposJuegos,
 				optionsTiposJuegos[0]);
 		if (s == null) {
-			juego = new PPT(jugadores, 3);
+			juego = new PPT(jugadores, jugadores.length);
 			capaActiva = 0;
 		} else if (s.equals(optionsTiposJuegos[0])) {
-			juego = new PPT(jugadores, 3);
+			juego = new PPT(jugadores, jugadores.length);
 			capaActiva = 0;
 		} else if (s.equals(optionsTiposJuegos[1])) {
-			juego = new Chinos(jugadores, 3);
+			juego = new Chinos(jugadores, jugadores.length);
 			capaActiva = 1;
 		} else if (s.equals(optionsTiposJuegos[2])) {
-			juego = new ParesNones(jugadores, 3);
+			juego = new ParesNones(jugadores, jugadores.length);
 			capaActiva = 2;
 		} else if (s.equals(optionsTiposJuegos[3])) {
-			juego = new Morra(jugadores, 3);
+			juego = new Morra(jugadores, jugadores.length);
 			capaActiva = 3;
 		}
 	}

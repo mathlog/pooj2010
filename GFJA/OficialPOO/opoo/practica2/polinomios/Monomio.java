@@ -28,43 +28,6 @@ public class Monomio implements Comparable<Monomio> {
 	private char literal;
 
 	/**
-	 * Metodo para obtener la propiedad literal
-	 * 
-	 * @return the literal
-	 */
-	public char getLiteral() {
-		return literal;
-	}
-
-	/**
-	 * Metodo para modificar la propiedad literal
-	 * 
-	 * @param literal
-	 *            the literal to set
-	 */
-	public void setLiteral(char literal) {
-		this.literal = literal;
-	}
-
-	/**
-	 * Metodo para obtener la propiedad coeficiente
-	 * 
-	 * @return the coeficiente
-	 */
-	public double getCoeficiente() {
-		return coeficiente;
-	}
-
-	/**
-	 * Metodo para obtener la propiedad grado
-	 * 
-	 * @return the grado
-	 */
-	public int getGrado() {
-		return grado;
-	}
-
-	/**
 	 * Genera un objeto de tipo Monomio
 	 * 
 	 * @param coeficiente
@@ -147,59 +110,6 @@ public class Monomio implements Comparable<Monomio> {
 	}
 
 	/**
-	 * Suma al monomio this otro
-	 * 
-	 * @param otro
-	 *            monomio
-	 * @throws IncompatibleMonomioException
-	 *             si no son compatibles
-	 */
-	public void addSumar(Monomio otro) throws IncompatibleMonomioException {
-		if (!compatible(otro))
-			throw new IncompatibleMonomioException("(" + this + ") + (" + otro
-					+ ")");
-		else
-			coeficiente += otro.coeficiente;
-	}
-
-	/**
-	 * Resta al monomio this otro
-	 * 
-	 * @param otro
-	 *            monomio
-	 * @throws IncompatibleMonomioException
-	 *             si no son compatibles
-	 */
-	public void addRestar(Monomio otro) throws IncompatibleMonomioException {
-		if (!compatible(otro))
-			throw new IncompatibleMonomioException("(" + this + ") - (" + otro
-					+ ")");
-		else
-			coeficiente -= otro.coeficiente;
-	}
-
-	/**
-	 * Multiplica al monomio this otro
-	 * 
-	 * @param otro
-	 *            monomio
-	 */
-	public void addMult(Monomio otro) {
-		coeficiente *= otro.coeficiente;
-		grado += otro.grado;
-	}
-
-	/**
-	 * Multiplica this por un escalar
-	 * 
-	 * @param escalar
-	 *            a multiplicar
-	 */
-	public void addMultEsc(double escalar) {
-		coeficiente *= escalar;
-	}
-
-	/**
 	 * Suma el monomio this con otro
 	 * 
 	 * @param otro
@@ -223,7 +133,7 @@ public class Monomio implements Comparable<Monomio> {
 	 *            monomio
 	 * @return this-monomio
 	 * @throws IncompatibleMonomioException
-	 *             si no tienen el mismo grado
+	 *             si no son compatibles
 	 */
 	public Monomio restar(Monomio otro) throws IncompatibleMonomioException {
 		if (!compatible(otro)) {
@@ -312,5 +222,95 @@ public class Monomio implements Comparable<Monomio> {
 	 */
 	public static Monomio multEsc(Monomio a, double escalar) {
 		return a.multEsc(escalar);
+	}
+
+	/**
+	 * Suma al monomio this otro
+	 * 
+	 * @param otro
+	 *            monomio
+	 * @throws IncompatibleMonomioException
+	 *             si no son compatibles
+	 */
+	public void addSumar(Monomio otro) throws IncompatibleMonomioException {
+		if (!compatible(otro))
+			throw new IncompatibleMonomioException("(" + this + ") + (" + otro
+					+ ")");
+		else
+			coeficiente += otro.coeficiente;
+	}
+
+	/**
+	 * Resta al monomio this otro
+	 * 
+	 * @param otro
+	 *            monomio
+	 * @throws IncompatibleMonomioException
+	 *             si no son compatibles
+	 */
+	public void addRestar(Monomio otro) throws IncompatibleMonomioException {
+		if (!compatible(otro))
+			throw new IncompatibleMonomioException("(" + this + ") - (" + otro
+					+ ")");
+		else
+			coeficiente -= otro.coeficiente;
+	}
+
+	/**
+	 * Multiplica al monomio this otro
+	 * 
+	 * @param otro
+	 *            monomio
+	 */
+	public void addMult(Monomio otro) {
+		coeficiente *= otro.coeficiente;
+		grado += otro.grado;
+	}
+
+	/**
+	 * Multiplica this por un escalar
+	 * 
+	 * @param escalar
+	 *            a multiplicar
+	 */
+	public void addMultEsc(double escalar) {
+		coeficiente *= escalar;
+	}
+
+	/**
+	 * Metodo para obtener la propiedad literal
+	 * 
+	 * @return the literal
+	 */
+	public char getLiteral() {
+		return literal;
+	}
+
+	/**
+	 * Metodo para modificar la propiedad literal
+	 * 
+	 * @param literal
+	 *            the literal to set
+	 */
+	public void setLiteral(char literal) {
+		this.literal = literal;
+	}
+
+	/**
+	 * Metodo para obtener la propiedad coeficiente
+	 * 
+	 * @return the coeficiente
+	 */
+	public double getCoeficiente() {
+		return coeficiente;
+	}
+
+	/**
+	 * Metodo para obtener la propiedad grado
+	 * 
+	 * @return the grado
+	 */
+	public int getGrado() {
+		return grado;
 	}
 }

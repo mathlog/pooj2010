@@ -279,4 +279,88 @@ public class Polinomio {
 	public static Polinomio multEsc(Polinomio a, double escalar) {
 		return a.multEsc(escalar);
 	}
+
+	/**
+	 * Suma al polinomio this otro
+	 * 
+	 * @param otro
+	 *            polinomio
+	 */
+	public void addSumar(Polinomio otro) {
+		ArrayList<Monomio> termSumas = new ArrayList<Monomio>();
+		Iterator<Monomio> it = terminos.iterator();
+		Iterator<Monomio> it2 = otro.terminos.iterator();
+		while (it.hasNext()) {
+			Monomio aux = it.next();
+			while (it2.hasNext())
+				try {
+					termSumas.add(aux.sumar(it2.next()));
+					break;// ya ha encontrado comun me salgo
+				} catch (IncompatibleMonomioException e) {
+					if (!it2.hasNext())// si no hay comunes lo mete direc
+						termSumas.add(aux);
+				}
+			it2 = otro.terminos.iterator();
+		}
+		this.terminos = termSumas;
+	}
+
+	/**
+	 * Resta al polinomio this otro
+	 * 
+	 * @param otro
+	 *            polinomio
+	 */
+	public void addRestar(Polinomio otro) {
+		ArrayList<Monomio> termRestas = new ArrayList<Monomio>();
+		Iterator<Monomio> it = terminos.iterator();
+		Iterator<Monomio> it2 = otro.terminos.iterator();
+		while (it.hasNext()) {
+			Monomio aux = it.next();
+			while (it2.hasNext())
+				try {
+					termRestas.add(aux.restar(it2.next()));
+					break;// ya ha encontrao comun me salgo
+				} catch (IncompatibleMonomioException e) {
+					if (!it2.hasNext())// si no hay comunes lo mete direc
+						termRestas.add(aux);
+				}
+			it2 = otro.terminos.iterator();
+		}
+		this.terminos = termRestas;
+	}
+
+	/**
+	 * Multiplica al polinomio this otro
+	 * 
+	 * @param otro
+	 *            polinomio
+	 */
+	public void addMult(Polinomio otro) {
+		ArrayList<Monomio> termMult = new ArrayList<Monomio>();
+		Iterator<Monomio> it = terminos.iterator();
+		Iterator<Monomio> it2 = otro.terminos.iterator();
+		while (it.hasNext()) {
+			Monomio aux = it.next();
+			while (it2.hasNext())
+				termMult.add(aux.mult(it2.next()));
+			it2 = otro.terminos.iterator();
+		}
+		juntarComunes(termMult);
+		this.terminos = termMult;
+	}
+
+	/**
+	 * Multiplica a this un escalar
+	 * 
+	 * @param escalar
+	 *            a multiplicar
+	 */
+	public void addMultEsc(double escalar) {
+		Iterator<Monomio> it = terminos.iterator();
+		ArrayList<Monomio> termEsc = new ArrayList<Monomio>();
+		while (it.hasNext())
+			termEsc.add(it.next().multEsc(escalar));
+		this.terminos = termEsc;
+	}
 }

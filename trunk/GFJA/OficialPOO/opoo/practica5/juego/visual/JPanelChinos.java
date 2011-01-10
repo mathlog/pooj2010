@@ -444,7 +444,7 @@ public class JPanelChinos extends JPanel {
 	}
 
 	/**
-	 * Metodo que finaliza la partida habiendo
+	 * Metodo que finaliza la partida habiendo 1 solo jugador
 	 */
 	private void FINsolo1jugador() {
 		deshabilitarBotones();

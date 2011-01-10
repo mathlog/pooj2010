@@ -17,7 +17,7 @@
 package opoo.practica5.juego;
 
 /**
- * Clase que representa a un jugador
+ * Clase que representa a un jugador de un juego de manos
  * 
  * @author José Ángel García Fernández
  * @version 1.2 05/12/2010
@@ -28,11 +28,6 @@ public class JugadorM {
 	 * Cadena de caracteres que representa el nombre del jugador
 	 */
 	private String nombre;
-
-	/**
-	 * Variable que representa la puntuacion del jugador
-	 */
-	private float puntuacion;
 
 	/**
 	 * Variable que representa el tipo de respuesta
@@ -63,7 +58,6 @@ public class JugadorM {
 	public JugadorM(String nombre, boolean humano) {
 		this.nombre = nombre;
 		this.humano = humano;
-		puntuacion = 0;
 		marcado = false;
 		deshabilitado = false;
 	}
@@ -72,7 +66,6 @@ public class JugadorM {
 	 * Metodo que resetea al jugador
 	 */
 	public void resetear() {
-		puntuacion = 0;
 		marcado = false;
 		deshabilitado = false;
 	}

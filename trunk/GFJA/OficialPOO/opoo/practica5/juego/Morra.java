@@ -10,8 +10,6 @@ package opoo.practica5.juego;
 
 import java.util.ArrayList;
 
-/*Clase que representa el juego de la morra para 2 jugadores extiende de Juego.
- * Explicacion: muestran la mano y deben acertar cual es el nTotal de dedos*/
 /**
  * Clase que representa el juego de la morra para varios jugadores extiende de
  * Juego. Explicacion: muestran una mano y deben acertar cual es el nTotal de

@@ -12,8 +12,6 @@ import java.util.ArrayList;
 
 import opoo.excepciones.AllRondasCompleteException;
 
-//cargarte excepcion de 1jugador
-//generalizar el calcularGanadores xk es igual x ahora
 /**
  * Clase que representa un juego de manos
  * 

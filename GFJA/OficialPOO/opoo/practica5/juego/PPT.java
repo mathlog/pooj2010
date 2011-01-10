@@ -44,7 +44,7 @@ public class PPT extends JuegoM {
 	@Override
 	public void actualizarJugadores(Respuesta resp) {
 		for (JugadorM a : jugadores) {
-			if (a.isMarcado())
+			if (a.isMarcado())//fuera de juego
 				continue;
 			if (a.isHumano())
 				a.setRespuesta(resp);
@@ -53,15 +53,6 @@ public class PPT extends JuegoM {
 
 		}
 	}
-
-	/*
-	 * protected JugadorM[] calcularGanadores() { calcularResultados();
-	 * ArrayList<JugadorM> ganadores = new ArrayList<JugadorM>(); for (JugadorM
-	 * a : jugadores) if (!a.isDeshabilitado() && !a.isMarcado())
-	 * ganadores.add(a); if (ganadores.size() == 0) { habilitarJugadores();
-	 * return null; } else { marcarDeshabilitados(); return (JugadorM[])
-	 * ganadores .toArray(new JugadorM[ganadores.size()]); } }
-	 */
 
 	@Override
 	protected void calcularResultados() {

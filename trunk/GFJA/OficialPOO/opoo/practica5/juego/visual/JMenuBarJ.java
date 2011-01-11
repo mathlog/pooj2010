@@ -86,8 +86,8 @@ public class JMenuBarJ extends JMenuBar {
 		if (jMICambiarJugadores == null) {
 			jMICambiarJugadores = new JMenuItem();
 			jMICambiarJugadores.setText("Cambiar Jugadores");
-			jMICambiarJugadores.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_J,
-					ActionEvent.ALT_MASK));
+			jMICambiarJugadores.setAccelerator(KeyStroke.getKeyStroke(
+					KeyEvent.VK_J, ActionEvent.ALT_MASK));
 			jMICambiarJugadores
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {

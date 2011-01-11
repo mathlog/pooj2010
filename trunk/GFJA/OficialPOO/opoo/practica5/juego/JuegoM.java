@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import opoo.excepciones.AllRondasCompleteException;
 
 /**
- * Clase que representa un juego de manos
+ * Clase que representa un juego de manos.
  * 
  * @author Jose Angel Garcia Fernandez
  * @version 1.1 05.12.2010

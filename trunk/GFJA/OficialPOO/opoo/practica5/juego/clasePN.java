@@ -56,7 +56,7 @@ public class clasePN implements Respuesta {
 	}
 
 	@Override
-	public Respuesta rand() {
+	public Respuesta rand(int nJugadores) {
 		Random r = new Random();
 		clasePN aux = new clasePN(r.nextInt(11), enumPN.values()[r
 				.nextInt(length())]);

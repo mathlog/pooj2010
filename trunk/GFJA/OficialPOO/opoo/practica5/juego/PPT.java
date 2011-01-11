@@ -49,7 +49,7 @@ public class PPT extends JuegoM {
 			if (a.isHumano())
 				a.setRespuesta(resp);
 			else
-				a.setRespuesta(resp.rand());
+				a.setRespuesta(resp.rand(getNJugadoresActivos()));
 
 		}
 	}

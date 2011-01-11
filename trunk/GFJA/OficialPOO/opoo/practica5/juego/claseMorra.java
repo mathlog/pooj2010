@@ -45,9 +45,13 @@ public class claseMorra implements Respuesta {
 	}
 
 	@Override
-	public Respuesta rand() {
+	public Respuesta rand(int nJugadores) {
 		Random r = new Random();
-		claseMorra aux = new claseMorra(r.nextInt(5) + 1, r.nextInt(9) + 2);
+		//se comprueba que la maquina saque una jugada valida
+		int propios=r.nextInt(5) + 1;
+		int total;
+		while((total=((r.nextInt(5) + 1)*nJugadores))<propios);
+		claseMorra aux = new claseMorra(propios, total);
 		return aux;
 	}
 

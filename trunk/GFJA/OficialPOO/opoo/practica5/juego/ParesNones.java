@@ -42,7 +42,7 @@ public class ParesNones extends JuegoM {
 				yaDichas.add(resp);
 			} else {
 				do {
-					aux = resp.rand();
+					aux = resp.rand(getNJugadoresActivos());
 				} while ((yaDichas.contains(aux)) && (!alm1));
 				a.setRespuesta(aux);
 				// debe haber alguna respuesta ya dicha

@@ -14,7 +14,7 @@ public enum enumPPT implements Respuesta {
 	}
 
 	@Override
-	public Respuesta rand() {
+	public Respuesta rand(int nJugadores) {
 		Random r = new Random();
 		enumPPT aux = (enumPPT) getEnum((r.nextInt(length())));
 		return aux;

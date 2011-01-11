@@ -56,10 +56,14 @@ public class claseChinos implements Respuesta {
 	}
 
 	@Override
-	public Respuesta rand() {
+	public Respuesta rand(int nJugadores) {
 		Random r = new Random();
-		claseChinos aux = new claseChinos(r.nextInt(13), enumChinos.values()[r
-				.nextInt(length())]);
+		// se comprueba que la maquina saque una jugada valida
+		int supuestoCoins = r.nextInt(4) * nJugadores;
+		int chinoAux;
+		while ((chinoAux = (r.nextInt(4))) > supuestoCoins);
+		claseChinos aux = new claseChinos(supuestoCoins,
+				enumChinos.values()[chinoAux]);
 		return aux;
 	}
 

@@ -16,11 +16,12 @@ package opoo.practica5.juego;
  */
 public interface Respuesta {
 
-
 	/**
 	 * Obtiene una respuesta aleatoria
 	 * 
+	 * @param nJugadores
+	 *            el numero de jugadores activo
 	 * @return la respuesta
 	 */
-	public Respuesta rand();
+	public Respuesta rand(int nJugadores);
 }

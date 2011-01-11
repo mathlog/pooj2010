@@ -17,7 +17,8 @@
 package opoo.practica5.juego;
 
 /**
- * Clase que representa a un jugador de un juego de manos
+ * Clase que representa a un jugador de un juego de manos. Las propiedades
+ * marcado y deshabilitado se usarán en los juegos segun sea necesario.
  * 
  * @author José Ángel García Fernández
  * @version 1.2 05/12/2010
@@ -35,12 +36,14 @@ public class JugadorM {
 	private Respuesta respuesta;
 
 	/**
-	 * Variable que indica si el jugador esta marcado
+	 * Variable que indica si el jugador esta marcado (Cuando no participe mas
+	 * en el juego)
 	 */
 	private boolean marcado;
 
 	/**
-	 * Variable que indica si el jugador esta deshabilitado
+	 * Variable que indica si el jugador esta deshabilitado (Cuando uede que
+	 * deje de participar, un marcador temporal)
 	 */
 	private boolean deshabilitado;
 

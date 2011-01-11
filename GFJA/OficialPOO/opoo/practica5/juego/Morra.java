@@ -39,7 +39,7 @@ public class Morra extends JuegoM {
 				yaDichas.add(resp);
 			} else {
 				do {
-					aux = resp.rand();
+					aux = resp.rand(getNJugadoresActivos());
 				} while (yaDichas.contains(aux));
 				a.setRespuesta(aux);
 				yaDichas.add(aux);

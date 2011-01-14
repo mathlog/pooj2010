@@ -14,7 +14,7 @@ import java.util.Random;
  * Clase que recubre a la enumeracion de chinos
  * 
  * @author José Ángel García Fernández
- * @version 1.1 06/12/2010
+ * @version 1.2 11/01/2011
  */
 public class claseChinos implements Respuesta {
 

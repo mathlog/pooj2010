@@ -14,7 +14,7 @@ import java.util.Random;
  * Clase que recubre a la enumeracion de pares nones
  * 
  * @author José Ángel García Fernández
- * @version 1.1 06/12/2010
+ * @version 1.2 11/01/2011
  */
 public class clasePN implements Respuesta {
 

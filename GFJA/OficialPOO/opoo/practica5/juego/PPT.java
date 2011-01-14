@@ -15,12 +15,25 @@ import java.util.ArrayList;
  * Explicacion: los que ganen juegan entre ellos hasta que quede 1
  * 
  * @author José Ángel García Fernández
- * @version 1.2 05/12/2010
+ * @version 1.3 14/01/2011
  */
 public class PPT extends JuegoM {
 
 	public PPT(JugadorM[] jugadores, int nMAXrondas) {
 		super("Juego de Piedra, Papel, Tijera", jugadores, nMAXrondas);
+	}
+
+	@Override
+	public void actualizarJugadores(Respuesta resp) {
+		for (JugadorM a : jugadores) {
+			if (a.isMarcado())//fuera de juego
+				continue;
+			if (a.isHumano())
+				a.setRespuesta(resp);
+			else
+				a.setRespuesta(resp.rand(getNJugadoresActivos()));
+	
+		}
 	}
 
 	@Override
@@ -39,19 +52,6 @@ public class PPT extends JuegoM {
 			return winners;
 		} else
 			return winners;
-	}
-
-	@Override
-	public void actualizarJugadores(Respuesta resp) {
-		for (JugadorM a : jugadores) {
-			if (a.isMarcado())//fuera de juego
-				continue;
-			if (a.isHumano())
-				a.setRespuesta(resp);
-			else
-				a.setRespuesta(resp.rand(getNJugadoresActivos()));
-
-		}
 	}
 
 	@Override

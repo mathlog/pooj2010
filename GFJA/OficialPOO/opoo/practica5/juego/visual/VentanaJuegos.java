@@ -157,7 +157,7 @@ public class VentanaJuegos extends JFrame {
 	private JMenuBarJ getJMBJ() {
 		if (jMBJ == null) {
 			jMBJ = new JMenuBarJ(this, new JDialogAcercade(this, "Juegos de manos",
-					"1.0 03/12/2010", "Jstyl_8", "http://jstyl8.net46.net",
+					"1.1 11/01/2011", "Jstyl_8", "http://jstyl8.net46.net",
 					RUTADEO), new JDialogComoUsar(this, RUTAABOUT, RUTACOMO,
 					true, true));
 		}

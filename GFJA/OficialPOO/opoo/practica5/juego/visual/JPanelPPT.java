@@ -336,15 +336,6 @@ public class JPanelPPT extends JPanel {
 		} catch (AllRondasCompleteException e) {
 			FINtotalRondasAlcanzadas(e);
 		}
-		//jBjugar.requestFocus();
-		// -poner valores a jugadores
-		// -pal jugador humano la k ha sacao
-		// -pal resto aleatorios
-		// -despues de haber calculao
-		// -mostrar la jugada de cada uno
-		// -y decir kien se keda fuera y kien no
-		// -despues seguir con las siguientes rondas
-		// -hasta k solo kede 1
 	}
 
 	/**

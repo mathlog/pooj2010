@@ -14,7 +14,7 @@ import java.util.Random;
  * Clase para la respuesta de clase morra
  * 
  * @author José Ángel García Fernández
- * @version 1.0 06/12/2010
+ * @version 1.1 11/01/2011
  */
 public class claseMorra implements Respuesta {
 

@@ -74,6 +74,11 @@ public class ParesNones extends JuegoM {
 		}
 	}
 
+	/**
+	 * Metodo que calcula si el total de dedos es par o nones
+	 * 
+	 * @return PARES o NONES en funcion de totalDedos
+	 */
 	private enumPN calcularPARNONES() {
 		totalDedos = 0;
 		for (JugadorM a : jugadores) {
@@ -92,18 +97,4 @@ public class ParesNones extends JuegoM {
 	public int getTotalDedos() {
 		return totalDedos;
 	}
-	// Sistema chungo
-	/*
-	 * if (ganadores.size() == 1) { marcarHabilitados(); habilitarJugadores();
-	 * }else { marcarDeshabilitados(); }
-	 */
-
-	// Sistem chungo+aun
-	/*
-	 * if (ganadores.size() == 0) { habilitarJugadores(); }elseif
-	 * (ganadores.size() == 1) { marcarHabilitados(); habilitarJugadores(); } /
-	 * else if (ganadores.size() == getNJugadoresActivos()) {
-	 * habilitarJugadores(); } else if ((jugadores.length - ganadores.size()) ==
-	 * 1)
-	 */
 }

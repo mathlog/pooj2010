@@ -454,13 +454,3 @@ public class JPanelPN extends JPanel {
 		habilitarBotones();
 	}
 }
-/*
- * FORMA CHUNGA try { ganadores = juego.finalizarRonda(); if (ganadores.length
- * == 1) { escribirRonda(); mostrarGanadorRonda(ganadores[0]); if
- * (juego.getNJugadoresActivos() == 1) FINsolo1jugador(); else
- * juego.nextRonda(); } else { escribirRonda();
- * mostrarGanadoresRonda(ganadores); juego.nextRonda(); }
- * 
- * } catch (AllRondasCompleteException e1) { FINtotalRondasAlcanzadas();
- * //escribirRonda(); }
- */

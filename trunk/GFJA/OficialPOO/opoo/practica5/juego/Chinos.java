@@ -25,7 +25,7 @@ public class Chinos extends JuegoM {
 		super("Juego de los chinos", jugadores, nMAXrondas);
 	}
 
-	@Override
+	@Override//igual que en Morra
 	public void actualizarJugadores(Respuesta resp) {
 		// comprueba que la respuesta no haya sido dicha ya
 		ArrayList<Respuesta> yaDichas = new ArrayList<Respuesta>();

@@ -42,7 +42,7 @@ public class JugadorM {
 	private boolean marcado;
 
 	/**
-	 * Variable que indica si el jugador esta deshabilitado (Cuando uede que
+	 * Variable que indica si el jugador esta deshabilitado (Cuando puede que
 	 * deje de participar, un marcador temporal)
 	 */
 	private boolean deshabilitado;

@@ -1,16 +1,15 @@
 package opoo.practica4.soli.modelo;
 
 
-/**Cette classe sera implentée par les objets à l'écoute du plateau de Solitaire
- *@author Sébastien VEIBERT
+/**Cette classe sera implentÃ©e par les objets Ã  l'Ã©coute du plateau de Solitaire
  *@version Avril 2004
  */
 
 
 public interface VistaSolitario {
     
-    /**La méthode changement() est appelée par le modele 
-     *pour signaler une modification de son état
+    /**La mÃ©thode changement() est appelÃ©e par le modele 
+     *pour signaler une modification de son Ã©tat
      */
     
     
